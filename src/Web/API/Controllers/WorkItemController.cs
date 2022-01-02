@@ -22,5 +22,15 @@ namespace API.Controllers
         {
             return await _mediator.Send(new CreateWorkItemCommand(request));
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> DeleteWorkItem(int id)
+        {
+            await _mediator.Send(new DeleteWorkItemCommand(id));
+
+            return NoContent();
+        }
     }
 }

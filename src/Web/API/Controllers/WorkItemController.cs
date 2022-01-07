@@ -23,6 +23,20 @@ namespace API.Controllers
             return await _mediator.Send(new CreateWorkItemCommand(request));
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> PutWorkItem(int id,
+            UpdateWorkItemRequest request)
+        {
+            if (id != request.Id) return BadRequest();
+
+            await _mediator.Send(new UpdateWorkItemCommand(request));
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]

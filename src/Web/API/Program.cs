@@ -1,3 +1,4 @@
+using API;
 using Application;
 using Infrastructure;
 using Infrastructure.Data;
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApplication()
+    .AddApiServer()
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthorization();

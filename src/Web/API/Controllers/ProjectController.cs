@@ -1,5 +1,9 @@
-﻿using Application.Projects.Commands;
+﻿using API.Mapper;
+using API.ViewModels;
+using Application.Projects.Commands;
+using Application.Projects.Queries;
 using Application.Projects.Requests;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +14,14 @@ namespace API.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper<ProjectsViewModel, IEnumerable<Project>> _mapper;
 
-        public ProjectController(IMediator mediator)
+        public ProjectController(
+            IMediator mediator, 
+            IMapper<ProjectsViewModel, IEnumerable<Project>> mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
 
@@ -46,6 +54,12 @@ namespace API.Controllers
             await _mediator.Send(new DeleteProjectCommand(id));
 
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ProjectsViewModel>> GetProjects()
+        {
+            return _mapper.Map(await _mediator.Send(new GetProjectsQuery()));
         }
     }
 }

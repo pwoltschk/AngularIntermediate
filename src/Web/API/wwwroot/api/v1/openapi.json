@@ -37,6 +37,24 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Project_GetProjects",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectsViewModel"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/Project/{id}": {
@@ -303,6 +321,75 @@
           },
           "title": {
             "type": "string"
+          }
+        }
+      },
+      "ProjectsViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organization": {
+            "type": "string"
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectDto"
+            }
+          }
+        }
+      },
+      "ProjectDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "workItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItemDto"
+            }
+          }
+        }
+      },
+      "WorkItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iteration": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

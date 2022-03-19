@@ -60,5 +60,23 @@
       "useNuGetCache": false
     }
   },
-  "codeGenerators": {}
-}
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "{controller}UI",
+      "namespace": "UI",
+      "generateClientClasses": true,
+      "jsonLibrary": "SystemTextJson",
+      "exceptionClass": "ApiException",
+      "generateClientInterfaces": true,
+      "injectHttpClient": true,
+      "generateExceptionClasses": true,
+      "useBaseUrl": false,
+      "generateSyncMethods": false,
+      "clientClassAccessModifier": "public",
+      "typeAccessModifier": "public",
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
+      "output": "../UI/ApiClients.g.cs"
+    }
+  }
+} 

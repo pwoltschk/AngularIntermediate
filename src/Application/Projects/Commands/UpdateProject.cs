@@ -22,7 +22,7 @@ public class UpdateProjectCommandHandler
 
         if (entity == null)
         {
-            throw new Exception($"The request ID {entity.Id} was not found.");
+            throw new Exception($"The request ID {request.Project.Id} was not found.");
         }
 
         entity.Title = request.Project.Title;

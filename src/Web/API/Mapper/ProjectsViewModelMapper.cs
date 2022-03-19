@@ -7,7 +7,8 @@ namespace API.Mapper
     {
         public ProjectsViewModel Map(IEnumerable<Project> model)
         {
-            return new ProjectsViewModel(){
+            return new ProjectsViewModel()
+            {
                 Projects = model.Select(Map).ToList()
             };
         }
@@ -16,7 +17,9 @@ namespace API.Mapper
         {
             return new ProjectDto
             {
-                Id = model.Id, Title = model.Title, WorkItems = model.WorkItems.Select(Map).ToList()
+                Id = model.Id,
+                Title = model.Title,
+                WorkItems = model.WorkItems.Select(Map).ToList()
             };
         }
 

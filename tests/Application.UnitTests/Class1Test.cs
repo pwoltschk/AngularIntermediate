@@ -1,5 +1,4 @@
-﻿using Application;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Application.UnitTests
 {
@@ -10,7 +9,7 @@ namespace Application.UnitTests
         [TestMethod]
         public void METHOD()
         {
-            
+
         }
     }
 }

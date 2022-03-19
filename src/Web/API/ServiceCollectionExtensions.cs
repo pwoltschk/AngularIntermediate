@@ -8,7 +8,7 @@ namespace API
     {
         public static IServiceCollection AddApiServer(this IServiceCollection service)
         {
-            return service.AddTransient<IMapper<ProjectsViewModel,IEnumerable<Project>>,ProjectsViewModelMapper>();
+            return service.AddTransient<IMapper<ProjectsViewModel, IEnumerable<Project>>, ProjectsViewModelMapper>();
         }
     }
 }

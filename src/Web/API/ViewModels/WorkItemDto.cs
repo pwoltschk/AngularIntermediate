@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace API.ViewModels
+﻿namespace API.ViewModels
 {
     public class WorkItemDto
     {
@@ -12,7 +10,7 @@ namespace API.ViewModels
 
         public string Description { get; set; } = string.Empty;
 
-        public string Iteration { get; set; } = string.Empty; 
+        public string Iteration { get; set; } = string.Empty;
 
         public string AssignedTo { get; set; } = string.Empty;
 

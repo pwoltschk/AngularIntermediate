@@ -17,7 +17,7 @@ namespace API.Controllers
         private readonly IMapper<ProjectsViewModel, IEnumerable<Project>> _mapper;
 
         public ProjectController(
-            IMediator mediator, 
+            IMediator mediator,
             IMapper<ProjectsViewModel, IEnumerable<Project>> mapper)
         {
             _mediator = mediator;

@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace API.ViewModels
+﻿namespace API.ViewModels
 {
     public class ProjectDto
     {

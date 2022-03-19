@@ -1,5 +1,4 @@
-﻿using Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Domain.UnitTests
 {
@@ -10,7 +9,7 @@ namespace Domain.UnitTests
         [TestMethod]
         public void METHOD()
         {
-            
+
         }
     }
 }

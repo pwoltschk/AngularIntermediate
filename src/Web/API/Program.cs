@@ -22,9 +22,9 @@ var app = builder.Build();
 #if DEBUG
 using (var scope = app.Services.CreateScope())
 {
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-        initializer.Initialise();
-        initializer.Seed();
+    var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+    initializer.Initialise();
+    initializer.Seed();
 }
 #endif
 

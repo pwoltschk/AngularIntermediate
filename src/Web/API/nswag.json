@@ -62,7 +62,7 @@
   },
   "codeGenerators": {
     "openApiToCSharpClient": {
-      "className": "{controller}UI",
+      "className": "{controller}Client",
       "namespace": "UI",
       "generateClientClasses": true,
       "jsonLibrary": "SystemTextJson",

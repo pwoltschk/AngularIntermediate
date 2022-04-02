@@ -21,7 +21,9 @@ public class GetProjectsQueryHandler
         GetProjectsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.Projects
+        return  await _context.Projects
+            .Include(p => p.WorkItems)
             .ToListAsync(cancellationToken);
+
     }
 }

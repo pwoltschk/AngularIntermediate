@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using System.Collections.ObjectModel;
+
+namespace Domain.Entities
 {
     public class Project
     {
@@ -6,6 +8,6 @@
 
         public string Title { get; set; } = string.Empty;
 
-        public IEnumerable<WorkItem> WorkItems { get; set; } = Enumerable.Empty<WorkItem>();
+        public ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();
     }
 }

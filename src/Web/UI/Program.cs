@@ -8,7 +8,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-
+builder.Services.AddHttpClient<IProjectClient, ProjectClient>();
+builder.Services.AddHttpClient<IWorkItemClient, WorkItemClient>();
 
 
 await builder.Build().RunAsync();

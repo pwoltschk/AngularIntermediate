@@ -11,7 +11,11 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 builder.Services.AddOpenApiDocument(config =>
     config.Title = "ProjectManager API");
@@ -28,6 +32,8 @@ using (var scope = app.Services.CreateScope())
 }
 #endif
 
+app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseSwaggerUi3(configure =>
@@ -36,11 +42,12 @@ app.UseSwaggerUi3(configure =>
 });
 
 
-app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-
+app.MapRazorPages();
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 app.Run();

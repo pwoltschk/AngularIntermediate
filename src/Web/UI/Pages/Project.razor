@@ -1,0 +1,14 @@
+﻿@if (State.Initialised)
+{
+    <div class="clearfix">
+        <h2 class="float-start">My Projects</h2>
+    </div>
+    <ul class="list-group">
+        @foreach (var list in State.Model!.Projects)
+        {
+            <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
+                @list.Title
+            </li>
+        }
+    </ul>
+}

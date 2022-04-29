@@ -1,0 +1,17 @@
+﻿@if (State.Initialised)
+{
+    <div class="clearfix">
+        <h2 class="float-start">@State.SelectedList!.Title</h2>
+    </div>
+
+    <div class="d-flex flex-wrap">
+        @foreach (var item in State.SelectedList.WorkItems)
+        {
+            <div class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                </div>
+            </div>
+        }
+    </div>
+}

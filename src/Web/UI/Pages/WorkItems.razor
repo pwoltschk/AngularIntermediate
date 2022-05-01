@@ -2,16 +2,41 @@
 {
     <div class="clearfix">
         <h2 class="float-start">@State.SelectedList!.Title</h2>
+        <button class="btn btn-primary float-end" @onclick="OpenNewWorkItemModal">+</button>
     </div>
 
     <div class="d-flex flex-wrap">
         @foreach (var item in State.SelectedList.WorkItems)
         {
             <div class="card m-2" style="width: 18rem;">
-                <div class="card-body">
+                <div class="card-body"> 
                     <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
+                    <p class="card-text"><small class="text-muted">Start Date: @item.StartDate</small></p>
+                    <p class="card-text"><small class="text-muted">Priority: @item.Priority</small></p>
                 </div>
             </div>
         }
     </div>
+
+    @if (_showNewWorkItemModal)
+    {
+        <div class="modal" tabindex="-1" style="display:block">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Work Item</h5>
+                        <button type="button" class="btn-close" @onclick="CloseNewWorkItemModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="_newWorkItem" OnValidSubmit="AddWorkItem">
+                            <InputText id="title" @bind-Value="_newWorkItem.Title" placeholder="Title" />
+                            <button type="submit">Create Work Item</button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }

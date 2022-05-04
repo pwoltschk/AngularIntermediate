@@ -33,4 +33,11 @@ public partial class WorkItems
         _newWorkItem = new WorkItemDto();
         _showCreateWorkItemDialog = false;
     }
+
+    public async Task DeleteWorkItem(int id)
+    {
+        await State.WorkItemClient.DeleteWorkItemAsync(id);
+        var workItem = State.SelectedList!.WorkItems.First(w => w.Id == id);
+        State.SelectedList!.WorkItems.Remove(workItem);
+    }
 }

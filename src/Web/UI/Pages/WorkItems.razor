@@ -2,14 +2,17 @@
 {
     <div class="clearfix">
         <h2 class="float-start">@State.SelectedList!.Title</h2>
-        <button class="btn btn-primary float-end" @onclick="OpenNewWorkItemModal">+</button>
+        <button class="btn btn-primary float-end" @onclick="ShowCreateWorkItemDialog">+</button>
     </div>
 
     <div class="d-flex flex-wrap">
         @foreach (var item in State.SelectedList.WorkItems)
         {
             <div class="card m-2" style="width: 18rem;">
-                <div class="card-body"> 
+                <div class="card-body">
+                    <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
+                           <i class="bi bi-trash"></i>
+                    </button>
                     <h5 class="card-title">@item.Title</h5>
                     <p class="card-text">@item.Description</p>
                     <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
@@ -20,14 +23,14 @@
         }
     </div>
 
-    @if (_showNewWorkItemModal)
+    @if (_showCreateWorkItemDialog)
     {
         <div class="modal" tabindex="-1" style="display:block">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">New Work Item</h5>
-                        <button type="button" class="btn-close" @onclick="CloseNewWorkItemModal"></button>
+                        <button type="button" class="btn-close" @onclick="CloseCreateWorkItemDialog"></button>
                     </div>
                     <div class="modal-body">
                         <EditForm Model="_newWorkItem" OnValidSubmit="AddWorkItem">

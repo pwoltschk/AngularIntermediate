@@ -8,7 +8,30 @@
         {
             <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
                 @list.Title
+                <button class="btn btn-primary float-end" @onclick:stopPropagation="true" @onclick="(() => ShowEditProjectDialog(list))">
+                            <i class="bi bi-pencil"></i>
+                </button>
             </li>
         }
     </ul>
+}
+
+@if (_showEditProjectDialog)
+{
+        <div class="modal" tabindex="-1" style="display:block">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Project</h5>
+                        <button type="button" class="btn-close" @onclick="(() => _showEditProjectDialog = false)"></button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="_editProject" OnValidSubmit="UpdateProject">
+                            <InputText id="title" @bind-Value="_editProject.Title" placeholder="Title" />
+                            <button type="submit">Update Project</button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
 }

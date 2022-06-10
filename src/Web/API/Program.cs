@@ -2,6 +2,7 @@ using API;
 using Application;
 using Infrastructure;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,11 @@ builder.Services
     .AddApiServer()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.AddAuthentication()
+    .AddIdentityServerJwt();
+
 builder.Services.AddAuthorization();
+
 
 builder.Services.AddHttpContextAccessor();
 
@@ -32,6 +37,8 @@ using (var scope = app.Services.CreateScope())
 }
 #endif
 
+
+
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
@@ -45,6 +52,7 @@ app.UseSwaggerUi3(configure =>
 
 app.UseRouting();
 
+app.UseIdentityServer();
 app.UseAuthorization();
 
 app.MapRazorPages();

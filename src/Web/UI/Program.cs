@@ -9,5 +9,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddHttpClient<IProjectClient, ProjectClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 builder.Services.AddHttpClient<IWorkItemClient, WorkItemClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
+builder.Services.AddApiAuthorization();
 
 await builder.Build().RunAsync();

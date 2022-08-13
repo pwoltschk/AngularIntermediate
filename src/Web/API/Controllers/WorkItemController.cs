@@ -3,7 +3,7 @@ using Application.WorkItems.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace ApiServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

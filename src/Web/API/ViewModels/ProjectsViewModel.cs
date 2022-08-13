@@ -1,4 +1,4 @@
-﻿namespace API.ViewModels
+﻿namespace ApiServer.ViewModels
 {
     public class ProjectsViewModel
     {

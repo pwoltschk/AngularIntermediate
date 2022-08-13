@@ -1,6 +1,6 @@
 ﻿
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 17
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
 VisualStudioVersion = 17.0.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{303F065A-60BE-4D87-A36F-6350596D96B2}"
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F80E450B-42A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cicd", "cicd", "{81354088-C3CC-4FAA-9B5F-71AFDA2CD600}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\Web\API\API.csproj", "{A4637D79-5C38-4296-8B9A-659DE2B983BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiServer", "src\Web\API\ApiServer.csproj", "{A4637D79-5C38-4296-8B9A-659DE2B983BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{90AD6AD8-9957-4CD3-8ED4-1AB4B0C3B756}"
 EndProject

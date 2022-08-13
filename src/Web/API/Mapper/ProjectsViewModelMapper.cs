@@ -1,7 +1,7 @@
-﻿using API.ViewModels;
+﻿using ApiServer.ViewModels;
 using Domain.Entities;
 
-namespace API.Mapper
+namespace ApiServer.Mapper
 {
     public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Project>>
     {

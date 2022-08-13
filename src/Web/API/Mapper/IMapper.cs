@@ -1,4 +1,4 @@
-﻿namespace API.Mapper
+﻿namespace ApiServer.Mapper
 {
     public interface IMapper<out TViewModel, in TDomainModel>
     {

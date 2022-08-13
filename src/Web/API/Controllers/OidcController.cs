@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace ApiServer.Controllers;
 
 public class OidcController : Controller
 {

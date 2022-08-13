@@ -1,8 +1,8 @@
-﻿using API.Mapper;
-using API.ViewModels;
+﻿using ApiServer.Mapper;
+using ApiServer.ViewModels;
 using Domain.Entities;
 
-namespace API
+namespace ApiServer
 {
     public static class ServiceCollectionExtensions
     {

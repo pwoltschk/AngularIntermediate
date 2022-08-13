@@ -1,5 +1,5 @@
-﻿using API.Mapper;
-using API.ViewModels;
+﻿using ApiServer.Mapper;
+using ApiServer.ViewModels;
 using Application.Projects.Commands;
 using Application.Projects.Queries;
 using Application.Projects.Requests;
@@ -7,7 +7,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace ApiServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

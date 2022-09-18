@@ -1,7 +1,4 @@
-﻿using Application.Common;
-using Application.Projects.Requests;
-using Domain.Entities;
-using MediatR;
+﻿using Application.Projects.Requests;
 
 namespace Application.Projects.Commands;
 

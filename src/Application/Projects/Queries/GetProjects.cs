@@ -1,9 +1,4 @@
-﻿using Application.Common;
-using Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-
-namespace Application.Projects.Queries;
+﻿namespace Application.Projects.Queries;
 
 public record GetProjectsQuery : IRequest<IEnumerable<Project>>;
 
@@ -21,7 +16,7 @@ public class GetProjectsQueryHandler
         GetProjectsQuery request,
         CancellationToken cancellationToken)
     {
-        return  await _context.Projects
+        return await _context.Projects
             .Include(p => p.WorkItems)
             .ToListAsync(cancellationToken);
 

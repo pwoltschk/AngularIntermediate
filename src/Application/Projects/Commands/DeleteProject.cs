@@ -1,8 +1,4 @@
-﻿using Application.Common;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-
-namespace Application.Projects.Commands;
+﻿namespace Application.Projects.Commands;
 
 public record DeleteProjectCommand(int Id) : IRequest;
 

@@ -1,7 +1,4 @@
-﻿using Application.Common;
-using MediatR;
-
-namespace Application.WorkItems.Commands
+﻿namespace Application.WorkItems.Commands
 {
     public record DeleteWorkItemCommand(int Id) : IRequest;
 

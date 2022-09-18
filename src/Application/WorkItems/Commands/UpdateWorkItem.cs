@@ -1,8 +1,4 @@
-﻿using Application.Common;
-using Application.WorkItems.Requests;
-using Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Application.WorkItems.Requests;
 
 namespace Application.WorkItems.Commands
 {

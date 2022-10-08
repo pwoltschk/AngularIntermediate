@@ -8,6 +8,3 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
         RuleFor(p => p.Project).SetValidator(new CreateProjectRequestValidator());
     }
 }
-
-
-

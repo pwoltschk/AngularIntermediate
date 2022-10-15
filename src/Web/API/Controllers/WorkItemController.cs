@@ -5,22 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiServer.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class WorkItemController : ControllerBase
+    public class WorkItemController : CustomControllerBase
     {
-        private readonly IMediator _mediator;
 
-        public WorkItemController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public WorkItemController(ISender mediator) : base(mediator) { }
+
 
         [HttpPost]
         public async Task<ActionResult<int>> PostWorkItem(
             CreateWorkItemRequest request)
         {
-            return await _mediator.Send(new CreateWorkItemCommand(request));
+            return await Mediator.Send(new CreateWorkItemCommand(request));
         }
 
         [HttpPut("{id}")]
@@ -32,7 +27,7 @@ namespace ApiServer.Controllers
         {
             if (id != request.Id) return BadRequest();
 
-            await _mediator.Send(new UpdateWorkItemCommand(request));
+            await Mediator.Send(new UpdateWorkItemCommand(request));
 
             return NoContent();
         }
@@ -42,7 +37,7 @@ namespace ApiServer.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteWorkItem(int id)
         {
-            await _mediator.Send(new DeleteWorkItemCommand(id));
+            await Mediator.Send(new DeleteWorkItemCommand(id));
 
             return NoContent();
         }

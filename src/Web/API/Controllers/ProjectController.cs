@@ -9,18 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiServer.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProjectController : ControllerBase
+    public class ProjectController : CustomControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IMapper<ProjectsViewModel, IEnumerable<Project>> _mapper;
 
         public ProjectController(
             IMediator mediator,
-            IMapper<ProjectsViewModel, IEnumerable<Project>> mapper)
+            IMapper<ProjectsViewModel, IEnumerable<Project>> mapper) : base(mediator)
         {
-            _mediator = mediator;
             _mapper = mapper;
         }
 
@@ -29,7 +25,7 @@ namespace ApiServer.Controllers
         public async Task<ActionResult<int>> PostProject(
             CreateProjectRequest request)
         {
-            return await _mediator.Send(new CreateProjectCommand(request));
+            return await Mediator.Send(new CreateProjectCommand(request));
         }
 
         [HttpPut("{id}")]
@@ -41,7 +37,7 @@ namespace ApiServer.Controllers
         {
             if (id != request.Id) return BadRequest();
 
-            await _mediator.Send(new UpdateProjectCommand(request));
+            await Mediator.Send(new UpdateProjectCommand(request));
 
             return NoContent();
         }
@@ -51,7 +47,7 @@ namespace ApiServer.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            await _mediator.Send(new DeleteProjectCommand(id));
+            await Mediator.Send(new DeleteProjectCommand(id));
 
             return NoContent();
         }
@@ -59,7 +55,7 @@ namespace ApiServer.Controllers
         [HttpGet]
         public async Task<ActionResult<ProjectsViewModel>> GetProjects()
         {
-            return _mapper.Map(await _mediator.Send(new GetProjectsQuery()));
+            return _mapper.Map(await Mediator.Send(new GetProjectsQuery()));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class Project
+    public class Project : AuditableEntity
     {
         public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class WorkItem
+    public class WorkItem : AuditableEntity
     {
         public int Id { get; set; }
 

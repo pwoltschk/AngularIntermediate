@@ -1,5 +1,6 @@
 ﻿using Application.Common;
 using Infrastructure.Data;
+using Infrastructure.Data.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,8 @@ namespace Infrastructure
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"))
             );
+
+            services.AddScoped<AuditableEntityInterceptor>();
 
             services.AddScoped<ApplicationDbContextInitialiser>();
 

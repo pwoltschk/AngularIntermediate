@@ -13,10 +13,10 @@ namespace Infrastructure.Data;
 public class ApplicationDbContext : ApiAuthorizationDbContext<IdentityUser>, IApplicationDbContext
 {
 
-    private readonly AuditableEntryInterceptor _interceptor;
+    private readonly AuditableEntityInterceptor _interceptor;
     public ApplicationDbContext(
         DbContextOptions options,
-        AuditableEntryInterceptor interceptor,
+        AuditableEntityInterceptor interceptor,
         IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
         _interceptor = interceptor;

@@ -5,11 +5,11 @@ using Application.Common.Services;
 
 namespace Infrastructure.Data.Interceptors
 {
-    public class AuditableEntryInterceptor : SaveChangesInterceptor
+    public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
         private readonly IUserInfo _userInfo;
 
-        public AuditableEntryInterceptor(IUserInfo userInfo)
+        public AuditableEntityInterceptor(IUserInfo userInfo)
         {
             _userInfo = userInfo;
         }

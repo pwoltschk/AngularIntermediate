@@ -1,8 +1,11 @@
 using ApiServer;
 using Application;
+using Application.Common.Services;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
+using NSwag.Generation.Processors.Security;
+using NSwag;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +21,24 @@ builder.Services.AddAuthorization();
 
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserInfo, UserInfo>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddOpenApiDocument(config =>
-    config.Title = "ProjectManager API");
+builder.Services.AddOpenApiDocument(configure =>
+{
+    configure.Title = "ProjectManager API";
+    configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+    {
+        Type = OpenApiSecuritySchemeType.ApiKey,
+        Name = "Authorization",
+        In = OpenApiSecurityApiKeyLocation.Header,
+        Description = "Type into the textbox: Bearer {your JWT token}."
+    });
+
+    configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+});
 
 var app = builder.Build();
 

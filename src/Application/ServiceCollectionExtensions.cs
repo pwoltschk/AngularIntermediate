@@ -1,5 +1,6 @@
 ﻿using Application.Common.Behaviours;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System.Reflection;
 
 namespace Application
@@ -14,7 +15,16 @@ namespace Application
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .Console()
+                .Enrich
+                .FromLogContext()
+                .MinimumLevel
+                .Information()
+                .CreateLogger();
 
+            services.AddSingleton(Log.Logger);
 
             return services;
         }

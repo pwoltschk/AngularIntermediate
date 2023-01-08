@@ -1,6 +1,8 @@
 ﻿using Application.Common;
+using Application.Common.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Interceptors;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +31,8 @@ namespace Infrastructure
 
             services.AddIdentityServer()
                 .AddApiAuthorization<IdentityUser, ApplicationDbContext>();
+
+            services.AddScoped<IIdentityService, IdentityService>();
 
 
             return services;

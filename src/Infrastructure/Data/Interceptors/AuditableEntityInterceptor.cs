@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Application.Common.Services;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Application.Common.Services;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Infrastructure.Data.Interceptors
 {

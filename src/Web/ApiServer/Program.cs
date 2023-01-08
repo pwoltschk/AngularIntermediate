@@ -4,8 +4,8 @@ using Application.Common.Services;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
-using NSwag.Generation.Processors.Security;
 using NSwag;
+using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 

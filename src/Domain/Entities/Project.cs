@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class Project : AuditableEntity
     {

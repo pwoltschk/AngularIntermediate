@@ -1,4 +1,7 @@
-﻿@if (State.Initialised)
+﻿@attribute [Authorize]
+
+
+@if (State.Initialised)
 {
     <div class="clearfix">
         <h2 class="float-start">@State.SelectedList!.Title</h2>

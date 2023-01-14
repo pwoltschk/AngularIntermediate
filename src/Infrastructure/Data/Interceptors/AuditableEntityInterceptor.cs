@@ -30,8 +30,8 @@ namespace Infrastructure.Data.Interceptors
 
         public void AuditEntities(DbContext? context)
         {
-            var addedOrUpdatedEntries = context.ChangeTracker.Entries()
-                    .Where(x => (x.State == EntityState.Added || x.State == EntityState.Modified));
+            var addedOrUpdatedEntries = context.ChangeTracker.Entries<AuditableEntity>();
+
 
             foreach (var entry in addedOrUpdatedEntries)
             {

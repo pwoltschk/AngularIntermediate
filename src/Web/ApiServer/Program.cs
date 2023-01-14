@@ -19,9 +19,8 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddAuthorization();
 
-
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserInfo, UserInfo>();
+builder.Services.AddTransient<IUserInfo, UserInfo>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -8,9 +8,9 @@ namespace YourAppNamespace.Behaviours
         where TRequest : notnull
     {
         private readonly ILogger _logger;
-        private readonly IUserInfo _currentUser;
+        private readonly IUserContext _currentUser;
 
-        public RequestLoggingBehaviour(ILogger logger, IUserInfo currentUser)
+        public RequestLoggingBehaviour(ILogger logger, IUserContext currentUser)
         {
             _logger = logger;
             _currentUser = currentUser;

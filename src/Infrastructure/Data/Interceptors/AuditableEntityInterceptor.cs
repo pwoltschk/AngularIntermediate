@@ -7,9 +7,9 @@ namespace Infrastructure.Data.Interceptors
 {
     public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
-        private readonly IUserInfo _userInfo;
+        private readonly IUserContext _userInfo;
 
-        public AuditableEntityInterceptor(IUserInfo userInfo)
+        public AuditableEntityInterceptor(IUserContext userInfo)
         {
             _userInfo = userInfo;
         }

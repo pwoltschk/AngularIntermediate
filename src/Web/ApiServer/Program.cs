@@ -20,7 +20,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<IUserInfo, UserInfo>();
+builder.Services.AddScoped<IUserContext, UserContext>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

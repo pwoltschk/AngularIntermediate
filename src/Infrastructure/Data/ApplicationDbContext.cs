@@ -34,6 +34,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
     public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
     public DbSet<Key> Keys { get; set; }
 
+    Task<int> IPersistedGrantDbContext.SaveChangesAsync() => base.SaveChangesAsync();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -49,5 +50,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
         
         builder.ApplyConfigurationsFromAssembly(
             Assembly.GetExecutingAssembly());
+
+        builder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
     }
 }

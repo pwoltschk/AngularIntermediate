@@ -31,7 +31,11 @@ namespace Infrastructure
 
 
             services.AddIdentityServer()
-                                .AddApiAuthorization<IdentityUser, ApplicationDbContext>();
+                .AddApiAuthorization<IdentityUser, ApplicationDbContext>(options =>
+                {
+                });
+
+            
 
             services.AddScoped<IIdentityService, IdentityService>();
 

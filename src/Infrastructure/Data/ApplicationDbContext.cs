@@ -1,30 +1,39 @@
 ﻿using Application.Common;
 using Domain.Entities;
+using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.EntityFramework.Extensions;
+using Duende.IdentityServer.EntityFramework.Interfaces;
 using Duende.IdentityServer.EntityFramework.Options;
 using Infrastructure.Data.Interceptors;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Infrastructure.Data;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<IdentityUser>, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>, IApplicationDbContext, IPersistedGrantDbContext
 {
 
     private readonly AuditableEntityInterceptor _interceptor;
+    private readonly IOptions<OperationalStoreOptions> _operationalStoreOptions;
+
     public ApplicationDbContext(
         DbContextOptions options,
         AuditableEntityInterceptor interceptor,
-        IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options)
     {
         _interceptor = interceptor;
+        _operationalStoreOptions = operationalStoreOptions;
     }
 
     public DbSet<Project> Projects => Set<Project>();
-
     public DbSet<WorkItem> WorkItems => Set<WorkItem>();
+    public DbSet<PersistedGrant> PersistedGrants { get; set; }
+    public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
+    public DbSet<Key> Keys { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -41,5 +50,4 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<IdentityUser>, IAp
         builder.ApplyConfigurationsFromAssembly(
             Assembly.GetExecutingAssembly());
     }
-
 }

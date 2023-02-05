@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Infrastructure
 {
@@ -21,16 +22,16 @@ namespace Infrastructure
 
             services.AddScoped<AuditableEntityInterceptor>();
 
-            services.AddScoped<ApplicationDbContextInitialiser>();
-
-            services.AddScoped<IApplicationDbContext>(sp =>
-                sp.GetRequiredService<ApplicationDbContext>());
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<ApplicationDbContextInitialiser>();
+            services.AddScoped<IApplicationDbContext>(sp =>
+    sp.GetRequiredService<ApplicationDbContext>());
+
 
             services.AddIdentityServer()
-                .AddApiAuthorization<IdentityUser, ApplicationDbContext>();
+                                .AddApiAuthorization<IdentityUser, ApplicationDbContext>();
 
             services.AddScoped<IIdentityService, IdentityService>();
 

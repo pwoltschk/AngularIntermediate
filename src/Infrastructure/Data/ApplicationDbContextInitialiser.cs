@@ -81,8 +81,7 @@ public class ApplicationDbContextInitialiser
 
     private async Task CreateUser(IdentityUser user, string password, string roleName)
     {
-       var a = await _userManager.CreateAsync(user, password);
-       var b = a.Succeeded;
+        await _userManager.CreateAsync(user, password);
         await _userManager.AddToRoleAsync(user, roleName);
     }
 }

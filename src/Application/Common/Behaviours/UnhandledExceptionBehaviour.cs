@@ -17,11 +17,11 @@ namespace Application.Common.Behaviours
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             try
             {
-                return await next();
+                return next();
             }
             catch (Exception ex)
             {

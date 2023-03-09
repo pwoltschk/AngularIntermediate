@@ -20,10 +20,9 @@ namespace YourAppNamespace.Behaviours
         {
             var requestName = typeof(TRequest).Name;
             var userId = _currentUser.UserId ?? string.Empty;
-            var userName = $"{_currentUser.FirstName} {_currentUser.LastName}";
 
-            _logger.Information("Request: {@RequestName} | UserId: {UserId} | UserName: {UserName} | RequestData: {@Request}",
-                requestName, userId, userName, request);
+            _logger.Information("Request: {@RequestName} | UserId: {UserId} | RequestData: {@Request}",
+                requestName, userId, request);
         }
     }
 }

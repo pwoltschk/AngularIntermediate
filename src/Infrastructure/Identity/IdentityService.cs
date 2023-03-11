@@ -62,5 +62,37 @@ namespace Infrastructure.Identity
 
             return roleList;
         }
+
+        public async Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken)
+        {
+            var users = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync(cancellationToken);
+            return users.Select(u => new User(u.Id, u.UserName, u.Email)).ToList();
+        }
+
+        public async Task<User> GetUserAsync(string id)
+        {
+            var identityUser = await _userManager.FindByIdAsync(id);
+            if (identityUser == null)
+            {
+                throw new NotFoundException(nameof(User), id);
+            }
+
+            var user = new User(identityUser.Id, identityUser.UserName, identityUser.Email);
+            var roles = await _userManager.GetRolesAsync(identityUser);
+
+            foreach (var role in roles)
+            {
+                var identityRole = await _roleManager.FindByNameAsync(role);
+                var claims = await _roleManager.GetClaimsAsync(identityRole);
+                var permissions = claims
+                    .Where(c => c.Type == nameof(Permission))
+                    .Select(c => c.Value)
+                    .ToList();
+
+                user.Roles.Add(new Role(identityRole.Id, identityRole.Name, permissions));
+            }
+
+            return user;
+        }
     }
 }

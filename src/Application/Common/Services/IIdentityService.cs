@@ -11,5 +11,10 @@
         Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken);
  
         Task DeleteUserAsync(string userId);
+
+
+        Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken);
+
+        Task<User> GetUserAsync(string id);
     }
 }

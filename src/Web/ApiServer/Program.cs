@@ -1,9 +1,11 @@
 using ApiServer;
+using ApiServer.Identity;
 using Application;
 using Application.Common.Services;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 
@@ -25,6 +27,7 @@ builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+
 builder.Services.AddOpenApiDocument(configure =>
 {
     configure.Title = "ProjectManager API";
@@ -39,6 +42,10 @@ builder.Services.AddOpenApiDocument(configure =>
     configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
 });
 
+
+builder.Services.AddSingleton<IAuthorizationHandler, CustomAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+
 var app = builder.Build();
 
 // Initialise and seed the database
@@ -46,8 +53,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-    initializer.Initialise();
-    initializer.Seed();
+    await initializer.InitialiseAsync();
+    await initializer.SeedAsync();
 }
 #endif
 

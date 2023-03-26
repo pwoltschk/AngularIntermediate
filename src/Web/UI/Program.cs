@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
 using UI;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -13,5 +15,6 @@ builder.Services.AddHttpClient<IWorkItemClient, WorkItemClient>(client => client
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
 builder.Services.AddApiAuthorization();
+
 
 await builder.Build().RunAsync();

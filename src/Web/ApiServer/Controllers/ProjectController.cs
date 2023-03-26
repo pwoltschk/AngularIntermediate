@@ -1,5 +1,7 @@
-﻿using ApiServer.Mapper;
+﻿using ApiServer.Identity;
+using ApiServer.Mapper;
 using ApiServer.ViewModels;
+using Application.Common.Services;
 using Application.Projects.Commands;
 using Application.Projects.Queries;
 using Application.Projects.Requests;
@@ -22,6 +24,7 @@ namespace ApiServer.Controllers
 
 
         [HttpPost]
+        [Authorize(Permission.WriteProjects)]
         public async Task<ActionResult<int>> PostProject(
             CreateProjectRequest request)
         {
@@ -29,6 +32,7 @@ namespace ApiServer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Permission.WriteProjects)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -43,6 +47,7 @@ namespace ApiServer.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Permission.WriteProjects)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteProject(int id)
@@ -53,6 +58,7 @@ namespace ApiServer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Permission.ReadProjects)]
         public async Task<ActionResult<ProjectsViewModel>> GetProjects()
         {
             return _mapper.Map(await Mediator.Send(new GetProjectsQuery()));

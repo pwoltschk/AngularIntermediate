@@ -1,4 +1,6 @@
-﻿using Application.WorkItems.Commands;
+﻿using ApiServer.Identity;
+using Application.Common.Services;
+using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,7 @@ namespace ApiServer.Controllers
 
 
         [HttpPost]
+        [Authorize(Permission.WriteProjects)]
         public async Task<ActionResult<int>> PostWorkItem(
             CreateWorkItemRequest request)
         {
@@ -19,6 +22,7 @@ namespace ApiServer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Permission.WriteProjects)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -33,6 +37,7 @@ namespace ApiServer.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Permission.WriteProjects)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteWorkItem(int id)

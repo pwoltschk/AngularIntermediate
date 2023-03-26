@@ -9,12 +9,6 @@ namespace Application.Common.Services
         public string UserId => _httpContextAccessor.HttpContext?
                         .User?
                         .FindFirstValue(ClaimTypes.NameIdentifier) ?? "n/a";
-        public string FirstName => _httpContextAccessor.HttpContext?
-                        .User?
-                        .FindFirstValue(ClaimTypes.GivenName) ?? "n/a";
-        public string LastName => _httpContextAccessor.HttpContext?
-                        .User?
-                        .FindFirstValue(ClaimTypes.Surname) ?? "n/a";
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {

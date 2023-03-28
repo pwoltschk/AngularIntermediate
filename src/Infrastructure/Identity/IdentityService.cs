@@ -71,12 +71,7 @@ namespace Infrastructure.Identity
 
         public async Task<User> GetUserAsync(string id)
         {
-            var identityUser = await _userManager.FindByIdAsync(id);
-            if (identityUser == null)
-            {
-                throw new NotFoundException(nameof(User), id);
-            }
-
+            var identityUser = await _userManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(User), id);
             var user = new User(identityUser.Id, identityUser.UserName, identityUser.Email);
             var roles = await _userManager.GetRolesAsync(identityUser);
 

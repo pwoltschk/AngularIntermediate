@@ -48,7 +48,6 @@ builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationP
 
 var app = builder.Build();
 
-// Initialise and seed the database
 #if DEBUG
 using (var scope = app.Services.CreateScope())
 {
@@ -64,10 +63,7 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-app.UseSwaggerUi3(configure =>
-{
-    configure.DocumentPath = "/api/v1/openapi.json";
-});
+app.UseSwaggerUi3(configure => configure.DocumentPath = "/api/v1/openapi.json");
 
 
 

@@ -17,13 +17,7 @@ public class DeleteProjectCommandHandler
     {
         var entity = await _context.Projects
             .Where(l => l.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (entity == null)
-        {
-            throw new Exception($"The request ID {request.Id} was not found.");
-        }
-
+            .SingleOrDefaultAsync(cancellationToken) ?? throw new Exception($"The request ID {request.Id} was not found.");
         _context.Projects.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);

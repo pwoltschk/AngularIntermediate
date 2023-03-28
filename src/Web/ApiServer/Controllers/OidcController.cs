@@ -5,12 +5,10 @@ namespace ApiServer.Controllers;
 
 public class OidcController : Controller
 {
-    private readonly ILogger<OidcController> _logger;
 
-    public OidcController(IClientRequestParametersProvider clientRequestParametersProvider, ILogger<OidcController> logger)
+    public OidcController(IClientRequestParametersProvider clientRequestParametersProvider)
     {
         ClientRequestParametersProvider = clientRequestParametersProvider;
-        _logger = logger;
     }
 
     public IClientRequestParametersProvider ClientRequestParametersProvider { get; }

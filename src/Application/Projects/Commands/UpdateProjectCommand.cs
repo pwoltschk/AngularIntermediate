@@ -16,13 +16,7 @@ public class UpdateProjectCommandHandler
 
     protected override async Task Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Projects.FindAsync(request.Project.Id);
-
-        if (entity == null)
-        {
-            throw new Exception($"The request ID {request.Project.Id} was not found.");
-        }
-
+        var entity = await _context.Projects.FindAsync(request.Project.Id) ?? throw new Exception($"The request ID {request.Project.Id} was not found.");
         entity.Title = request.Project.Title;
 
         await _context.SaveChangesAsync(cancellationToken);

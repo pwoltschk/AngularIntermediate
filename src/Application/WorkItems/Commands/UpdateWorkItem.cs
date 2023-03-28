@@ -18,13 +18,7 @@ namespace Application.WorkItems.Commands
             CancellationToken cancellationToken)
         {
             var entity = await _context.WorkItems.FirstOrDefaultAsync(
-                i => i.Id == request.Item.Id, cancellationToken);
-
-            if (entity == null)
-            {
-                throw new Exception($"The request ID {request.Item.Id} was not found.");
-            }
-
+                i => i.Id == request.Item.Id, cancellationToken) ?? throw new Exception($"The request ID {request.Item.Id} was not found.");
             entity!.ProjectId = request.Item.ProjectId;
             entity.Title = request.Item.Title;
             entity.AssignedTo = request.Item.AssignedTo;

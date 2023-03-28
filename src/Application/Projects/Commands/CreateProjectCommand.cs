@@ -17,9 +17,10 @@ public class CreateProjectCommandHandler
     public async Task<int> Handle(CreateProjectCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = new Project();
-
-        entity.Title = request.Project.Title;
+        var entity = new Project
+        {
+            Title = request.Project.Title
+        };
 
         _context.Projects.Add(entity);
 

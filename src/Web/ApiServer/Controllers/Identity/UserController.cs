@@ -15,8 +15,8 @@ public class UsersController : CustomControllerBase
     private readonly IMapper<UserDetailsViewModel, User> _detailsMapper;
 
     public UsersController(
-        ISender mediator, 
-        IMapper<UsersViewModel, IEnumerable<User>> mapper, 
+        ISender mediator,
+        IMapper<UsersViewModel, IEnumerable<User>> mapper,
         IMapper<UserDetailsViewModel, User> detailsMapper) : base(mediator)
     {
         _mapper = mapper;

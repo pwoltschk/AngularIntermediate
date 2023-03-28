@@ -1,10 +1,8 @@
 ﻿using Application.Common;
 using Application.Common.Exceptions;
 using Application.Common.Services;
-using AutoMapper.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Infrastructure.Identity
 {

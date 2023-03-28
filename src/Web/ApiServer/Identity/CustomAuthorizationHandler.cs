@@ -19,7 +19,7 @@ namespace ApiServer.Identity
 
             if (userPermission == requirement.Permission)
             {
-                context.Succeed(requirement);   
+                context.Succeed(requirement);
             }
 
             return Task.CompletedTask;

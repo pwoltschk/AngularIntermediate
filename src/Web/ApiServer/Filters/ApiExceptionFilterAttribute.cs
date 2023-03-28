@@ -75,7 +75,7 @@ namespace ApiServer.Filters
 
         private static void HandleInvalidModelStateException(ExceptionContext context)
         {
-            var details = new ValidationProblemDetails(context.ModelState)  
+            var details = new ValidationProblemDetails(context.ModelState)
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };

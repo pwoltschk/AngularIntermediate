@@ -27,15 +27,12 @@ namespace Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<ApplicationDbContextInitialiser>();
             services.AddScoped<IApplicationDbContext>(sp =>
-    sp.GetRequiredService<ApplicationDbContext>());
+                sp.GetRequiredService<ApplicationDbContext>());
 
 
             services.AddIdentityServer()
-                .AddApiAuthorization<IdentityUser, ApplicationDbContext>(options =>
-                {
-                });
-
-            
+                .AddApiAuthorization<IdentityUser, ApplicationDbContext>()
+                .AddProfileService<CustomProfileService>();
 
             services.AddScoped<IIdentityService, IdentityService>();
 

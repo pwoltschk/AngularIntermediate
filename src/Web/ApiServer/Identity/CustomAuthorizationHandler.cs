@@ -1,29 +1,22 @@
 ﻿using Application.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ApiServer.Identity
+namespace ApiServer.Identity;
+public class CustomAuthorizationHandler : AuthorizationHandler<CustomAuthorizationRequirement>
 {
-
-    public class CustomAuthorizationHandler : AuthorizationHandler<CustomAuthorizationRequirement>
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomAuthorizationRequirement requirement)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomAuthorizationRequirement requirement)
+        var permissionClaims = context.User.FindAll(c => c.Type == nameof(Permission));
+
+        foreach (var claim in permissionClaims)
         {
-            var permissionClaim = context.User.FindFirst(c => c.Type == nameof(Permission));
-
-            if (permissionClaim == null)
-            {
-                return Task.CompletedTask;
-            }
-
-            var userPermission = permissionClaim.Value;
-
-            if (userPermission == requirement.Permission)
+            if (claim.Value == requirement.Permission)
             {
                 context.Succeed(requirement);
+                break;
             }
-
-            return Task.CompletedTask;
         }
-    }
 
+        return Task.CompletedTask;
+    }
 }

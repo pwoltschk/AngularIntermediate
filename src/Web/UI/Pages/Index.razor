@@ -1,5 +1,7 @@
 ﻿@page "/"
-@attribute [Authorize]
+@using UI.Identity;
+@attribute [Authorize(Permission.ReadProjects)]
+
 
 <PageTitle>Project Management Tool</PageTitle>
 

@@ -1,4 +1,5 @@
-﻿@attribute [Authorize]
+﻿@using UI.Identity;
+@attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
 {

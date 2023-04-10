@@ -87,5 +87,10 @@ namespace Infrastructure.Identity
 
             return user;
         }
+
+        public async Task CreateRoleAsync(Role role)
+        {
+            await _roleManager.CreateAsync(new IdentityRole { Name = role.Name });
+        }
     }
 }

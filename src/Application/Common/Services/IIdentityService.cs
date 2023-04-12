@@ -15,6 +15,8 @@
 
         Task CreateRoleAsync(Role role);
 
+        Task UpdateRoleAsync(Role role);
+
         Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken);
 
         Task<User> GetUserAsync(string id);

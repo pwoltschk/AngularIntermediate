@@ -3,7 +3,6 @@ using Application.Common.Exceptions;
 using Application.Common.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Security.Claims;
 
 namespace Infrastructure.Identity
@@ -97,7 +96,7 @@ namespace Infrastructure.Identity
 
         public async Task UpdateRoleAsync(Role role)
         {
-            var currentRole = await _roleManager.FindByIdAsync(role.Id);
+            var currentRole = await _roleManager.FindByIdAsync(role.Id) ?? throw new NotFoundException(nameof(Role), role.Id);
 
             foreach (var claim in await _roleManager.GetClaimsAsync(currentRole))
             {
@@ -114,5 +113,10 @@ namespace Infrastructure.Identity
             await _roleManager.UpdateAsync(currentRole);
         }
 
+        public async Task DeleteRoleAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(Role), id);
+            await _roleManager.DeleteAsync(role);
+        }
     }
 }

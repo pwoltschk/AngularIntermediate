@@ -29,4 +29,9 @@ public class UserDetailsViewModelMapper : IMapper<UserDetailsViewModel, User>
 
         return dto;
     }
+
+    public User Map(UserDetailsViewModel model)
+    {
+        throw new NotImplementedException();
+    }
 }

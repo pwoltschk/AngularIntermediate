@@ -37,5 +37,10 @@ namespace ApiServer.Mapper
                 Priority = (int)model.Priority,
             };
         }
+
+        public IEnumerable<Project> Map(ProjectsViewModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

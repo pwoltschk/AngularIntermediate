@@ -1,7 +1,6 @@
 ﻿namespace ApiServer.Mapper
 {
-    public interface IMapper<TApiValue, TInternalValue
-        >
+    public interface IMapper<TApiValue, TInternalValue>
     {
         TApiValue Map(TInternalValue model);
 

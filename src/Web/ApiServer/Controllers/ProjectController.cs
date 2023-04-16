@@ -43,7 +43,7 @@ namespace ApiServer.Controllers
 
             await Mediator.Send(new UpdateProjectCommand(request));
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -54,7 +54,7 @@ namespace ApiServer.Controllers
         {
             await Mediator.Send(new DeleteProjectCommand(id));
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet]

@@ -33,7 +33,7 @@ namespace ApiServer.Controllers
 
             await Mediator.Send(new UpdateWorkItemCommand(request));
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -44,7 +44,7 @@ namespace ApiServer.Controllers
         {
             await Mediator.Send(new DeleteWorkItemCommand(id));
 
-            return NoContent();
+            return Ok();
         }
     }
 }

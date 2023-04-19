@@ -22,5 +22,7 @@
         Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken);
 
         Task<User> GetUserAsync(string id);
+
+        Task UpdateUserAsync(User user);
     }
 }

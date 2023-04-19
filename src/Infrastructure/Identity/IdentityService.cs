@@ -3,6 +3,7 @@ using Application.Common.Exceptions;
 using Application.Common.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 
 namespace Infrastructure.Identity
@@ -118,5 +119,23 @@ namespace Infrastructure.Identity
             var role = await _roleManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(Role), id);
             await _roleManager.DeleteAsync(role);
         }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            var currentUser = await _userManager.FindByIdAsync(user.Id) ?? throw new NotFoundException(nameof(User), user.Name);
+
+            currentUser.UserName = user.Name;
+            currentUser.Email = user.Email;
+
+            await _userManager.RemoveFromRolesAsync(currentUser, await _userManager.GetRolesAsync(currentUser));
+
+            foreach (var role in user.Roles)
+            {
+                await _userManager.AddToRoleAsync(currentUser, role.Name);
+            }
+
+            await _userManager.UpdateAsync(currentUser);
+        }
     }
 }
+

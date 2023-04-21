@@ -2,6 +2,7 @@
 using ApiServer.Mapper;
 using ApiServer.ViewModels;
 using Application.Common.Services;
+using Application.Users.Command;
 using Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ public class UsersController : CustomControllerBase
 {
     private readonly IMapper<UsersViewModel, IEnumerable<User>> _mapper;
     private readonly IMapper<UserDetailsViewModel, User> _detailsMapper;
+    private readonly IMapper<UserDto, User> _userMapper;
 
     public UsersController(
         ISender mediator,
@@ -35,5 +37,16 @@ public class UsersController : CustomControllerBase
     public async Task<ActionResult<UserDetailsViewModel>> GetUser(string id)
     {
         return _detailsMapper.Map(await Mediator.Send(new GetUserQuery(id)));
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Permission.WriteUsers)]
+    public async Task<IActionResult> PutUser(UserDto user)
+    {
+        await Mediator.Send(new UpdateUserCommand(_userMapper.Map(user)));
+
+        return Ok();
     }
 }

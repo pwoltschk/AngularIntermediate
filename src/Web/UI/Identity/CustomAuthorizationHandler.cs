@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System.Text.Json;
 
 namespace UI.Identity;
 

@@ -8,7 +8,7 @@ public class UserDetailsViewModelMapper : IMapper<UserDetailsViewModel, User>
     private readonly IMapper<UserDto, User> _userMapper;
 
     public UserDetailsViewModelMapper(
-        IMapper<RoleDto, Role> roleMapper, 
+        IMapper<RoleDto, Role> roleMapper,
         IMapper<UserDto, User> userMapper)
     {
         _roleMapper = roleMapper;
@@ -19,7 +19,7 @@ public class UserDetailsViewModelMapper : IMapper<UserDetailsViewModel, User>
     {
         return new UserDetailsViewModel
         {
-            User = _userMapper.Map(model) ,
+            User = _userMapper.Map(model),
             Roles = model.Roles.Select(_roleMapper.Map).ToList(),
         };
     }

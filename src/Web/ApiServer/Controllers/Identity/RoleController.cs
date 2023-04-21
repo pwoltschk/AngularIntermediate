@@ -16,9 +16,9 @@ public class RolesController : CustomControllerBase
     private readonly IMapper<RoleDto, Role> _roleMapper;
 
     public RolesController(
-        ISender mediator, 
+        ISender mediator,
         IMapper<RolesViewModel, IEnumerable<Role>> mapper,
-        IMapper<RoleDto, Role> roleMapper) 
+        IMapper<RoleDto, Role> roleMapper)
         : base(mediator)
     {
         _vmMapper = mapper;

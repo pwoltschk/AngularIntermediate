@@ -7,7 +7,7 @@ namespace ApiServer.Mapper
     {
         public Role Map(RoleDto model)
         {
-            return new Role( model.Id, model.Name, model.Permissions);
+            return new Role(model.Id, model.Name, model.Permissions);
         }
 
         public RoleDto Map(Role model)

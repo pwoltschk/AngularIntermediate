@@ -1,5 +1,4 @@
-﻿using Application.Common;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Application.Common.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

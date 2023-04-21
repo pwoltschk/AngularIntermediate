@@ -9,7 +9,7 @@
             string password);
 
         Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken);
- 
+
         Task DeleteUserAsync(string userId);
 
 

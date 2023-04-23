@@ -49,4 +49,15 @@ public class UsersController : CustomControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{id}")]
+    [Authorize(Permission.WriteUsers)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        await Mediator.Send(new DeleteUserCommand(id));
+
+        return Ok();
+    }
 }

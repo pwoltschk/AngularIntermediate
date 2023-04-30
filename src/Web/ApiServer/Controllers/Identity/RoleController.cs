@@ -34,7 +34,8 @@ public class RolesController : CustomControllerBase
 
     [HttpPost]
     [Authorize(Permission.WriteRoles)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> PostRole(RoleDto role)
     {
@@ -45,7 +46,7 @@ public class RolesController : CustomControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Permission.WriteRoles)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutRole(RoleDto role)
     {
@@ -56,7 +57,7 @@ public class RolesController : CustomControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Permission.WriteRoles)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRole(string id)
     {

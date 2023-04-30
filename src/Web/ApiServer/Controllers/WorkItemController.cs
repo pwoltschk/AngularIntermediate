@@ -23,7 +23,7 @@ namespace ApiServer.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Permission.WriteProjects)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> PutWorkItem(int id,
@@ -38,7 +38,7 @@ namespace ApiServer.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Permission.WriteProjects)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteWorkItem(int id)
         {

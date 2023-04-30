@@ -131,7 +131,7 @@
           "x-position": 2
         },
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "400": {
@@ -179,7 +179,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "default": {
@@ -269,7 +269,7 @@
           "x-position": 2
         },
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "400": {
@@ -317,7 +317,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "default": {
@@ -380,8 +380,18 @@
           "x-position": 1
         },
         "responses": {
-          "204": {
+          "200": {
             "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "default": {
             "description": "",
@@ -431,7 +441,7 @@
           "x-position": 1
         },
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "400": {
@@ -469,7 +479,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "404": {
@@ -580,7 +590,7 @@
           "x-position": 1
         },
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "400": {
@@ -618,7 +628,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           },
           "404": {

@@ -40,7 +40,7 @@ public class UsersController : CustomControllerBase
     }
 
     [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize(Permission.WriteUsers)]
     public async Task<IActionResult> PutUser(UserDto user)
@@ -52,7 +52,7 @@ public class UsersController : CustomControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Permission.WriteUsers)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteUser(string id)
     {

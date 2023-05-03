@@ -1,0 +1,32 @@
+﻿@page "/roles"
+@using UI.Identity;
+@attribute [Authorize(Permission.ReadRoles)]
+
+<PageTitle>Role Management</PageTitle>
+
+<h1>Role Management</h1>
+
+<p>Manage user roles for your project.</p>
+
+@if (Model == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

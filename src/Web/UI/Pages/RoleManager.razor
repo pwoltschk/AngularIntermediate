@@ -28,5 +28,17 @@ else
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="text" id="newRole" class="form-control" placeholder="Enter new role" @bind="newRoleName" />
+                </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="AddRole">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 }

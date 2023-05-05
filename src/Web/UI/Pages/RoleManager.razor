@@ -18,6 +18,7 @@ else
         <thead>
             <tr>
                 <th>Role</th>
+                <th>Permissions</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,6 +27,12 @@ else
             {
                 <tr>
                     <td>@role.Name</td>
+                    <td>
+                        @foreach (var permission in role.Permissions)
+                        {
+                            <span class="badge btn-primary m-1">@permission</span>
+                        }
+                    </td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => DeleteRole(role)">
                             <i class="bi bi-trash"></i>
@@ -39,6 +46,7 @@ else
                 <td>
                     <input type="text" id="newRole" class="form-control" placeholder="Enter new role" @bind="newRoleName" />
                 </td>
+                <td></td>
                 <td>
                     <button class="btn btn-primary" @onclick="AddRole">
                         <i class="bi bi-plus"></i>

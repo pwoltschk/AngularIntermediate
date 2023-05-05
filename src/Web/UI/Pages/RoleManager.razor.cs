@@ -39,5 +39,12 @@ namespace UI.Pages
                 await LoadRoles();
             }
         }
+
+        private async Task DeleteRole(RoleDto role)
+        {
+            await RolesClient.DeleteRoleAsync(role.Id);
+
+            await LoadRoles();
+        }
     }
 }

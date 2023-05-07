@@ -11,6 +11,7 @@ namespace UI.Pages
 
         private string newRoleName = string.Empty;
 
+        bool showEditDialog = false;
         protected override async Task OnInitializedAsync()
         {
             await LoadRoles();
@@ -19,6 +20,16 @@ namespace UI.Pages
         private async Task LoadRoles()
         {
             Model = await RolesClient.GetRolesAsync();
+        }
+
+        void CloseEditDialog()
+        {
+            showEditDialog = false;
+        }
+
+        void OpenEditDialog(RoleDto role)
+        {
+            showEditDialog = true;
         }
 
         private async Task AddRole()

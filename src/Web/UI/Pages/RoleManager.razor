@@ -34,6 +34,9 @@ else
                         }
                     </td>
                     <td>
+                        <button class="btn btn-primary" @onclick="() => OpenEditDialog(role)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
                         <button class="btn btn-primary" @onclick="() => DeleteRole(role)">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -55,4 +58,20 @@ else
             </tr>
         </tfoot>
     </table>
+}
+@if (showEditDialog)
+{
+    <div class="modal" tabindex="-1" style="display:block">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bearbeite Rolle</h5>
+                    <button type="button" class="btn-close" @onclick="CloseEditDialog"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseEditDialog">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

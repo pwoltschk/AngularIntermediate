@@ -68,8 +68,12 @@ else
                     <h5 class="modal-title">Bearbeite Rolle</h5>
                     <button type="button" class="btn-close" @onclick="CloseEditDialog"></button>
                 </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" @bind="selectedRole.Name" />
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="CloseEditDialog">Schließen</button>
+                    <button type="button" class="btn btn-primary" @onclick="SaveRole">Save changes</button>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseEditDialog">Close</button>
                 </div>
             </div>
         </div>

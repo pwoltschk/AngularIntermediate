@@ -11,6 +11,8 @@ namespace UI.Pages
 
         private string newRoleName = string.Empty;
 
+        private RoleDto? selectedRole;
+
         bool showEditDialog = false;
         protected override async Task OnInitializedAsync()
         {
@@ -29,7 +31,23 @@ namespace UI.Pages
 
         void OpenEditDialog(RoleDto role)
         {
+            selectedRole = new RoleDto
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Permissions = new List<string>(role.Permissions)
+            };
             showEditDialog = true;
+        }
+
+        async Task SaveRole()
+        {
+            if (selectedRole != null)
+            {
+                await RolesClient.PutRoleAsync(selectedRole.Id, selectedRole);
+                await LoadRoles();
+            }
+            showEditDialog = false;
         }
 
         private async Task AddRole()

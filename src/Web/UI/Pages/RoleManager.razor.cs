@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿
+using Microsoft.AspNetCore.Components;
 
 namespace UI.Pages
 {
@@ -38,6 +39,23 @@ namespace UI.Pages
                 Permissions = new List<string>(role.Permissions)
             };
             showEditDialog = true;
+        }
+
+        void TogglePermission(string permission, bool isChecked)
+        {
+            if (isChecked)
+            {
+                selectedRole?.Permissions.Add(permission);
+            }
+            else
+            {
+                selectedRole?.Permissions.Remove(permission);
+            }
+        }
+
+        bool IsChecked(string permission)
+        {
+            return selectedRole.Permissions.Contains(permission);
         }
 
         async Task SaveRole()

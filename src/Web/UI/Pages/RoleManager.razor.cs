@@ -53,11 +53,6 @@ namespace UI.Pages
             }
         }
 
-        bool IsChecked(string permission)
-        {
-            return selectedRole.Permissions.Contains(permission);
-        }
-
         async Task SaveRole()
         {
             if (selectedRole != null)

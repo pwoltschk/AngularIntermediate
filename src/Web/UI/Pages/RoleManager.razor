@@ -27,6 +27,9 @@ else
             {
                 <tr>
                     <td>
+                        <i class="bi bi-person-circle"></i> @role.Name
+                    </td>
+                    <td>
                         @foreach (var permission in role.Permissions)
                         {
                             <span class="badge btn-primary m-1">@permission</span>
@@ -58,7 +61,7 @@ else
         </tfoot>
     </table>
 }
-@if (showEditDialog)
+@if (showEditDialog && selectedRole != null)
 {
     <div class="modal" tabindex="-1" style="display:block">
         <div class="modal-dialog">

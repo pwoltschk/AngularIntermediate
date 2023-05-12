@@ -13,15 +13,20 @@ namespace UI.Identity
         {
             var user = await base.CreateUserAsync(account, options);
             var identity = user.Identity as ClaimsIdentity;
-            var permissionsJson = account.AdditionalProperties[nameof(Permission)] as JsonElement?;
 
-            permissionsJson?
-                .EnumerateArray()
-                .ToList()
-                .ForEach(permission => identity?
-                .AddClaim(new Claim(nameof(Permission), permission.GetString() ?? string.Empty)));
+            if (account.AdditionalProperties.ContainsKey(nameof(Permission)))
+            {
+                var permissionsJson = account.AdditionalProperties[nameof(Permission)] as JsonElement?;
+
+                permissionsJson?
+                    .EnumerateArray()
+                    .ToList()
+                    .ForEach(permission => identity?
+                    .AddClaim(new Claim(nameof(Permission), permission.GetString() ?? string.Empty)));
+            }
 
             return user;
         }
+
     }
 }

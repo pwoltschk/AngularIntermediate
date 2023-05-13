@@ -2,6 +2,7 @@
 using ApiServer.Mapper;
 using ApiServer.ViewModels;
 using Application.Common.Services;
+using Application.Roles.Queries;
 using Application.Users.Command;
 using Application.Users.Queries;
 using MediatR;
@@ -12,16 +13,15 @@ namespace ApiServer.Controllers.Identity;
 [Route("api/Admin/[controller]")]
 public class UsersController : CustomControllerBase
 {
-    private readonly IMapper<UsersViewModel, IEnumerable<User>> _mapper;
     private readonly IMapper<UserDetailsViewModel, User> _detailsMapper;
     private readonly IMapper<UserDto, User> _userMapper;
 
     public UsersController(
         ISender mediator,
-        IMapper<UsersViewModel, IEnumerable<User>> mapper,
+        IMapper<UserDto, User> userMapper,
         IMapper<UserDetailsViewModel, User> detailsMapper) : base(mediator)
     {
-        _mapper = mapper;
+        _userMapper = userMapper;
         _detailsMapper = detailsMapper;
     }
 
@@ -29,14 +29,20 @@ public class UsersController : CustomControllerBase
     [Authorize(Permission.ReadUsers)]
     public async Task<ActionResult<UsersViewModel>> GetUsers()
     {
-        return _mapper.Map(await Mediator.Send(new GetUsersQuery()));
+        return new UsersViewModel
+        {
+            Users = (await Mediator.Send(new GetUsersQuery())).Select(_userMapper.Map).ToList(),
+            
+        };
     }
 
     [HttpGet("{id}")]
     [Authorize(Permission.ReadUsers)]
     public async Task<ActionResult<UserDetailsViewModel>> GetUser(string id)
     {
-        return _detailsMapper.Map(await Mediator.Send(new GetUserQuery(id)));
+        var detailsVm = _detailsMapper.Map(await Mediator.Send(new GetUserQuery(id)));
+        detailsVm.AllRoles = (await Mediator.Send(new GetRolesQuery())).Select(s => s.Name).ToList();
+        return detailsVm;
     }
 
     [HttpPut("{id}")]

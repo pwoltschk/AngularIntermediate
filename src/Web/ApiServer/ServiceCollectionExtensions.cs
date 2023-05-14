@@ -14,6 +14,7 @@ namespace ApiServer
             service.AddTransient<IMapper<ProjectsViewModel, IEnumerable<Project>>, ProjectsViewModelMapper>();
             service.AddTransient<IMapper<RolesViewModel, IEnumerable<Role>>, RolesViewModelMapper>();
             service.AddTransient<IMapper<UserDetailsViewModel, User>, UserDetailsViewModelMapper>();
+            service.AddTransient<IMapper<UserDetailsViewModel, User>, UserDetailsViewModelMapper>();
 
             return service;
         }

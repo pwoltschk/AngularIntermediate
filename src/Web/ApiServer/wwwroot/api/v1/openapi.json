@@ -869,6 +869,12 @@
           },
           "email": {
             "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -876,6 +882,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "allRoles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "roles": {
             "type": "array",
             "items": {

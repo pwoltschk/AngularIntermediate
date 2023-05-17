@@ -2238,11 +2238,17 @@ namespace UI
         [System.Text.Json.Serialization.JsonPropertyName("email")]
         public string Email { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("roles")]
+        public System.Collections.Generic.ICollection<string> Roles { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class UserDetailsViewModel
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("allRoles")]
+        public System.Collections.Generic.ICollection<string> AllRoles { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("roles")]
         public System.Collections.Generic.ICollection<RoleDto> Roles { get; set; }

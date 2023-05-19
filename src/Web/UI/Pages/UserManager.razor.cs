@@ -12,6 +12,14 @@ namespace UI.Pages
 
         private async Task LoadUsers()
         {
+            Model = new UsersViewModel
+            {
+                Users = new List<UserDto>
+                {
+                    new UserDto { Name = "John Doe", Email = "john.doe@gmail.com" },
+                    new UserDto { Name = "Max Mustermann", Email = "max.musterman@gmail.com" }
+                }
+            };
         }
     }
 }

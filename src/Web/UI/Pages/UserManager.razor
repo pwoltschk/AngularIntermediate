@@ -1,4 +1,6 @@
 ﻿@page "/users"
+@using UI.Identity
+@attribute [Authorize(Permission.WriteUsers)]
 
 <PageTitle>User Management</PageTitle>
 
@@ -17,6 +19,7 @@ else
             <tr>
                 <th>Username</th>
                 <th>Email</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +28,11 @@ else
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditUser(user.Id)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>

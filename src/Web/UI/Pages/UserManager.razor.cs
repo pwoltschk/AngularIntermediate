@@ -1,8 +1,15 @@
-﻿
+﻿using Microsoft.AspNetCore.Components;
+
 namespace UI.Pages
 {
     public partial class UserManager
     {
+        [Inject]
+        public IUsersClient UsersClient { get; set; } = null!;
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; } = null!;
+
         public UsersViewModel Model { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -10,16 +17,12 @@ namespace UI.Pages
             await LoadUsers();
         }
 
+        public void EditUser(string id) => NavigationManager.NavigateTo("/users/" + id);
+
         private async Task LoadUsers()
         {
-            Model = new UsersViewModel
-            {
-                Users = new List<UserDto>
-                {
-                    new UserDto { Name = "John Doe", Email = "john.doe@gmail.com" },
-                    new UserDto { Name = "Max Mustermann", Email = "max.musterman@gmail.com" }
-                }
-            };
+            Model = await UsersClient.GetUsersAsync();
         }
     }
+
 }

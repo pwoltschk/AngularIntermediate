@@ -32,6 +32,9 @@ else
                         <button class="btn btn-primary" @onclick="() => EditUser(user.Id)">
                             <i class="bi bi-pencil"></i>
                         </button>
+                        <button class="btn btn-danger" @onclick="() => DeleteUser(user)">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </td>
                 </tr>
             }

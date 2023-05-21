@@ -23,6 +23,12 @@ namespace UI.Pages
         {
             Model = await UsersClient.GetUsersAsync();
         }
+
+        private async Task DeleteUser(UserDto user)
+        {
+            await UsersClient.DeleteUserAsync(user.Id);
+            await LoadUsers();
+        }
     }
 
 }

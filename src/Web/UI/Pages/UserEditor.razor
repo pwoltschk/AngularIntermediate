@@ -1,0 +1,21 @@
+﻿@page "/user-editor"
+@inject NavigationManager Navigation
+@inject IUsersClient UsersClient
+
+<h3>User Editor</h3>
+
+@if (Model == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="Model.User">
+
+        <div>
+            <label>Username:</label>
+            <InputText @bind-Value="Model.User.Name" />
+        </div>
+
+    </EditForm>
+}

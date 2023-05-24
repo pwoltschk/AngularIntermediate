@@ -35,6 +35,9 @@ else
                         <button class="btn btn-danger" @onclick="() => DeleteUser(user)">
                             <i class="bi bi-trash"></i>
                         </button>
+                        <button class="btn btn-info" @onclick="() => ViewUserDetails(user.Id)">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </td>
                 </tr>
             }

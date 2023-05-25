@@ -9,7 +9,7 @@ namespace UI.Pages
         public string UserId { get; set; } = null!;
 
         [Inject]
-        public UsersClient UsersClient { get; set; } = null!;
+        public IUsersClient UsersClient { get; set; } = null!;
 
         public UserDetailsViewModel? Model { get; set; }
 

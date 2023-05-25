@@ -11,11 +11,16 @@
 else
 {
     <EditForm Model="Model.User">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
         <div>
             <label>Username:</label>
             <InputText @bind-Value="Model.User.Name" />
         </div>
-
+        <div>
+            <label>Email:</label>
+            <InputText @bind-Value="Model.User.Email" />
+        </div>
     </EditForm>
 }

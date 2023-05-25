@@ -19,8 +19,6 @@ namespace UI.Pages
 
         public void EditUser(string id) => NavigationManager.NavigateTo("/users/" + id);
 
-        public void ViewUserDetails(string id) => NavigationManager.NavigateTo("/users/details/" + id);
-
         private async Task LoadUsers()
         {
             Model = await UsersClient.GetUsersAsync();
@@ -31,17 +29,5 @@ namespace UI.Pages
             await UsersClient.DeleteUserAsync(user.Id);
             await LoadUsers();
         }
-    }
-
-    public class UsersViewModel
-    {
-        public List<UserDto> Users { get; set; }
-    }
-
-    public class UserDto
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
     }
 }

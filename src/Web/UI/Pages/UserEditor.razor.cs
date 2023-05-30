@@ -17,5 +17,19 @@ namespace UI.Pages
         {
             Model = await UsersClient.GetUserAsync(UserId);
         }
+
+        public void ToggleSelectedRole(string roleName)
+        {
+            if (Model!.Roles.Any(role => role.Name == roleName))
+            {
+                Model!.User.Roles.Remove(roleName);
+            }
+            else
+            {
+                Model.User.Roles.Add(roleName);
+            }
+
+            StateHasChanged();
+        }
     }
 }

@@ -22,5 +22,18 @@ else
             <label>Email:</label>
             <InputText @bind-Value="Model.User.Email" />
         </div>
+        <div>
+            <label>Roles:</label>
+            @foreach (var role in Model.AllRoles)
+            {
+                var isChecked = Model.User.Roles.Contains(role);
+                <div class="form-check">
+                    <InputCheckbox class="form-check-input" id="@($"role-{role}")" Value="@isChecked" ValueExpression="() => isChecked" ValueChanged="@(e => ToggleSelectedRole(role))" />
+                    <label class="form-check-label" for="@($"role-{role}")">
+                        @role
+                    </label>
+                </div>
+            }
+        </div>
     </EditForm>
 }

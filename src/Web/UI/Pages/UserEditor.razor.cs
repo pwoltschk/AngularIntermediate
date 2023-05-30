@@ -31,5 +31,10 @@ namespace UI.Pages
 
             StateHasChanged();
         }
+
+        public void CancelEdit()
+        {
+            Navigation.NavigateTo("/users");
+        }
     }
 }

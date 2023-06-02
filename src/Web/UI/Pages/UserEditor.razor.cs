@@ -11,6 +11,12 @@ namespace UI.Pages
         [Inject]
         public IUsersClient UsersClient { get; set; } = null!;
 
+        [Inject]
+        public IRolesClient RolesClient { get; set; } = null!;
+
+        [Inject]
+        public NavigationManager Navigation { get; set; } = null!;
+
         public UserDetailsViewModel? Model { get; set; }
 
         protected override async Task OnParametersSetAsync()
@@ -30,6 +36,13 @@ namespace UI.Pages
             }
 
             StateHasChanged();
+        }
+
+        public async Task UpdateUser()
+        {
+            await UsersClient.PutUserAsync(Model!.User.Id, Model.User);
+
+            Navigation.NavigateTo("/users");
         }
 
         public void CancelEdit()

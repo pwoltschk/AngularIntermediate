@@ -1,8 +1,10 @@
-﻿@page "/user-editor"
-@inject NavigationManager Navigation
-@inject IUsersClient UsersClient
+﻿@page "/users/{UserId}"
+@using UI.Identity;
+@attribute [Authorize(Permission.WriteUsers)]
 
-<h3>User Editor</h3>
+<PageTitle>Edit User</PageTitle>
+
+<h1>Edit User</h1>
 
 @if (Model == null)
 {
@@ -10,20 +12,19 @@
 }
 else
 {
-    <EditForm Model="Model.User">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+    <EditForm Model="@Model.User" OnValidSubmit="UpdateUser">
+        <div class="form-group">
+            <label for="username">Name</label>
+            <InputText id="username" @bind-Value="Model.User.Name" class="form-control" />
+        </div>
 
-        <div>
-            <label>Username:</label>
-            <InputText @bind-Value="Model.User.Name" />
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" @bind-Value="Model.User.Email" class="form-control" />
         </div>
-        <div>
-            <label>Email:</label>
-            <InputText @bind-Value="Model.User.Email" />
-        </div>
-        <div>
-            <label>Roles:</label>
+
+        <div class="form-group">
+            <label for="roles">Roles</label>
             @foreach (var role in Model.AllRoles)
             {
                 var isChecked = Model.User.Roles.Contains(role);

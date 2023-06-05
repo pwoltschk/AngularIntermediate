@@ -64,3 +64,16 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ---
 
 I hope this version meets your needs! If you need further adjustments or additional content, just let me know. 😊
+
+Tags:
+blazor kanban example github
+best practice asp.net example
+role-based authorization .net core
+permission based authorization
+onion architecture in asp.net core
+implementation identityRole .net
+asp.net core onion architecture github
+asp.net core onion architecture example
+aspnetboilerplate identityserver
+Lean IdentityServer example
+

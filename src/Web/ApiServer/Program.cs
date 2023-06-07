@@ -48,14 +48,14 @@ builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationP
 
 var app = builder.Build();
 
-#if DEBUG
+
 using (var scope = app.Services.CreateScope())
 {
     var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
     await initializer.InitialiseAsync();
     await initializer.SeedAsync();
 }
-#endif
+
 
 
 

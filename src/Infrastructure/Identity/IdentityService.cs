@@ -64,10 +64,17 @@ namespace Infrastructure.Identity
 
         public async Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken)
         {
-            var users = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync(cancellationToken);
-            return users.Select(u => new User(u.Id, u.UserName, u.Email)).ToList();
-        }
+            var identityUsers = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync(cancellationToken);
 
+            var users = new List<User>();
+            foreach (var identityUser in identityUsers)
+            {
+                var user = await GetUserAsync(identityUser.Id);
+                users.Add(user);
+            }
+
+            return users;
+        }
         public async Task<User> GetUserAsync(string id)
         {
             var identityUser = await _userManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(User), id);

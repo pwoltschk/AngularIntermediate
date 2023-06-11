@@ -30,11 +30,15 @@ else
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td>
+                        @foreach (var role in user.Roles)
+                        {
+                            <span class="badge btn-primary m-1">@role</span>
+                        }
+                    </td>
+                    <td>
                         <button class="btn btn-primary" @onclick="() => EditUser(user.Id)">
                             <i class="bi bi-pencil"></i>
                         </button>
-
-
                         <button class="btn btn-danger" @onclick="() => DeleteUser(user)">
                             <i class="bi bi-trash"></i>
                         </button>

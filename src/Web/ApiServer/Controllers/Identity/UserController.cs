@@ -33,7 +33,7 @@ public class UsersController : CustomControllerBase
         return new UsersViewModel
         {
             Users = (await Mediator.Send(new GetUsersQuery())).Select(_userMapper.Map).ToList(),
-            
+
         };
     }
 

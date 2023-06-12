@@ -1,34 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace Shared.Identity
+namespace Shared.Identity;
+
+public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
 {
-
-    public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+    private readonly AuthorizationOptions _options;
+    public CustomAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
+        : base(options)
     {
-        private readonly AuthorizationOptions _options;
-        public CustomAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
-            : base(options)
-        {
-            _options = options.Value;
-        }
-
-        public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
-        {
-            var policy = await base.GetPolicyAsync(policyName);
-
-            if (policy == null && Permission.AllPermissions.Contains(policyName))
-            {
-                policy = new AuthorizationPolicyBuilder()
-                    .AddRequirements(new CustomAuthorizationRequirement(policyName))
-                .Build();
-
-                _options.AddPolicy(policyName, policy);
-            }
-
-            return policy;
-        }
+        _options = options.Value;
     }
 
+    public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
+    {
+        var policy = await base.GetPolicyAsync(policyName);
 
+        if (policy == null && Permission.AllPermissions.Contains(policyName))
+        {
+            policy = new AuthorizationPolicyBuilder()
+                .AddRequirements(new CustomAuthorizationRequirement(policyName))
+            .Build();
+
+            _options.AddPolicy(policyName, policy);
+        }
+
+        return policy;
+    }
 }

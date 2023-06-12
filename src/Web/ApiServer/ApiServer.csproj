@@ -28,7 +28,4 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
     
-    
-    
-
 </Project>

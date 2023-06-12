@@ -1,5 +1,4 @@
-﻿using Application.Common.Services;
-using Application.WorkItems.Commands;
+﻿using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

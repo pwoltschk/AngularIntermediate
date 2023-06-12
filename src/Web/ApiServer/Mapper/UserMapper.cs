@@ -18,8 +18,8 @@ namespace ApiServer.Mapper
 
         public User Map(UserDto model)
         {
-            var user =  new User(model.Id, model.Name, model.Email);
-            user.Roles.AddRange(model.Roles.Select(r => new Role(string.Empty,r , new List<string>())));
+            var user = new User(model.Id, model.Name, model.Email);
+            user.Roles.AddRange(model.Roles.Select(r => new Role(string.Empty, r, new List<string>())));
             return user;
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace ApiServer.Identity;
+﻿namespace Shared.Identity;
 
 public class AuthorizeAttribute : Microsoft.AspNetCore.Authorization.AuthorizeAttribute
 {

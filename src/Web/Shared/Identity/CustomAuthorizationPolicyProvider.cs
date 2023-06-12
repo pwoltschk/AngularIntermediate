@@ -1,8 +1,7 @@
-﻿using Application.Common.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace ApiServer.Identity
+namespace Shared.Identity
 {
 
     public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider

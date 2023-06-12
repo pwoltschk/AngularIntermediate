@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace UI.Identity;
+namespace Shared.Identity;
 
 public class Permission
 {

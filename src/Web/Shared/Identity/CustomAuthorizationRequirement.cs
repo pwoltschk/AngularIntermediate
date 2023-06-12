@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace ApiServer.Identity
+namespace Shared.Identity
 {
     public class CustomAuthorizationRequirement : IAuthorizationRequirement
     {

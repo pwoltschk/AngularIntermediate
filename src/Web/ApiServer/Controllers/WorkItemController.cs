@@ -1,9 +1,10 @@
-﻿using ApiServer.Identity;
-using Application.Common.Services;
+﻿using Application.Common.Services;
 using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Identity;
+using Permission = Shared.Identity.Permission;
 
 namespace ApiServer.Controllers
 {

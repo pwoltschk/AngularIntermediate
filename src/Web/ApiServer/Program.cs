@@ -1,5 +1,4 @@
 using ApiServer;
-using ApiServer.Identity;
 using Application;
 using Application.Common.Services;
 using Infrastructure;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using Shared.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

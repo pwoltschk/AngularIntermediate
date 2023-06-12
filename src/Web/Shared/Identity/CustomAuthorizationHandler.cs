@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace UI.Identity;
-
+namespace Shared.Identity;
 public class CustomAuthorizationHandler : AuthorizationHandler<CustomAuthorizationRequirement>
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomAuthorizationRequirement requirement)

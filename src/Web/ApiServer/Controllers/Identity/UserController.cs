@@ -1,5 +1,4 @@
-﻿using ApiServer.Identity;
-using ApiServer.Mapper;
+﻿using ApiServer.Mapper;
 using ApiServer.ViewModels;
 using Application.Common.Services;
 using Application.Roles.Queries;
@@ -7,6 +6,8 @@ using Application.Users.Command;
 using Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Identity;
+using Permission = Shared.Identity.Permission;
 
 namespace ApiServer.Controllers.Identity;
 
@@ -26,7 +27,7 @@ public class UsersController : CustomControllerBase
     }
 
     [HttpGet]
-    [Authorize(Permission.ReadUsers)]
+    [Authorize(Shared.Identity.Permission.ReadUsers)]
     public async Task<ActionResult<UsersViewModel>> GetUsers()
     {
         return new UsersViewModel

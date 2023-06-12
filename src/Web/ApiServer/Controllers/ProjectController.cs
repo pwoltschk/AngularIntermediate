@@ -1,13 +1,13 @@
-﻿using ApiServer.Identity;
-using ApiServer.Mapper;
+﻿using ApiServer.Mapper;
 using ApiServer.ViewModels;
-using Application.Common.Services;
 using Application.Projects.Commands;
 using Application.Projects.Queries;
 using Application.Projects.Requests;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Identity;
+using Permission = Shared.Identity.Permission;
 
 namespace ApiServer.Controllers
 {

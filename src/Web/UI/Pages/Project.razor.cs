@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-
 namespace UI.Pages;
 
 public partial class Project
@@ -10,8 +9,10 @@ public partial class Project
 
     private bool _showCreateProjectDialog = false;
     private bool _showEditProjectDialog = false;
+    private bool _showDeleteProjectDialog = false;
     private ProjectDto _createProject = new();
     private ProjectDto _editProject = new();
+    private ProjectDto _deleteProject = new();
 
     private bool IsSelected(ProjectDto list)
     {
@@ -36,6 +37,12 @@ public partial class Project
         _showEditProjectDialog = true;
     }
 
+    private void ShowDeleteProjectDialog(ProjectDto project)
+    {
+        _deleteProject = project;
+        _showDeleteProjectDialog = true;
+    }
+
     public async Task CreateProject()
     {
         var projectId = await State.ProjectsClient.PostProjectAsync(new CreateProjectRequest
@@ -57,5 +64,11 @@ public partial class Project
         });
         _showEditProjectDialog = false;
     }
-}
 
+    public async Task DeleteProject()
+    {
+        await State.ProjectsClient.DeleteProjectAsync(_deleteProject.Id);
+        State.Model!.Projects.Remove(_deleteProject);
+        _showDeleteProjectDialog = false;
+    }
+}

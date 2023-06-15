@@ -4,59 +4,63 @@
 
 @if (State.Initialised)
 {
-        <div class="clearfix">
-            <h2 class="float-start">My Projects</h2>
-            <button class="btn btn-primary float-end" @onclick="ShowCreateProjectDialog">+</button>
-        </div>
-        <ul class="list-group">
+    <div class="clearfix">
+        <h2 class="float-start">My Projects</h2>
+        <button class="btn btn-primary float-end" @onclick="ShowCreateProjectDialog">+</button>
+    </div>
+    <ul class="list-group">
         @foreach (var list in State.Model!.Projects)
         {
-                    <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
+            <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
                 @list.Title
-                        <button class="btn btn-primary float-end" @onclick:stopPropagation="true" @onclick="(() => ShowEditProjectDialog(list))">
-                                    <i class="bi bi-pencil"></i>
-                        </button>
-                    </li>
+                <button class="btn btn-danger float-end" @onclick:stopPropagation="true" @onclick="DeleteProject">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <button class="btn btn-primary float-end" @onclick:stopPropagation="true" @onclick="(() => ShowEditProjectDialog(list))">
+                    <i class="bi bi-pencil"></i>
+                </button>
+
+            </li>
         }
-        </ul>
+    </ul>
 }
 
 @if (_showCreateProjectDialog)
 {
-        <div class="modal" tabindex="-1" style="display:block">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create Project</h5>
-                        <button type="button" class="btn-close" @onclick="(() => _showCreateProjectDialog = false)"></button>
-                    </div>
-                    <div class="modal-body">
-                        <EditForm Model="_createProject" OnValidSubmit="CreateProject">
-                            <InputText id="title" @bind-Value="_createProject.Title" placeholder="Title" />
-                            <button type="submit">Create Project</button>
-                        </EditForm>
-                    </div>
+    <div class="modal" tabindex="-1" style="display:block">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Project</h5>
+                    <button type="button" class="btn-close" @onclick="(() => _showCreateProjectDialog = false)"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="_createProject" OnValidSubmit="CreateProject">
+                        <InputText id="title" @bind-Value="_createProject.Title" placeholder="Title" />
+                        <button type="submit">Create Project</button>
+                    </EditForm>
                 </div>
             </div>
         </div>
+    </div>
 }
 
 @if (_showEditProjectDialog)
 {
-        <div class="modal" tabindex="-1" style="display:block">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Project</h5>
-                        <button type="button" class="btn-close" @onclick="(() => _showEditProjectDialog = false)"></button>
-                    </div>
-                    <div class="modal-body">
-                        <EditForm Model="_editProject" OnValidSubmit="UpdateProject">
-                            <InputText id="title" @bind-Value="_editProject.Title" placeholder="Title" />
-                            <button type="submit">Update Project</button>
-                        </EditForm>
-                    </div>
+    <div class="modal" tabindex="-1" style="display:block">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Project</h5>
+                    <button type="button" class="btn-close" @onclick="(() => _showEditProjectDialog = false)"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="_editProject" OnValidSubmit="UpdateProject">
+                        <InputText id="title" @bind-Value="_editProject.Title" placeholder="Title" />
+                        <button type="submit">Update Project</button>
+                    </EditForm>
                 </div>
             </div>
         </div>
+    </div>
 }

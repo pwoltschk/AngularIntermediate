@@ -13,13 +13,12 @@
         {
             <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
                 @list.Title
-                <button class="btn btn-danger float-end" @onclick:stopPropagation="true" @onclick="DeleteProject">
-                    <i class="bi bi-trash"></i>
-                </button>
                 <button class="btn btn-primary float-end" @onclick:stopPropagation="true" @onclick="(() => ShowEditProjectDialog(list))">
                     <i class="bi bi-pencil"></i>
                 </button>
-
+                <button class="btn btn-danger float-end" @onclick:stopPropagation="true" @onclick="(() => ShowDeleteProjectDialog(list))">
+                    <i class="bi bi-trash"></i>
+                </button>
             </li>
         }
     </ul>
@@ -59,6 +58,25 @@
                         <InputText id="title" @bind-Value="_editProject.Title" placeholder="Title" />
                         <button type="submit">Update Project</button>
                     </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_showDeleteProjectDialog)
+{
+    <div class="modal" tabindex="-1" style="display:block">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Project</h5>
+                    <button type="button" class="btn-close" @onclick="(() => _showDeleteProjectDialog = false)"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this project?</p>
+                    <button class="btn btn-danger" @onclick="DeleteProject">Delete</button>
+                    <button class="btn btn-secondary" @onclick="(() => _showDeleteProjectDialog = false)">Cancel</button>
                 </div>
             </div>
         </div>

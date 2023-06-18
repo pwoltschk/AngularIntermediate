@@ -19,5 +19,7 @@
         public DateTime? StartDate { get; set; }
 
         public Priority Priority { get; set; }
+
+        public Stage Stage { get; set; }
     }
 }

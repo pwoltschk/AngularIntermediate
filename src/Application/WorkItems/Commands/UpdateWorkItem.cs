@@ -25,6 +25,7 @@ namespace Application.WorkItems.Commands
             entity.Iteration = request.Item.Iteration;
             entity.Priority = (Priority)request.Item.Priority;
             entity.Description = request.Item.Description;
+            entity.Stage = (Stage)request.Item.Stage;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

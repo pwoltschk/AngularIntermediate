@@ -15,5 +15,7 @@
         public string AssignedTo { get; set; } = string.Empty; //Todo implement assigning user
 
         public int Priority { get; set; }
+
+        public int Stage { get; set; }
     }
 }

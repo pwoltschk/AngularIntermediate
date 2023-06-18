@@ -35,6 +35,7 @@ namespace ApiServer.Mapper
                 Iteration = model.Iteration,
                 StartDate = model.StartDate,
                 Priority = (int)model.Priority,
+                Stage = (int)model.Stage,
             };
         }
 

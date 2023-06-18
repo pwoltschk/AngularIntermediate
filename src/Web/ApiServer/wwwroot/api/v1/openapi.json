@@ -769,6 +769,10 @@
           "priority": {
             "type": "integer",
             "format": "int32"
+          },
+          "stage": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -810,6 +814,10 @@
             "type": "string"
           },
           "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stage": {
             "type": "integer",
             "format": "int32"
           }

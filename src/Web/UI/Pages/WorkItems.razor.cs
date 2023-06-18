@@ -57,7 +57,8 @@ public partial class WorkItems
             Description = _editWorkItem.Description,
             Iteration = _editWorkItem.Iteration,
             AssignedTo = _editWorkItem.AssignedTo,
-            Priority = _editWorkItem.Priority
+            Priority = _editWorkItem.Priority,
+            Stage = _editWorkItem.Stage,
         });
         _showEditWorkItemDialog = false;
     }

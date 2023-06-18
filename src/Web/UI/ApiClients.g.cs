@@ -2151,6 +2151,9 @@ namespace UI
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
         public int Priority { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("stage")]
+        public int Stage { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2189,6 +2192,9 @@ namespace UI
 
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
         public int Priority { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("stage")]
+        public int Stage { get; set; }
 
     }
 

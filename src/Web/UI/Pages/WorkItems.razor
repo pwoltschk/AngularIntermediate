@@ -9,24 +9,69 @@
     </div>
 
     <div class="d-flex flex-wrap">
-        @foreach (var item in State.SelectedList.WorkItems)
-        {
-            <div class="card m-2" style="width: 18rem;">
-                <div class="card-body">
-                    <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(item))">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
-                    <p class="card-text"><small class="text-muted">Start Date: @item.StartDate</small></p>
-                    <p class="card-text"><small class="text-muted">Priority: @item.Priority</small></p>
+        <div class="column">
+            <h3>Planned</h3>
+            @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 0))
+            {
+                <div class="card m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(item))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
+                        <p class="card-text"><small class="text-muted">Start Date: @item.StartDate</small></p>
+                        <p class="card-text"><small class="text-muted">Priority: @item.Priority</small></p>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
+        <div class="column">
+            <h3>In Progress</h3>
+            @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 1))
+            {
+                <div class="card m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(item))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
+                        <p class="card-text"><small class="text-muted">Start Date: @item.StartDate</small></p>
+                        <p class="card-text"><small class="text-muted">Priority: @item.Priority</small></p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="column">
+            <h3>Completed</h3>
+            @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 2))
+            {
+                <div class="card m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(item))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text"><small class="text-muted">Assigned to: @item.AssignedTo</small></p>
+                        <p class="card-text"><small class="text-muted">Start Date: @item.StartDate</small></p>
+                        <p class="card-text"><small class="text-muted">Priority: @item.Priority</small></p>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
     @if (_showCreateWorkItemDialog)
@@ -84,7 +129,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="stage">Stage</label>
-                                <InputSelect id="priority" @bind-Value="_editWorkItem.Stage" class="form-control">
+                                <InputSelect id="stage" @bind-Value="_editWorkItem.Stage" class="form-control">
                                     <option value="0">Planned</option>
                                     <option value="1">In Progress</option>
                                     <option value="2">Completed</option>

@@ -13,7 +13,7 @@
             <h3>Planned</h3>
             @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 0))
             {
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body">
                         <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
                             <i class="bi bi-trash"></i>
@@ -34,7 +34,7 @@
             <h3>In Progress</h3>
             @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 1))
             {
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body">
                         <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
                             <i class="bi bi-trash"></i>
@@ -55,7 +55,7 @@
             <h3>Completed</h3>
             @foreach (var item in State.SelectedList.WorkItems.Where(w => w.Stage == 2))
             {
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body">
                         <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(item.Id))">
                             <i class="bi bi-trash"></i>
@@ -73,7 +73,6 @@
             }
         </div>
     </div>
-
     @if (_showCreateWorkItemDialog)
     {
         <div class="modal" tabindex="-1" style="display:block">
@@ -85,8 +84,11 @@
                     </div>
                     <div class="modal-body">
                         <EditForm Model="_newWorkItem" OnValidSubmit="AddWorkItem">
-                            <InputText id="title" @bind-Value="_newWorkItem.Title" placeholder="Title" />
-                            <button type="submit">Create Work Item</button>
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <InputText id="title" @bind-Value="_newWorkItem.Title" placeholder="Title" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Work Item</button>
                         </EditForm>
                     </div>
                 </div>

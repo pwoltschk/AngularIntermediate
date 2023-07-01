@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Plk.Blazor.DragDrop;
 using Shared.Identity;
 using UI;
 using UI.Identity;
@@ -22,6 +23,7 @@ builder.Services
 
 builder.Services.AddSingleton<IAuthorizationHandler, CustomAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+builder.Services.AddBlazorDragDrop();
 
 await builder.Build().RunAsync();
 

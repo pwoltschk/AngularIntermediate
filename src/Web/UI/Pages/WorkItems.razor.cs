@@ -69,4 +69,12 @@ public partial class WorkItems
         var workItem = State.SelectedList!.WorkItems.First(w => w.Id == id);
         State.SelectedList!.WorkItems.Remove(workItem);
     }
+
+    private async Task UpdateWorkItemStage(WorkItemDto item, int stage)
+    {
+        _editWorkItem = item;
+        _editWorkItem.Stage = stage;
+        await UpdateWorkItem();
+    }
+
 }

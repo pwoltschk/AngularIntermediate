@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using UI.Components;
 
 namespace UI.Pages;
 
@@ -10,57 +11,45 @@ public partial class WorkItems
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
 
-    private bool _showCreateWorkItemDialog = false;
-    private bool _showEditWorkItemDialog = false;
+    private WorkItemDialog _createWorkItemDialog = null!;
+    private WorkItemDialog _editWorkItemDialog = null!;
 
     public void ShowCreateWorkItemDialog()
     {
-        _showCreateWorkItemDialog = true;
-    }
-
-    public void CloseCreateWorkItemDialog()
-    {
-        _showCreateWorkItemDialog = false;
+        _newWorkItem = new WorkItemDto();
+        _createWorkItemDialog.Show();
     }
 
     public void ShowEditWorkItemDialog(WorkItemDto item)
     {
         _editWorkItem = item;
-        _showEditWorkItemDialog = true;
+        _editWorkItemDialog.Show();
     }
 
-    public void CloseEditWorkItemDialog()
-    {
-        _showEditWorkItemDialog = false;
-    }
-
-    public async Task AddWorkItem()
+    public async Task AddWorkItem(WorkItemDto workItem)
     {
         var itemId = await State.WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest()
         {
             ProjectId = State.SelectedList!.Id,
-            Title = _newWorkItem.Title
+            Title = workItem.Title
         });
-        var workItem = new WorkItemDto { Id = itemId, Title = _newWorkItem.Title };
+        workItem.Id = itemId;
         State.SelectedList!.WorkItems.Add(workItem);
-        _newWorkItem = new WorkItemDto();
-        _showCreateWorkItemDialog = false;
     }
 
-    public async Task UpdateWorkItem()
+    public async Task UpdateWorkItem(WorkItemDto workItem)
     {
-        await State.WorkItemClient.PutWorkItemAsync(_editWorkItem.Id, new UpdateWorkItemRequest()
+        await State.WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest()
         {
-            Id = _editWorkItem.Id,
-            ProjectId = _editWorkItem.ProjectId,
-            Title = _editWorkItem.Title,
-            Description = _editWorkItem.Description,
-            Iteration = _editWorkItem.Iteration,
-            AssignedTo = _editWorkItem.AssignedTo,
-            Priority = _editWorkItem.Priority,
-            Stage = _editWorkItem.Stage,
+            Id = workItem.Id,
+            ProjectId = workItem.ProjectId,
+            Title = workItem.Title,
+            Description = workItem.Description,
+            Iteration = workItem.Iteration,
+            AssignedTo = workItem.AssignedTo,
+            Priority = workItem.Priority,
+            Stage = workItem.Stage,
         });
-        _showEditWorkItemDialog = false;
     }
 
     public async Task DeleteWorkItem(int id)
@@ -72,9 +61,7 @@ public partial class WorkItems
 
     private async Task UpdateWorkItemStage(WorkItemDto item, int stage)
     {
-        _editWorkItem = item;
-        _editWorkItem.Stage = stage;
-        await UpdateWorkItem();
+        item.Stage = stage;
+        await UpdateWorkItem(item);
     }
-
 }

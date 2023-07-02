@@ -1,57 +1,9 @@
 ﻿.kanban-board {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 20px;
     padding: 20px;
     border-radius: 8px;
-}
-
-.column {
-    flex: 1;
-    margin: 0 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
-
-    .column h3 {
-        text-align: center;
-        padding: 10px 0;
-        background-color: #1b6ec2;
-        color: #fff;
-        border-radius: 8px 8px 0 0;
-    }
-
-.card {
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-}
-
-.card-body {
-    padding: 15px;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    margin-bottom: 5px;
-}
-
-.modal-header {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.modal-content {
-    border-radius: 8px;
-}
-
-.form-group {
-    margin-bottom: 15px;
+    overflow-x: auto;
+    width: 100%;
 }

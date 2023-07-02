@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Tests", "tests\Web.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "src\Web\UI\UI.csproj", "{61ABE855-7C3A-4EB5-BDB4-8A46DF59C1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Web\Shared\Shared.csproj", "{B1D2C3FA-0BD6-4706-BD9B-8C63554E0E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Web\Shared\Shared.csproj", "{B1D2C3FA-0BD6-4706-BD9B-8C63554E0E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

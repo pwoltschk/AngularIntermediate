@@ -1,0 +1,8 @@
+﻿@using Plk.Blazor.DragDrop
+
+<div class="kanban-column">
+    <h3>@Title</h3>
+    <Dropzone Items="Items" TItem="WorkItemDto" OnItemDrop="@OnItemDrop" Class="h-100">
+        <WorkItem Item="context" OnDelete="OnDelete" OnEdit="OnEdit" />
+    </Dropzone>
+</div>

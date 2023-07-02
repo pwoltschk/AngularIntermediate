@@ -1,0 +1,17 @@
+﻿@using UI.Identity
+
+<div class="card" style="border-left: 4px solid @GetBorderColor()">
+    <div class="card-body">
+        <button class="btn btn-primary float-end" @onclick="@(() => OnDelete.InvokeAsync(Item.Id))">
+            <i class="bi bi-trash"></i>
+        </button>
+        <button class="btn btn-primary float-end" @onclick="@(() => OnEdit.InvokeAsync(Item))">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <h5 class="card-title">@Item.Title</h5>
+        <p class="card-text">@Item.Description</p>
+        <p class="card-text"><small class="text-muted">Assigned to: @Item.AssignedTo</small></p>
+        <p class="card-text"><small class="text-muted">Start Date: @Item.StartDate</small></p>
+        <p class="card-text"><small class="text-muted">Priority: @Item.Priority</small></p>
+    </div>
+</div>

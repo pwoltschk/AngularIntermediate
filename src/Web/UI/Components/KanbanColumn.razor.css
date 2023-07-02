@@ -1,0 +1,25 @@
+﻿.kanban-column {
+    flex: 1 0 300px;
+    max-width: calc(33.333% - 14px);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .kanban-column h3 {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #1b6ec2; 
+        color: #fff;
+        border-radius: 8px 8px 0 0;
+        margin-top: 0;
+    }
+
+.dropzone {
+    flex-grow: 1;
+    min-height: 50px;
+    overflow-y: auto;
+}

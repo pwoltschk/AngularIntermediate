@@ -1,5 +1,6 @@
 ﻿@using Plk.Blazor.DragDrop
-@using UI.Identity;
+@using UI.Components
+@using UI.Identity
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
@@ -10,150 +11,32 @@
     </div>
 
     <div class="kanban-board">
-        <div class="column">
-            <h3>Planned</h3>
-            <Dropzone Items="State.SelectedList.WorkItems.Where(w => w.Stage == 0).ToList()" TItem="WorkItemDto" OnItemDrop="@(item => UpdateWorkItemStage(item, 0))" Class="h-100">
-                <ChildContent>
-                    <div class="card" style="border-left: 4px solid black">
-                        <div class="card-body">
-                            <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(context.Id))">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(context))">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <h5 class="card-title">@context.Title</h5>
-                            <p class="card-text">@context.Description</p>
-                            <p class="card-text"><small class="text-muted">Assigned to: @context.AssignedTo</small></p>
-                            <p class="card-text"><small class="text-muted">Start Date: @context.StartDate</small></p>
-                            <p class="card-text"><small class="text-muted">Priority: @context.Priority</small></p>
-                        </div>
-                    </div>
-                </ChildContent>
-            </Dropzone>
-        </div>
-        <div class="column">
-            <h3>In Progress</h3>
-            <Dropzone Items="State.SelectedList.WorkItems.Where(w => w.Stage == 1).ToList()" TItem="WorkItemDto" OnItemDrop="@(item => UpdateWorkItemStage(item, 1))" Class="h-100">
-                <ChildContent>
-
-                    <div class="card" style="border-left: 4px solid orange">
-                        <div class="card-body">
-                            <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(context.Id))">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(context))">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <h5 class="card-title">@context.Title</h5>
-                            <p class="card-text">@context.Description</p>
-                            <p class="card-text"><small class="text-muted">Assigned to: @context.AssignedTo</small></p>
-                            <p class="card-text"><small class="text-muted">Start Date: @context.StartDate</small></p>
-                            <p class="card-text"><small class="text-muted">Priority: @context.Priority</small></p>
-                        </div>
-                    </div>
-                </ChildContent>
-            </Dropzone>
-        </div>
-        <div class="column">
-            <h3>Completed</h3>
-            <Dropzone Items="State.SelectedList.WorkItems.Where(w => w.Stage == 2).ToList()" TItem="WorkItemDto" OnItemDrop="@(item => UpdateWorkItemStage(item, 2))" Class="h-100">
-                <ChildContent>
-                    <div class="card" style="border-left: 4px solid green">
-                        <div class="card-body">
-                            <button class="btn btn-primary float-end" @onclick="(() => DeleteWorkItem(context.Id))">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <button class="btn btn-primary float-end" @onclick="(() => ShowEditWorkItemDialog(context))">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <h5 class="card-title">@context.Title</h5>
-                            <p class="card-text">@context.Description</p>
-                            <p class="card-text"><small class="text-muted">Assigned to: @context.AssignedTo</small></p>
-                            <p class="card-text"><small class="text-muted">Start Date: @context.StartDate</small></p>
-                            <p class="card-text"><small class="text-muted">Priority: @context.Priority</small></p>
-                        </div>
-                    </div>
-                </ChildContent>
-            </Dropzone>
-        </div>
+        <KanbanColumn Title="Planned" 
+                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 0).ToList()"
+                      OnItemDrop="@(item => UpdateWorkItemStage(item, 0))"
+                      OnDelete="DeleteWorkItem"
+                      OnEdit="ShowEditWorkItemDialog" />
+        
+        <KanbanColumn Title="In Progress" 
+                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 1).ToList()"
+                      OnItemDrop="@(item => UpdateWorkItemStage(item, 1))"
+                      OnDelete="DeleteWorkItem"
+                      OnEdit="ShowEditWorkItemDialog" />
+        
+        <KanbanColumn Title="Completed" 
+                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 2).ToList()"
+                      OnItemDrop="@(item => UpdateWorkItemStage(item, 2))"
+                      OnDelete="DeleteWorkItem"
+                      OnEdit="ShowEditWorkItemDialog" />
     </div>
 
-    @if (_showCreateWorkItemDialog)
-    {
-        <div class="modal" tabindex="-1" style="display:block">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">New Work Item</h5>
-                        <button type="button" class="btn-close" @onclick="CloseCreateWorkItemDialog"></button>
-                    </div>
-                    <div class="modal-body">
-                        <EditForm Model="_newWorkItem" OnValidSubmit="AddWorkItem">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <InputText id="title" @bind-Value="_newWorkItem.Title" placeholder="Title" class="form-control" />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Create Work Item</button>
-                        </EditForm>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    <WorkItemDialog @ref="_createWorkItemDialog" 
+                    Title="New Work Item" 
+                    WorkItem="_newWorkItem"
+                    OnSave="AddWorkItem" />
 
-    @if (_showEditWorkItemDialog)
-    {
-        <div class="modal" tabindex="-1" style="display:block">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Work Item</h5>
-                        <button type="button" class="btn-close" @onclick="CloseEditWorkItemDialog"></button>
-                    </div>
-                    <div class="modal-body">
-                        <EditForm Model="_editWorkItem" OnValidSubmit="UpdateWorkItem">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <InputText id="title" @bind-Value="_editWorkItem.Title" placeholder="Title" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <InputTextArea id="description" @bind-Value="_editWorkItem.Description" class="form-control" style="height: 100px;" />
-                            </div>
-                            <div class="form-group">
-                                <label for="assignedTo">Assigned To</label>
-                                <InputSelect id="assignedTo" @bind-Value="_editWorkItem.AssignedTo" class="form-control">
-                                    <!-- Add your options here -->
-                                </InputSelect>
-                            </div>
-                            <div class="form-group">
-                                <label for="priority">Priority</label>
-                                <InputSelect id="priority" @bind-Value="_editWorkItem.Priority" class="form-control">
-                                    <option value="0">Low</option>
-                                    <option value="1">Medium</option>
-                                    <option value="2">High</option>
-                                </InputSelect>
-                            </div>
-                            <div class="form-group">
-                                <label for="stage">Stage</label>
-                                <InputSelect id="stage" @bind-Value="_editWorkItem.Stage" class="form-control">
-                                    <option value="0">Planned</option>
-                                    <option value="1">In Progress</option>
-                                    <option value="2">Completed</option>
-                                </InputSelect>
-                            </div>
-                            <div class="form-group">
-                                <label for="startDate">Start Date</label>
-                                <InputDate id="startDate" @bind-Value="_editWorkItem.StartDate" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </EditForm>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    <WorkItemDialog @ref="_editWorkItemDialog"
+                    Title="Edit Work Item"
+                    WorkItem="_editWorkItem"
+                    OnSave="UpdateWorkItem" />
 }

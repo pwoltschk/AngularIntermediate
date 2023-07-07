@@ -1,0 +1,18 @@
+﻿@using UI.Identity
+@using global::Shared.Identity
+@attribute [Authorize(Permission.ReadProjects)]
+
+<div class="clearfix">
+    <h2 class="float-start">My Projects</h2>
+    <button class="btn btn-primary float-end" @onclick="OnCreateProject">+</button>
+</div>
+<ul class="list-group">
+    @foreach (var project in Projects)
+    {
+        <ProjectItem Project="project"
+                     IsSelected="IsSelected(project)"
+                     OnSelect="async () => await OnSelectProject.InvokeAsync(project)"
+                     OnEdit="async () => await OnEditProject.InvokeAsync(project)"
+                     OnDelete="async () => await OnDeleteProject.InvokeAsync(project)" />
+    }
+</ul>

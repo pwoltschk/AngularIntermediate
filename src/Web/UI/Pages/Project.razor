@@ -1,27 +1,17 @@
-﻿@using UI.Identity;
+﻿@using UI.Components
+@using UI.Identity;
 @using global::Shared.Identity;
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
 {
-    <div class="clearfix">
-        <h2 class="float-start">My Projects</h2>
-        <button class="btn btn-primary float-end" @onclick="ShowCreateProjectDialog">+</button>
-    </div>
-    <ul class="list-group">
-        @foreach (var list in State.Model!.Projects)
-        {
-            <li class="list-group-item @(IsSelected(list) ? "active" : "")" @onclick="@(() => SelectList(list))">
-                @list.Title
-                <button class="btn btn-primary float-end" @onclick:stopPropagation="true" @onclick="(() => ShowEditProjectDialog(list))">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-danger float-end" @onclick:stopPropagation="true" @onclick="(() => ShowDeleteProjectDialog(list))">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </li>
-        }
-    </ul>
+    <ProjectList 
+        Projects="State.Model!.Projects.ToList()"
+        SelectedProject="State.SelectedList"
+        OnSelectProject="SelectList"
+        OnCreateProject="ShowCreateProjectDialog"
+        OnEditProject="ShowEditProjectDialog"
+        OnDeleteProject="ShowDeleteProjectDialog" />
 }
 
 @if (_showCreateProjectDialog)

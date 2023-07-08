@@ -1,6 +1,6 @@
 ﻿@using UI.Components
-@using UI.Identity;
-@using global::Shared.Identity;
+@using UI.Identity
+@using global::Shared.Identity
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
@@ -14,61 +14,16 @@
         OnDeleteProject="ShowDeleteProjectDialog" />
 }
 
-@if (_showCreateProjectDialog)
-{
-    <div class="modal" tabindex="-1" style="display:block">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create Project</h5>
-                    <button type="button" class="btn-close" @onclick="(() => _showCreateProjectDialog = false)"></button>
-                </div>
-                <div class="modal-body">
-                    <EditForm Model="_createProject" OnValidSubmit="CreateProject">
-                        <InputText id="title" @bind-Value="_createProject.Title" placeholder="Title" />
-                        <button type="submit">Create Project</button>
-                    </EditForm>
-                </div>
-            </div>
-        </div>
-    </div>
-}
+<ProjectDialog 
+    Show="_showProjectDialog"
+    ShowChanged="value => _showProjectDialog = value"
+    Project="_editProject"
+    OnSubmit="HandleProjectSubmit"
+    Title="@(_isEditMode ? "Edit Project" : "Create Project")"
+    SubmitButtonText="@(_isEditMode ? "Update" : "Create")" />
 
-@if (_showEditProjectDialog)
-{
-    <div class="modal" tabindex="-1" style="display:block">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Project</h5>
-                    <button type="button" class="btn-close" @onclick="(() => _showEditProjectDialog = false)"></button>
-                </div>
-                <div class="modal-body">
-                    <EditForm Model="_editProject" OnValidSubmit="UpdateProject">
-                        <InputText id="title" @bind-Value="_editProject.Title" placeholder="Title" />
-                        <button type="submit">Update Project</button>
-                    </EditForm>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-@if (_showDeleteProjectDialog)
-{
-    <div class="modal" tabindex="-1" style="display:block">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Project</h5>
-                    <button type="button" class="btn-close" @onclick="(() => _showDeleteProjectDialog = false)"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this project?</p>
-                    <button class="btn btn-danger" @onclick="DeleteProject">Delete</button>
-                    <button class="btn btn-secondary" @onclick="(() => _showDeleteProjectDialog = false)">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
+<DeleteProjectDialog 
+    Show="_showDeleteProjectDialog"
+    ShowChanged="value => _showDeleteProjectDialog = value"
+    Project="_deleteProject"
+    OnDelete="DeleteProject" />

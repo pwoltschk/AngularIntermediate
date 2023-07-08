@@ -7,34 +7,30 @@ public partial class Project
     [CascadingParameter]
     public ProjectState State { get; set; } = null!;
 
-    private bool _showCreateProjectDialog = false;
-    private bool _showEditProjectDialog = false;
+    private bool _showProjectDialog = false;
     private bool _showDeleteProjectDialog = false;
-    private ProjectDto _createProject = new();
     private ProjectDto _editProject = new();
     private ProjectDto _deleteProject = new();
-
-    private bool IsSelected(ProjectDto list)
-    {
-        return State.SelectedList!.Id == list.Id;
-    }
+    private bool _isEditMode = false;
 
     private void SelectList(ProjectDto list)
     {
-        if (IsSelected(list)) return;
-
+        if (State.SelectedList?.Id == list.Id) return;
         State.SelectedList = list;
     }
 
     private void ShowCreateProjectDialog()
     {
-        _showCreateProjectDialog = true;
+        _isEditMode = false;
+        _editProject = new ProjectDto();
+        _showProjectDialog = true;
     }
 
     private void ShowEditProjectDialog(ProjectDto project)
     {
+        _isEditMode = true;
         _editProject = project;
-        _showEditProjectDialog = true;
+        _showProjectDialog = true;
     }
 
     private void ShowDeleteProjectDialog(ProjectDto project)
@@ -43,32 +39,45 @@ public partial class Project
         _showDeleteProjectDialog = true;
     }
 
-    public async Task CreateProject()
+    private async Task HandleProjectSubmit(ProjectDto project)
+    {
+        if (_isEditMode)
+        {
+            await UpdateProject(project);
+        }
+        else
+        {
+            await CreateProject(project);
+        }
+    }
+
+    private async Task CreateProject(ProjectDto project)
     {
         var projectId = await State.ProjectsClient.PostProjectAsync(new CreateProjectRequest
         {
-            Title = _createProject.Title
+            Title = project.Title
         });
-        var project = new ProjectDto { Id = projectId, Title = _createProject.Title };
-        State.Model!.Projects.Add(project);
-        _createProject = new ProjectDto();
-        _showCreateProjectDialog = false;
+        var newProject = new ProjectDto { Id = projectId, Title = project.Title };
+        State.Model!.Projects.Add(newProject);
     }
 
-    public async Task UpdateProject()
+    private async Task UpdateProject(ProjectDto project)
     {
-        await State.ProjectsClient.PutProjectAsync(_editProject.Id, new UpdateProjectRequest
+        await State.ProjectsClient.PutProjectAsync(project.Id, new UpdateProjectRequest
         {
-            Title = _editProject.Title,
-            Id = _editProject.Id
+            Title = project.Title,
+            Id = project.Id
         });
-        _showEditProjectDialog = false;
+        var existingProject = State.Model!.Projects.FirstOrDefault(p => p.Id == project.Id);
+        if (existingProject != null)
+        {
+            existingProject.Title = project.Title;
+        }
     }
 
-    public async Task DeleteProject()
+    public async Task DeleteProject(ProjectDto project)
     {
-        await State.ProjectsClient.DeleteProjectAsync(_deleteProject.Id);
-        State.Model!.Projects.Remove(_deleteProject);
-        _showDeleteProjectDialog = false;
+        await State.ProjectsClient.DeleteProjectAsync(project.Id);
+        State.Model!.Projects.Remove(project);
     }
 }

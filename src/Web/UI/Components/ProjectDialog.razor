@@ -1,0 +1,6 @@
+﻿<Modal Title="@Title" Show="Show" OnClose="OnClose">
+    <EditForm Model="Project" OnValidSubmit="HandleSubmit">
+        <InputText id="title" @bind-Value="Project.Title" placeholder="Title" />
+        <button type="submit">@SubmitButtonText</button>
+    </EditForm>
+</Modal>

@@ -11,27 +11,18 @@
     </div>
 
     <div class="kanban-board">
-        <KanbanColumn Title="Planned" 
-                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 0).ToList()"
-                      OnItemDrop="@(item => UpdateWorkItemStage(item, 0))"
-                      OnDelete="DeleteWorkItem"
-                      OnEdit="ShowEditWorkItemDialog" />
-        
-        <KanbanColumn Title="In Progress" 
-                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 1).ToList()"
-                      OnItemDrop="@(item => UpdateWorkItemStage(item, 1))"
-                      OnDelete="DeleteWorkItem"
-                      OnEdit="ShowEditWorkItemDialog" />
-        
-        <KanbanColumn Title="Completed" 
-                      Items="State.SelectedList.WorkItems.Where(w => w.Stage == 2).ToList()"
-                      OnItemDrop="@(item => UpdateWorkItemStage(item, 2))"
-                      OnDelete="DeleteWorkItem"
-                      OnEdit="ShowEditWorkItemDialog" />
+        @foreach (var stage in new[] { 0, 1, 2 })
+        {
+            <KanbanColumn Title="@GetStageName(stage)"
+                          Items="State.SelectedList.WorkItems.Where(w => w.Stage == stage).ToList()"
+                          OnItemDrop="@(item => UpdateWorkItemStage(item, stage))"
+                          OnDelete="DeleteWorkItem"
+                          OnEdit="ShowEditWorkItemDialog" />
+        }
     </div>
 
-    <WorkItemDialog @ref="_createWorkItemDialog" 
-                    Title="New Work Item" 
+    <WorkItemDialog @ref="_createWorkItemDialog"
+                    Title="New Work Item"
                     WorkItem="_newWorkItem"
                     OnSave="AddWorkItem" />
 

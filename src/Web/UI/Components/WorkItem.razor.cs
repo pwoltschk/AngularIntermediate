@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 
 namespace UI.Components;
+
 public partial class WorkItem
 {
-    [Parameter] 
+    [Parameter]
     public WorkItemDto Item { get; set; } = null!;
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<int> OnDelete { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<WorkItemDto> OnEdit { get; set; }
 
     private string GetBorderColor() => Item.Stage switch
@@ -19,5 +20,12 @@ public partial class WorkItem
         2 => "green",
         _ => "gray"
     };
-}
 
+    private string GetPriorityName(int priority) => priority switch
+    {
+        0 => "Low",
+        1 => "Medium",
+        2 => "High",
+        _ => "Unknown"
+    };
+}

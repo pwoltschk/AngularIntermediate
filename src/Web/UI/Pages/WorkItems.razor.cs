@@ -14,6 +14,14 @@ public partial class WorkItems
     private WorkItemDialog _createWorkItemDialog = null!;
     private WorkItemDialog _editWorkItemDialog = null!;
 
+    private string GetStageName(int stage) => stage switch
+    {
+        0 => "Planned",
+        1 => "In Progress",
+        2 => "Completed",
+        _ => "Unknown"
+    };
+
     public void ShowCreateWorkItemDialog()
     {
         _newWorkItem = new WorkItemDto();
@@ -28,7 +36,7 @@ public partial class WorkItems
 
     public async Task AddWorkItem(WorkItemDto workItem)
     {
-        var itemId = await State.WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest()
+        var itemId = await State.WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
             ProjectId = State.SelectedList!.Id,
             Title = workItem.Title
@@ -39,7 +47,7 @@ public partial class WorkItems
 
     public async Task UpdateWorkItem(WorkItemDto workItem)
     {
-        await State.WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest()
+        await State.WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest
         {
             Id = workItem.Id,
             ProjectId = workItem.ProjectId,

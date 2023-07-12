@@ -1,6 +1,16 @@
-﻿<Modal Title="@Title" Show="Show" OnClose="OnClose">
-    <EditForm Model="Project" OnValidSubmit="HandleSubmit">
-        <InputText id="title" @bind-Value="Project.Title" placeholder="Title" />
-        <button type="submit">@SubmitButtonText</button>
-    </EditForm>
-</Modal>
+﻿<div class="modal" tabindex="-1" style="display:@(Show ? "block" : "none")">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Title</h5>
+                <button type="button" class="btn-close" @onclick="OnClose"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="Project" OnValidSubmit="HandleSubmit">
+                    <InputText id="title" @bind-Value="Project.Title" placeholder="Title" />
+                    <button type="submit">@SubmitButtonText</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>

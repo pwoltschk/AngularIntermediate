@@ -9,26 +9,34 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> My Project
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="settings" Match="NavLinkMatch.All">
-                <span class="oi oi-cog" aria-hidden="true"></span> Settings
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="roles" Match="NavLinkMatch.All">
-                <span class="oi oi-people" aria-hidden="true"></span> Roles
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="users" Match="NavLinkMatch.All">
-                <span class="oi oi-person" aria-hidden="true"></span> Users
-            </NavLink>
-        </div>
+        <AuthorizeWrapper Permissions="new List<string> { Permission.ReadProjects }">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> My Project
+                </NavLink>
+            </div>
+        </AuthorizeWrapper>
+        <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="settings" Match="NavLinkMatch.All">
+                    <span class="oi oi-cog" aria-hidden="true"></span> Settings
+                </NavLink>
+            </div>
+        </AuthorizeWrapper>
+        <AuthorizeWrapper Permissions="new List<string> { Permission.ReadRoles }">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="roles" Match="NavLinkMatch.All">
+                    <span class="oi oi-people" aria-hidden="true"></span> Roles
+                </NavLink>
+            </div>
+        </AuthorizeWrapper>
+        <AuthorizeWrapper Permissions="new List<string> { Permission.ReadUsers }">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="users" Match="NavLinkMatch.All">
+                    <span class="oi oi-person" aria-hidden="true"></span> Users
+                </NavLink>
+            </div>
+        </AuthorizeWrapper>
     </nav>
 </div>
 

@@ -3,12 +3,14 @@
 <div class="card" style="border-left: 4px solid @GetBorderColor()">
     <div class="card-body">
         <div class="float-end">
-            <button class="btn btn-primary btn-sm" @onclick="@(() => OnEdit.InvokeAsync(Item))">
-                <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-danger btn-sm" @onclick="@(() => OnDelete.InvokeAsync(Item.Id))">
-                <i class="bi bi-trash"></i>
-            </button>
+            <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+                <button class="btn btn-primary btn-sm" @onclick="@(() => OnEdit.InvokeAsync(Item))">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" @onclick="@(() => OnDelete.InvokeAsync(Item.Id))">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </AuthorizeWrapper>
         </div>
         <h5 class="card-title">@Item.Title</h5>
         <p class="card-text">@Item.Description</p>

@@ -14,8 +14,9 @@
             <AuthorizeView>
                 <Authorized>
                     <a href="authentication/profile">
-                        Hello, @_userName!
+                        @_userName!
                     </a>
+                    <button @onclick="Logout">Logout</button>
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -54,4 +55,8 @@
         }
     }
 
+    private async Task Logout()
+    {
+        Navigation.NavigateTo("Identity/Account/Logout");
+    }
 }

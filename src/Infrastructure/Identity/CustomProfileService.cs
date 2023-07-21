@@ -22,7 +22,8 @@ namespace Infrastructure.Identity
 
             var claims = new List<Claim>
         {
-            new Claim("sub", user.Id)
+            new Claim("sub", user.Id),
+            new Claim("name", user.UserName)
         };
 
             var roles = await _userManager.GetRolesAsync(user);

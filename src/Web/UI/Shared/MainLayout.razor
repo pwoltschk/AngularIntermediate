@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Security.Claims
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+@inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +11,13 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <AuthorizeView>
+                <Authorized>
+                    <a href="authentication/profile">
+                        Hello, @_userName!
+                    </a>
+                </Authorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -15,3 +25,33 @@
         </article>
     </main>
 </div>
+
+@code {
+    private string? _userName = "Loading...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState?.User;
+
+            if (user?.Identity?.IsAuthenticated == true)
+            {
+                _userName = user.FindFirst(ClaimTypes.Name)?.Value
+                    ?? user.FindFirst("name")?.Value
+                    ?? user.Identity.Name;
+            }
+            else
+            {
+                _userName = "Guest";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error initializing authentication state: {ex.Message}");
+            _userName = "Error";
+        }
+    }
+
+}

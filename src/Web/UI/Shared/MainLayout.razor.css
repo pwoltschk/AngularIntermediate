@@ -23,7 +23,6 @@ main {
 
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
-        margin-left: 1.5rem;
         text-decoration: none;
     }
 
@@ -79,3 +78,24 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+.circle-chip {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2px;
+}
+
+.username {
+    margin-right: 8px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+
+    .username:hover {
+        color: #000;
+    }

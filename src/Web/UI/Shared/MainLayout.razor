@@ -13,10 +13,18 @@
         <div class="top-row px-4">
             <AuthorizeView>
                 <Authorized>
-                    <a href="authentication/profile">
-                        @_userName!
-                    </a>
-                    <button @onclick="Logout">Logout</button>
+                    <div style="display: flex; align-items: center;">
+                        <div class="circle-chip">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <a href="authentication/profile" class="username">
+                            @_userName
+                        </a>
+                    </div>
+                    <button class="btn btn-primary float-end" @onclick="Logout">
+                        Logout
+                    </button>
+
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -57,6 +65,6 @@
 
     private async Task Logout()
     {
-        Navigation.NavigateTo("Identity/Account/Logout");
+        Navigation.NavigateTo("Identity/Account/Logout", forceLoad: true);
     }
 }

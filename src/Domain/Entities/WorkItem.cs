@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using Domain.Primitives;
+
+namespace Domain.Entities
 {
     public class WorkItem : AuditableEntity
     {

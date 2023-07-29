@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Domain.Primitives
 {
     public abstract class AuditableEntity
     {

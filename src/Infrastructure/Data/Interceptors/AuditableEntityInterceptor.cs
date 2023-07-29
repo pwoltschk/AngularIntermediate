@@ -1,5 +1,5 @@
 ﻿using Application.Common.Services;
-using Domain.Entities;
+using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

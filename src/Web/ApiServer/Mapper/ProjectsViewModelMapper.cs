@@ -1,47 +1,46 @@
 ﻿using ApiServer.ViewModels;
 using Domain.Entities;
 
-namespace ApiServer.Mapper
+namespace ApiServer.Mapper;
+
+public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Project>>
 {
-    public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Project>>
+    public ProjectsViewModel Map(IEnumerable<Project> model)
     {
-        public ProjectsViewModel Map(IEnumerable<Project> model)
+        return new ProjectsViewModel()
         {
-            return new ProjectsViewModel()
-            {
-                Projects = model.Select(Map).ToList()
-            };
-        }
+            Projects = model.Select(Map).ToList()
+        };
+    }
 
-        private ProjectDto Map(Project model)
+    private ProjectDto Map(Project model)
+    {
+        return new ProjectDto
         {
-            return new ProjectDto
-            {
-                Id = model.Id,
-                Title = model.Title,
-                WorkItems = model.WorkItems.Select(Map).ToList()
-            };
-        }
+            Id = model.Id,
+            Title = model.Title,
+            WorkItems = model.WorkItems.Select(Map).ToList()
+        };
+    }
 
-        private WorkItemDto Map(WorkItem model)
+    private WorkItemDto Map(WorkItem model)
+    {
+        return new WorkItemDto
         {
-            return new WorkItemDto
-            {
-                Id = model.Id,
-                Title = model.Title,
-                ProjectId = model.ProjectId,
-                AssignedTo = model.AssignedTo,
-                Description = model.Description,
-                Iteration = model.Iteration,
-                StartDate = model.StartDate,
-                Priority = (int)model.Priority,
-                Stage = (int)model.Stage,
-            };
-        }
+            Id = model.Id,
+            Title = model.Title,
+            ProjectId = model.ProjectId,
+            AssignedTo = model.AssignedTo,
+            Description = model.Description,
+            Iteration = model.Iteration,
+            StartDate = model.StartDate,
+            Priority = model.Priority.Level,
+            Stage = (int)model.Stage,
+        };
+    }
 
-        public IEnumerable<Project> Map(ProjectsViewModel model)
-        {
-            throw new NotImplementedException();
-        }
+    public IEnumerable<Project> Map(ProjectsViewModel model)
+    {
+        throw new NotImplementedException();
     }
 }

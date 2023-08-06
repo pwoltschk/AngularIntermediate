@@ -14,5 +14,5 @@ public class WorkItem : AuditableEntity
     public string AssignedTo { get; set; } = string.Empty;
     public DateTime? StartDate { get; set; }
     public Priority Priority { get; set; } = Priority.Low;
-    public Stage Stage { get; set; }
+    public Stage Stage { get; set; } = Stage.Planned;
 }

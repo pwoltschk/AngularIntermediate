@@ -7,7 +7,7 @@ public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Pr
 {
     public ProjectsViewModel Map(IEnumerable<Project> model)
     {
-        return new ProjectsViewModel()
+        return new ProjectsViewModel
         {
             Projects = model.Select(Map).ToList()
         };
@@ -35,7 +35,7 @@ public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Pr
             Iteration = model.Iteration,
             StartDate = model.StartDate,
             Priority = model.Priority.Level,
-            Stage = (int)model.Stage,
+            Stage = model.Stage.Id,
         };
     }
 

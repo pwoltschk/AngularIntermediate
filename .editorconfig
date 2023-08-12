@@ -368,3 +368,8 @@ tab_width = 4
 indent_size = 4
 end_of_line = crlf
 
+# IDE0052: Private member can be removed as it is unused
+dotnet_diagnostic.IDE0052.severity = suggestion
+
+# IDE0040: Accessibility can be reduced (internal or private)
+dotnet_diagnostic.IDE0040.severity = suggestion

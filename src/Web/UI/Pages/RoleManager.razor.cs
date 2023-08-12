@@ -10,11 +10,10 @@ namespace UI.Pages
 
         public RolesViewModel? Model { get; set; }
 
-        private string newRoleName = string.Empty;
+        private string _newRoleName = string.Empty;
 
-        private RoleDto? selectedRole;
-
-        bool showEditDialog = false;
+        private RoleDto? _selectedRole;
+        private bool _showEditDialog = false;
         protected override async Task OnInitializedAsync()
         {
             await LoadRoles();
@@ -25,58 +24,58 @@ namespace UI.Pages
             Model = await RolesClient.GetRolesAsync();
         }
 
-        void CloseEditDialog()
+        private void CloseEditDialog()
         {
-            showEditDialog = false;
+            _showEditDialog = false;
         }
 
-        void OpenEditDialog(RoleDto role)
+        private void OpenEditDialog(RoleDto role)
         {
-            selectedRole = new RoleDto
+            _selectedRole = new RoleDto
             {
                 Id = role.Id,
                 Name = role.Name,
                 Permissions = new List<string>(role.Permissions)
             };
-            showEditDialog = true;
+            _showEditDialog = true;
         }
 
-        void TogglePermission(string permission, bool isChecked)
+        private void TogglePermission(string permission, bool isChecked)
         {
             if (isChecked)
             {
-                selectedRole?.Permissions.Add(permission);
+                _selectedRole?.Permissions.Add(permission);
             }
             else
             {
-                selectedRole?.Permissions.Remove(permission);
+                _selectedRole?.Permissions.Remove(permission);
             }
         }
 
-        async Task SaveRole()
+        private async Task SaveRole()
         {
-            if (selectedRole != null)
+            if (_selectedRole != null)
             {
-                await RolesClient.PutRoleAsync(selectedRole.Id, selectedRole);
+                await RolesClient.PutRoleAsync(_selectedRole.Id, _selectedRole);
                 await LoadRoles();
             }
-            showEditDialog = false;
+            _showEditDialog = false;
         }
 
         private async Task AddRole()
         {
-            if (!string.IsNullOrWhiteSpace(newRoleName))
+            if (!string.IsNullOrWhiteSpace(_newRoleName))
             {
                 var newRole = new RoleDto
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = newRoleName,
+                    Name = _newRoleName,
                     Permissions = new List<string>()
                 };
 
                 await RolesClient.PostRoleAsync(newRole);
 
-                newRoleName = string.Empty;
+                _newRoleName = string.Empty;
 
                 await LoadRoles();
             }

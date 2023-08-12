@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 public class Email : ValueObject
 {
-    private static readonly Regex EmailRegex = new Regex(
+    private static readonly Regex EmailRegex = new(
         @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 

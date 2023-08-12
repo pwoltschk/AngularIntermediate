@@ -3,22 +3,22 @@
 namespace UI.Components;
 public partial class ProjectList
 {
-    [Parameter] 
+    [Parameter]
     public List<ProjectDto> Projects { get; set; } = new();
 
-    [Parameter] 
+    [Parameter]
     public ProjectDto? SelectedProject { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<ProjectDto> OnSelectProject { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback OnCreateProject { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<ProjectDto> OnEditProject { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<ProjectDto> OnDeleteProject { get; set; }
 
     private bool IsSelected(ProjectDto project)

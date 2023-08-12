@@ -3,13 +3,13 @@
 namespace UI.Components;
 public partial class WorkItemDialog
 {
-    [Parameter] 
+    [Parameter]
     public string Title { get; set; } = "";
 
-    [Parameter] 
+    [Parameter]
     public WorkItemDto WorkItem { get; set; } = new();
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<WorkItemDto> OnSave { get; set; }
 
     public bool IsVisible { get; private set; }

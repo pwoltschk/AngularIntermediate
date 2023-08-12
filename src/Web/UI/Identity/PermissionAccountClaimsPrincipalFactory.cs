@@ -10,7 +10,7 @@ namespace UI.Identity
     {
         public PermissionAccountClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor) : base(accessor) { }
 
-        public async override ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
+        public override async ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
         {
             if (account is null)
                 return new ClaimsPrincipal();

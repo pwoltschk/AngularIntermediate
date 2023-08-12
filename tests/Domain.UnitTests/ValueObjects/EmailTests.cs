@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Domain.UnitTests.ValueObjects

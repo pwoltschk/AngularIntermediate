@@ -3,18 +3,18 @@
 namespace UI.Components;
 public partial class ProjectItem
 {
-    [Parameter] 
+    [Parameter]
     public ProjectDto Project { get; set; } = new();
 
-    [Parameter] 
+    [Parameter]
     public bool IsSelected { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback OnSelect { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback OnEdit { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback OnDelete { get; set; }
 }

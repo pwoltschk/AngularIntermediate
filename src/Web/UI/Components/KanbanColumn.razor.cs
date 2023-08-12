@@ -3,18 +3,18 @@
 namespace UI.Components;
 public partial class KanbanColumn
 {
-    [Parameter] 
+    [Parameter]
     public string Title { get; set; } = "";
 
-    [Parameter] 
+    [Parameter]
     public List<WorkItemDto> Items { get; set; } = new();
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<WorkItemDto> OnItemDrop { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<int> OnDelete { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<WorkItemDto> OnEdit { get; set; }
 }

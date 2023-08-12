@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Domain.UnitTests.ValueObjects
@@ -36,8 +36,8 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenTwoStagesWithSameId_WhenComparing_ThenShouldBeEqual()
         {
             // Arrange
-            var stage1 = Stage.FromId(1); 
-            var stage2 = Stage.FromId(1); 
+            var stage1 = Stage.FromId(1);
+            var stage2 = Stage.FromId(1);
 
             // Act & Assert
             Assert.AreEqual(stage1, stage2);

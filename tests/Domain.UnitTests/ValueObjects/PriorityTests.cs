@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Domain.UnitTests.ValueObjects
@@ -61,8 +61,8 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenTwoPrioritiesWithSameLevel_WhenComparing_ThenShouldBeEqual()
         {
             // Arrange
-            var priority1 = Priority.FromLevel(1); 
-            var priority2 = Priority.FromLevel(1); 
+            var priority1 = Priority.FromLevel(1);
+            var priority2 = Priority.FromLevel(1);
 
             // Act & Assert
             Assert.AreEqual(priority1, priority2);
@@ -72,8 +72,8 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenTwoPrioritiesWithDifferentLevels_WhenComparing_ThenShouldNotBeEqual()
         {
             // Arrange
-            var priority1 = Priority.FromLevel(1); 
-            var priority2 = Priority.FromLevel(2); 
+            var priority1 = Priority.FromLevel(1);
+            var priority2 = Priority.FromLevel(2);
 
             // Act & Assert
             Assert.AreNotEqual(priority1, priority2);

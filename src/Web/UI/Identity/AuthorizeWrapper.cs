@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Shared.Identity;
 namespace UI.Identity;
 
 public class AuthorizeWrapper : Microsoft.AspNetCore.Components.Authorization.AuthorizeView

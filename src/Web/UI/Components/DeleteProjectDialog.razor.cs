@@ -4,16 +4,16 @@ namespace UI.Components
 {
     public partial class DeleteProjectDialog
     {
-        [Parameter] 
+        [Parameter]
         public bool Show { get; set; }
 
-        [Parameter] 
+        [Parameter]
         public EventCallback<bool> ShowChanged { get; set; }
 
-        [Parameter] 
+        [Parameter]
         public ProjectDto Project { get; set; } = new();
 
-        [Parameter] 
+        [Parameter]
         public EventCallback<ProjectDto> OnDelete { get; set; }
 
         private Task OnClose() => ShowChanged.InvokeAsync(false);

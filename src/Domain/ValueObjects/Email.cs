@@ -11,6 +11,11 @@ public class Email : ValueObject
 
     public string Value { get; }
 
+    public Email()
+    {
+        
+    }
+
     public Email(string value)
     {
         if (string.IsNullOrWhiteSpace(value))

@@ -11,6 +11,8 @@ public class Stage : ValueObject
     public int Id { get; }
     public string Name { get; }
 
+    public Stage() { }
+
     private Stage(int id, string name)
     {
         Id = id;

@@ -11,6 +11,10 @@ public class Priority : ValueObject
     public int Level { get; }
     public string Name { get; }
 
+    public Priority()
+    {
+        
+    }
     private Priority(int level, string name)
     {
         Level = level;

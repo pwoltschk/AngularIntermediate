@@ -4,9 +4,9 @@ namespace Domain.ValueObjects;
 
 public class Priority : ValueObject
 {
-    public static readonly Priority Low = new(1, "Low");
-    public static readonly Priority Medium = new(2, "Medium");
-    public static readonly Priority High = new(3, "High");
+    public static readonly Priority Low = new(0, "Low");
+    public static readonly Priority Medium = new(1, "Medium");
+    public static readonly Priority High = new(2, "High");
 
     public int Level { get; }
     public string Name { get; }
@@ -36,9 +36,9 @@ public class Priority : ValueObject
     {
         return level switch
         {
-            1 => Low,
-            2 => Medium,
-            3 => High,
+            0 => Low,
+            1 => Medium,
+            2 => High,
             _ => throw new ArgumentException($"Invalid priority level: {level}.", nameof(level))
         };
     }

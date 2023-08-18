@@ -14,5 +14,29 @@ public class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
 
         builder.Property(t => t.Description)
             .HasMaxLength(8000);
+
+        builder.OwnsOne(w => w.Priority, priority =>
+        {
+            priority.Property(p => p.Level)
+                .HasColumnName("PriorityLevel")
+                .IsRequired();
+
+            priority.Property(p => p.Name)
+                .HasColumnName("PriorityName")
+                .HasMaxLength(50)
+                .IsRequired();
+        });
+
+        builder.OwnsOne(w => w.Stage, stage =>
+        {
+            stage.Property(s => s.Id)
+                .HasColumnName("StageId")
+                .IsRequired();
+
+            stage.Property(s => s.Name)
+                .HasColumnName("StageName")
+                .HasMaxLength(50)
+                .IsRequired(); 
+        });
     }
 }

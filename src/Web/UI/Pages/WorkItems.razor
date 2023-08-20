@@ -1,6 +1,9 @@
-﻿@using Plk.Blazor.DragDrop
+﻿@page "/workitems"
+@using Plk.Blazor.DragDrop
 @using UI.Components
 @using UI.Identity
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
@@ -24,10 +27,12 @@
     <WorkItemDialog @ref="_createWorkItemDialog"
                     Title="New Work Item"
                     WorkItem="_newWorkItem"
+                    Users="_users"
                     OnSave="AddWorkItem" />
 
     <WorkItemDialog @ref="_editWorkItemDialog"
                     Title="Edit Work Item"
                     WorkItem="_editWorkItem"
+                    Users="_users"
                     OnSave="UpdateWorkItem" />
 }

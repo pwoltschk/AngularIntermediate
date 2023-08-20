@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using UI.Components;
 
 namespace UI.Pages;
@@ -8,11 +10,51 @@ public partial class WorkItems
     [CascadingParameter]
     public ProjectState State { get; set; } = null!;
 
+    [Inject]
+    public IUsersClient UsersClient { get; set; } = null!;
+
+    [Inject]
+    public IAuthorizationService AuthorizationService { get; set; } = null!;
+
+    [Inject]
+    public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
 
     private WorkItemDialog _createWorkItemDialog = null!;
     private WorkItemDialog _editWorkItemDialog = null!;
+
+    private List<UserDto> _users = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var canLoadUser = await CheckUserPermissionsAsync();
+
+        if (canLoadUser)
+        {
+            await LoadUsers();
+        }
+    }
+
+    private async Task<bool> CheckUserPermissionsAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var result = await AuthorizationService.AuthorizeAsync(user, "ReadUsers");
+            return result.Succeeded;
+        }
+
+        return false;
+    }
+
+    private async Task LoadUsers()
+    {
+        _users = (await UsersClient.GetUsersAsync()).Users.ToList();
+    }
 
     private string GetStageName(int stage) => stage switch
     {

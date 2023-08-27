@@ -4,6 +4,9 @@ namespace UI.Components;
 public partial class WorkItemDialog
 {
     [Parameter]
+    public List<UserDto> Users { get; set; } = new List<UserDto>(); 
+
+    [Parameter]
     public string Title { get; set; } = "";
 
     [Parameter]

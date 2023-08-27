@@ -15,12 +15,15 @@
                         <label for="description">Description</label>
                         <InputTextArea id="description" @bind-Value="WorkItem.Description" class="form-control" style="height: 100px;" />
                     </div>
-                    <div class="form-group">
-                        <label for="assignedTo">Assigned To</label>
-                        <InputSelect id="assignedTo" @bind-Value="WorkItem.AssignedTo" class="form-control">
-                            <!-- Add your options here -->
-                        </InputSelect>
-                    </div>
+                        <div class="form-group">
+                            <label for="assignedTo">Assigned To</label>
+                            <InputSelect id="assignedTo" @bind-Value="WorkItem.AssignedTo" class="form-control">
+                                @foreach (var user in Users)
+                                {
+                                    <option value="@user.Id">@user.Name</option>
+                                }
+                            </InputSelect>
+                        </div>
                     <div class="form-group">
                         <label for="priority">Priority</label>
                         <InputSelect id="priority" @bind-Value="WorkItem.Priority" class="form-control">

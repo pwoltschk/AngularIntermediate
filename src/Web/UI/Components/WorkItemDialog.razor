@@ -18,6 +18,7 @@
                     <div class="form-group">
                         <label for="assignedTo">Assigned To</label>
                         <InputSelect id="assignedTo" @bind-Value="SelectedUserId" class="form-control">
+                            <option value="@string.Empty"> </option>
                             @foreach (var user in Users)
                             {
                                 <option value="@user.Id">@user.Name</option>

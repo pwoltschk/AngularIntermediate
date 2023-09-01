@@ -103,7 +103,7 @@ public partial class WorkItems
             Title = workItem.Title,
             Description = workItem.Description,
             Iteration = workItem.Iteration,
-            AssignedTo = workItem.AssignedTo,
+            AssignedTo = workItem.AssignedTo ?? string.Empty,
             Priority = workItem.Priority,
             Stage = workItem.Stage,
         });

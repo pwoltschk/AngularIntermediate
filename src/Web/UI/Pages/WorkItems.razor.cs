@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Components.Authorization;
 using UI.Components;
 
 namespace UI.Pages;
-
 public partial class WorkItems
 {
     [CascadingParameter]
     public ProjectState State { get; set; } = null!;
 
+    [Inject] public IUsersClient UsersClient { get; set; } = null!;
+
     [Inject]
-    public IUsersClient UsersClient { get; set; } = null!;
+    public IProjectClient ProjectsClient { get; set; } = null!;
 
     [Inject]
     public IAuthorizationService AuthorizationService { get; set; } = null!;
@@ -19,22 +20,23 @@ public partial class WorkItems
     [Inject]
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
+    private List<ProjectDto> _projects = new();
+    private List<UserDto> _users = new();
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
 
     private WorkItemDialog _createWorkItemDialog = null!;
     private WorkItemDialog _editWorkItemDialog = null!;
 
-    private List<UserDto> _users = new();
-
     protected override async Task OnInitializedAsync()
     {
         var canLoadUser = await CheckUserPermissionsAsync();
-
         if (canLoadUser)
         {
             await LoadUsers();
         }
+
+        await LoadProjects();
     }
 
     private async Task<bool> CheckUserPermissionsAsync()
@@ -54,6 +56,11 @@ public partial class WorkItems
     private async Task LoadUsers()
     {
         _users = (await UsersClient.GetUsersAsync()).Users.ToList();
+    }
+
+    private async Task LoadProjects()
+    {
+        _projects = (await ProjectsClient.GetProjectsAsync()).Projects.ToList();
     }
 
     private string GetStageName(int stage) => stage switch
@@ -80,7 +87,7 @@ public partial class WorkItems
     {
         var itemId = await State.WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
-            ProjectId = State.SelectedList!.Id,
+            ProjectId = workItem.ProjectId,
             Title = workItem.Title
         });
         workItem.Id = itemId;

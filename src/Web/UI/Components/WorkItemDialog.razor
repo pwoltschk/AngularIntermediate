@@ -33,6 +33,15 @@
                         </InputSelect>
                     </div>
                     <div class="form-group">
+                        <label for="project">Project</label>
+                        <InputSelect id="project" @bind-Value="WorkItem.ProjectId" class="form-control">
+                            @foreach (var project in Projects)
+                            {
+                                <option value="@project.Id">@project.Title</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
                         <label for="stage">Stage</label>
                         <InputSelect id="stage" @bind-Value="WorkItem.Stage" class="form-control">
                             <option value="0">Planned</option>

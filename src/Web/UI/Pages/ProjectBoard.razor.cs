@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Components.Authorization;
 using UI.Components;
 
 namespace UI.Pages;
-public partial class WorkItems
+public partial class ProjectBoard
 {
     [CascadingParameter]
     public ProjectState State { get; set; } = null!;
 
-    [Inject] public IUsersClient UsersClient { get; set; } = null!;
+    [Inject]
+    public IWorkItemClient WorkItemClient { get; set; } = null!;
+    [Inject] 
+    public IUsersClient UsersClient { get; set; } = null!;
 
     [Inject]
     public IProjectClient ProjectsClient { get; set; } = null!;
@@ -85,7 +88,7 @@ public partial class WorkItems
 
     public async Task AddWorkItem(WorkItemDto workItem)
     {
-        var itemId = await State.WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
+        var itemId = await WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
             ProjectId = workItem.ProjectId,
             Title = workItem.Title
@@ -96,7 +99,7 @@ public partial class WorkItems
 
     public async Task UpdateWorkItem(WorkItemDto workItem)
     {
-        await State.WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest
+        await WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest
         {
             Id = workItem.Id,
             ProjectId = workItem.ProjectId,
@@ -111,7 +114,7 @@ public partial class WorkItems
 
     public async Task DeleteWorkItem(int id)
     {
-        await State.WorkItemClient.DeleteWorkItemAsync(id);
+        await WorkItemClient.DeleteWorkItemAsync(id);
         var workItem = State.SelectedList!.WorkItems.First(w => w.Id == id);
         State.SelectedList!.WorkItems.Remove(workItem);
     }

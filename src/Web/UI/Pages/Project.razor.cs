@@ -7,15 +7,18 @@ public partial class Project
     [CascadingParameter]
     public ProjectState State { get; set; } = null!;
 
+    [Inject]
+    public IProjectClient ProjectsClient { get; set; } = null!;
+
     private bool _showProjectDialog = false;
     private bool _showDeleteProjectDialog = false;
     private ProjectDto _editProject = new();
     private ProjectDto _deleteProject = new();
     private bool _isEditMode = false;
 
-    private void SelectList(ProjectDto list)
+    private void SelectList(ProjectDto? list)
     {
-        if (State.SelectedList?.Id == list.Id) return;
+        if (State.SelectedList?.Id == list?.Id) return;
         State.SelectedList = list;
     }
 
@@ -53,7 +56,7 @@ public partial class Project
 
     private async Task CreateProject(ProjectDto project)
     {
-        var projectId = await State.ProjectsClient.PostProjectAsync(new CreateProjectRequest
+        var projectId = await ProjectsClient.PostProjectAsync(new CreateProjectRequest
         {
             Title = project.Title
         });
@@ -63,7 +66,7 @@ public partial class Project
 
     private async Task UpdateProject(ProjectDto project)
     {
-        await State.ProjectsClient.PutProjectAsync(project.Id, new UpdateProjectRequest
+        await ProjectsClient.PutProjectAsync(project.Id, new UpdateProjectRequest
         {
             Title = project.Title,
             Id = project.Id
@@ -77,7 +80,7 @@ public partial class Project
 
     public async Task DeleteProject(ProjectDto project)
     {
-        await State.ProjectsClient.DeleteProjectAsync(project.Id);
+        await ProjectsClient.DeleteProjectAsync(project.Id);
         State.Model!.Projects.Remove(project);
     }
 }

@@ -10,9 +10,6 @@ public partial class ProjectState
     [Inject]
     public IProjectClient ProjectsClient { get; set; } = null!;
 
-    [Inject]
-    public IWorkItemClient WorkItemClient { get; set; } = null!;
-
 
     public ProjectsViewModel? Model { get; set; }
 

@@ -16,9 +16,9 @@ public partial class Project
     private ProjectDto _deleteProject = new();
     private bool _isEditMode = false;
 
-    private void SelectList(ProjectDto? list)
+    private void SelectList(ProjectDto list)
     {
-        if (State.SelectedList?.Id == list?.Id) return;
+        if (State.SelectedList?.Id == list.Id) return;
         State.SelectedList = list;
     }
 

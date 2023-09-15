@@ -1,5 +1,9 @@
-﻿using Application.WorkItems.Commands;
+﻿using ApiServer.Mapper;
+using ApiServer.ViewModels;
+using Application.Projects.Queries;
+using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Identity;
@@ -9,9 +13,21 @@ namespace ApiServer.Controllers
 {
     public class WorkItemController : CustomControllerBase
     {
+        private readonly IMapper<WorkItemsView, IEnumerable<WorkItem>> _mapper;
 
-        public WorkItemController(ISender mediator) : base(mediator) { }
+        public WorkItemController(IMediator mediator,
+            IMapper<WorkItemsView, IEnumerable<WorkItem>> mapper) : base(mediator)
+        {
+            _mapper = mapper;
+        }
 
+
+        [HttpGet]
+        [Authorize(Permission.ReadProjects)]
+        public async Task<ActionResult<WorkItemsView>> GetWorkItems()
+        {
+            return _mapper.Map(await Mediator.Send(new GetWorkItemsQuery()));
+        }
 
         [HttpPost]
         [Authorize(Permission.WriteProjects)]

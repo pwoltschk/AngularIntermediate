@@ -747,7 +747,8 @@
           },
           "projectId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "title": {
             "type": "string"
@@ -782,7 +783,8 @@
         "properties": {
           "projectId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "title": {
             "type": "string"
@@ -799,7 +801,8 @@
           },
           "projectId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "title": {
             "type": "string"

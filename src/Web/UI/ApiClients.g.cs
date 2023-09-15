@@ -2131,7 +2131,7 @@ namespace UI
         public int Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("projectId")]
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -2161,7 +2161,7 @@ namespace UI
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("projectId")]
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -2176,7 +2176,7 @@ namespace UI
         public int Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("projectId")]
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }

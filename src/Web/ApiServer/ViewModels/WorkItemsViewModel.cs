@@ -1,6 +1,6 @@
 ﻿namespace ApiServer.ViewModels
 {
-    public class WorkItemsView
+    public class WorkItemsViewModel
     {
         public List<WorkItemDto> WorkItems { get; set; } = new();
     }

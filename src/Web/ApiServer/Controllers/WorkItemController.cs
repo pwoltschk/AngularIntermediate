@@ -1,7 +1,7 @@
 ﻿using ApiServer.Mapper;
 using ApiServer.ViewModels;
-using Application.Projects.Queries;
 using Application.WorkItems.Commands;
+using Application.WorkItems.Queries;
 using Application.WorkItems.Requests;
 using Domain.Entities;
 using MediatR;
@@ -13,10 +13,10 @@ namespace ApiServer.Controllers
 {
     public class WorkItemController : CustomControllerBase
     {
-        private readonly IMapper<WorkItemsView, IEnumerable<WorkItem>> _mapper;
+        private readonly IMapper<WorkItemsViewModel, IEnumerable<WorkItem>> _mapper;
 
         public WorkItemController(IMediator mediator,
-            IMapper<WorkItemsView, IEnumerable<WorkItem>> mapper) : base(mediator)
+            IMapper<WorkItemsViewModel, IEnumerable<WorkItem>> mapper) : base(mediator)
         {
             _mapper = mapper;
         }
@@ -24,7 +24,7 @@ namespace ApiServer.Controllers
 
         [HttpGet]
         [Authorize(Permission.ReadProjects)]
-        public async Task<ActionResult<WorkItemsView>> GetWorkItems()
+        public async Task<ActionResult<WorkItemsViewModel>> GetWorkItems()
         {
             return _mapper.Map(await Mediator.Send(new GetWorkItemsQuery()));
         }

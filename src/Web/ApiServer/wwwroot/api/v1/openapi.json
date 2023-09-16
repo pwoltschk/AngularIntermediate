@@ -201,6 +201,29 @@
       }
     },
     "/api/WorkItem": {
+      "get": {
+        "tags": [
+          "WorkItem"
+        ],
+        "operationId": "WorkItem_GetWorkItems",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemsViewModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
       "post": {
         "tags": [
           "WorkItem"
@@ -774,6 +797,18 @@
           "stage": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "WorkItemsViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItemDto"
+            }
           }
         }
       },

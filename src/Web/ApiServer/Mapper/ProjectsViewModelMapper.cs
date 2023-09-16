@@ -5,6 +5,14 @@ namespace ApiServer.Mapper;
 
 public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Project>>
 {
+    private readonly IMapper<WorkItemDto, WorkItem> _mapper;
+
+    public ProjectsViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
+    {
+        _mapper = mapper;
+    }
+
+
     public ProjectsViewModel Map(IEnumerable<Project> model)
     {
         return new ProjectsViewModel
@@ -19,23 +27,7 @@ public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Pr
         {
             Id = model.Id,
             Title = model.Title,
-            WorkItems = model.WorkItems.Select(Map).ToList()
-        };
-    }
-
-    private WorkItemDto Map(WorkItem model)
-    {
-        return new WorkItemDto
-        {
-            Id = model.Id,
-            Title = model.Title,
-            ProjectId = model.ProjectId,
-            AssignedTo = model.AssignedTo,
-            Description = model.Description,
-            Iteration = model.Iteration,
-            StartDate = model.StartDate,
-            Priority = model.Priority.Level,
-            Stage = model.Stage.Id,
+            WorkItems = model.WorkItems.Select(_mapper.Map).ToList()
         };
     }
 

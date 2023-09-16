@@ -2,11 +2,11 @@
 using Domain.Entities;
 
 namespace ApiServer.Mapper;
-public class WorkItemVewModelMapper : IMapper<WorkItemsViewModel, IEnumerable<WorkItem>>
+public class WorkItemViewModelMapper : IMapper<WorkItemsViewModel, IEnumerable<WorkItem>>
 {
     private readonly IMapper<WorkItemDto, WorkItem> _mapper;
 
-    public WorkItemVewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
+    public WorkItemViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
     {
         _mapper = mapper;
     }

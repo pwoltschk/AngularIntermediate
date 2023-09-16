@@ -1,0 +1,40 @@
+﻿@page "/workitems"
+
+<h1>Work Items Management</h1>
+
+@if (Model == null)
+{
+    <p> Loading...</p>
+}
+else
+{
+                <table class= "table">
+                    <thead>
+                        <tr>
+                            <th> Title </th>
+                            <th> Description </th>
+                            <th> Assigned To </th>
+                            <th> Priority </th>
+                            <th> Stage </th>
+                            <th> Project </th>
+                            <th> Start Date </th>
+                            <th> Actions </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            @foreach (var workItem in Model.WorkItems)
+            {
+                                        <tr>
+                                            <td> @workItem.Title </td>
+                                            <td> @workItem.Description </td>
+                                            <td> @workItem.AssignedTo </td>
+                                            <td> @workItem.Priority </td>
+                                            <td> @GetStageName(workItem.Stage) </td>
+                                            <td> Unknown </td>
+                                            <td> @workItem.StartDate </td>
+                                            <td></td>
+                                        </tr>
+            }
+                    </tbody>
+                </table>
+}

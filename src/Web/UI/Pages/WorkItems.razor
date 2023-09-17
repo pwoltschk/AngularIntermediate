@@ -1,54 +1,80 @@
 ﻿@page "/workitems"
+@using UI.Components
+@using UI.Identity
+@using global::Shared.Identity
+@attribute [Authorize(Permission.ReadProjects)]
+
+<PageTitle>Work Items Management</PageTitle>
 
 <h1>Work Items Management</h1>
 
+<p>Manage work items for your project.</p>
+
 @if (Model == null)
 {
-    <p> Loading...</p>
+    <p>Loading...</p>
 }
 else
 {
-                <table class= "table">
-                    <thead>
-                        <tr>
-                            <th> Title </th>
-                            <th> Description </th>
-                            <th> Assigned To </th>
-                            <th> Priority </th>
-                            <th> Stage </th>
-                            <th> Project </th>
-                            <th> Start Date </th>
-                            <th> Actions </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Assigned To</th>
+                <th>Priority</th>
+                <th>Stage</th>
+                <th>Project</th>
+                <th>Start Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var workItem in Model.WorkItems)
             {
-                                        <tr>
-                                            <td> @workItem.Title </td>
-                                            <td> @workItem.Description </td>
-                                            <td> @workItem.AssignedTo </td>
-                                            <td> @workItem.Priority </td>
-                                            <td> @GetStageName(workItem.Stage) </td>
-                                            <td> Unknown </td>
-                                            <td> @workItem.StartDate </td>
-                                            <td></td>
-                                        </tr>
+                <tr>
+                    <td>@workItem.Title</td>
+                    <td>@workItem.Description</td>
+                    <td>@workItem.AssignedTo</td>
+                    <td>@workItem.Priority</td>
+                    <td>@GetStageName(workItem.Stage)</td>
+                    <td>@GetProjectName(workItem.ProjectId)</td>
+                    <td>@workItem.StartDate</td>
+                    <td>
+                        <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+                            <button class="btn btn-primary" @onclick="() => ShowEditWorkItemDialog(workItem)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger" @onclick="() => DeleteWorkItem(workItem)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </AuthorizeWrapper>
+                    </td>
+                </tr>
             }
-                    </tbody>
-                </table>
-
-    <WorkItemDialog @ref="_editWorkItemDialog"
-                    Title="Edit Work Item"
-                    WorkItem="_editWorkItem"
-                    Users="_users"
-                    Projects="_projects"
-                    OnSave="UpdateWorkItem" />
-
-    <WorkItemDialog @ref="_createWorkItemDialog"
-                    Title="New Work Item"
-                    WorkItem="_newWorkItem"
-                    Users="_users"
-                    Projects="_projects"
-                    OnSave="AddWorkItem" />
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8">
+                    <button class="btn btn-primary" @onclick="ShowCreateWorkItemDialog">
+                        <i class="bi bi-plus"></i> Add Work Item
+                    </button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 }
+
+<WorkItemDialog @ref="_editWorkItemDialog"
+                Title="Edit Work Item"
+                WorkItem="_editWorkItem"
+                Users="_users"
+                Projects="_projects"
+                OnSave="UpdateWorkItem" />
+
+<WorkItemDialog @ref="_createWorkItemDialog"
+                Title="New Work Item"
+                WorkItem="_newWorkItem"
+                Users="_users"
+                Projects="_projects"
+                OnSave="AddWorkItem" />

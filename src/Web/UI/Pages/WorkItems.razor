@@ -37,4 +37,18 @@ else
             }
                     </tbody>
                 </table>
+
+    <WorkItemDialog @ref="_editWorkItemDialog"
+                    Title="Edit Work Item"
+                    WorkItem="_editWorkItem"
+                    Users="_users"
+                    Projects="_projects"
+                    OnSave="UpdateWorkItem" />
+
+    <WorkItemDialog @ref="_createWorkItemDialog"
+                    Title="New Work Item"
+                    WorkItem="_newWorkItem"
+                    Users="_users"
+                    Projects="_projects"
+                    OnSave="AddWorkItem" />
 }

@@ -12,14 +12,14 @@
         <AuthorizeWrapper Permissions="new List<string> { Permission.ReadProjects }">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> My Project
+                    <span class="oi oi-folder" aria-hidden="true"></span> Projects
                 </NavLink>
             </div>
         </AuthorizeWrapper>
-        <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+        <AuthorizeWrapper Permissions="new List<string> { Permission.ReadProjects }">
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="settings" Match="NavLinkMatch.All">
-                    <span class="oi oi-cog" aria-hidden="true"></span> Settings
+                <NavLink class="nav-link" href="workitems" Match="NavLinkMatch.All">
+                    <span class="oi oi-list" aria-hidden="true"></span> Work Items
                 </NavLink>
             </div>
         </AuthorizeWrapper>
@@ -34,6 +34,13 @@
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="users" Match="NavLinkMatch.All">
                     <span class="oi oi-person" aria-hidden="true"></span> Users
+                </NavLink>
+            </div>
+        </AuthorizeWrapper>
+        <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="settings" Match="NavLinkMatch.All">
+                    <span class="oi oi-cog" aria-hidden="true"></span> Settings
                 </NavLink>
             </div>
         </AuthorizeWrapper>

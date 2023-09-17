@@ -4,6 +4,15 @@ namespace Domain.Primitives
 {
     public abstract class AuditableEntity
     {
+        protected AuditableEntity(int id) => Id = id;
+
+        protected AuditableEntity()
+        {
+        }
+
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         public DateTime CreatedOn { get; set; }
 

@@ -2,10 +2,8 @@
 
 namespace Domain.Entities
 {
-    public class Project : AuditableEntity
+    public class Project : AggregateRoot
     {
-        public int Id { get; set; }
-
         public string Title { get; set; } = string.Empty;
 
         public ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();

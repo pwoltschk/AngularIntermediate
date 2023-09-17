@@ -3,9 +3,8 @@ using Domain.ValueObjects;
 
 namespace Domain.Entities;
 
-public class WorkItem : AuditableEntity
+public class WorkItem : AggregateRoot
 {
-    public int Id { get; set; }
     public int? ProjectId { get; set; }
     public Project? Project { get; set; } = null!;
     public string Title { get; set; } = string.Empty;

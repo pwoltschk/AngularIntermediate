@@ -1,22 +1,23 @@
-﻿namespace Application.WorkItems.Queries;
+﻿using Domain.Primitives;
+
+namespace Application.WorkItems.Queries;
 
 public record GetWorkItemsQuery : IRequest<IEnumerable<WorkItem>>;
 
 public class GetWorkItemsQueryHandler
     : IRequestHandler<GetWorkItemsQuery, IEnumerable<WorkItem>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<WorkItem> _repository;
 
-    public GetWorkItemsQueryHandler(IApplicationDbContext context)
+    public GetWorkItemsQueryHandler(IRepository<WorkItem> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<WorkItem>> Handle(
         GetWorkItemsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.WorkItems
-            .ToListAsync(cancellationToken);
+        return await _repository.GetAllAsync();
     }
 }

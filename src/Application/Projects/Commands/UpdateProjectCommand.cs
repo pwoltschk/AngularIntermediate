@@ -1,4 +1,5 @@
 ﻿using Application.Projects.Requests;
+using Domain.Primitives;
 
 namespace Application.Projects.Commands;
 
@@ -7,18 +8,18 @@ public record UpdateProjectCommand(UpdateProjectRequest Project) : IRequest;
 public class UpdateProjectCommandHandler
     : AsyncRequestHandler<UpdateProjectCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<Project> _repository;
 
-    public UpdateProjectCommandHandler(IApplicationDbContext context)
+    public UpdateProjectCommandHandler(IRepository<Project> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     protected override async Task Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Projects.FindAsync(new object?[] { request.Project.Id }, cancellationToken: cancellationToken) ?? throw new Exception($"The request ID {request.Project.Id} was not found.");
+        var entity = await _repository.GetByIdAsync(request.Project.Id) ?? throw new Exception($"The request ID {request.Project.Id} was not found.");
         entity.Title = request.Project.Title;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.UpdateAsync(entity);
     }
 }

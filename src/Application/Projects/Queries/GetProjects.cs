@@ -1,24 +1,24 @@
-﻿namespace Application.Projects.Queries;
+﻿using Domain.Primitives;
+
+namespace Application.Projects.Queries;
 
 public record GetProjectsQuery : IRequest<IEnumerable<Project>>;
 
 public class GetProjectsQueryHandler
     : IRequestHandler<GetProjectsQuery, IEnumerable<Project>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<Project> _repository;
 
-    public GetProjectsQueryHandler(IApplicationDbContext context)
+    public GetProjectsQueryHandler(IRepository<Project> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<Project>> Handle(
         GetProjectsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.Projects
-            .Include(p => p.WorkItems)
-            .ToListAsync(cancellationToken);
+        return await _repository.GetAllAsync();
 
     }
 }

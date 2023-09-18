@@ -1,25 +1,23 @@
-﻿namespace Application.Projects.Commands;
+﻿using Domain.Primitives;
+
+namespace Application.Projects.Commands;
 
 public record DeleteProjectCommand(int Id) : IRequest;
 
 public class DeleteProjectCommandHandler
     : AsyncRequestHandler<DeleteProjectCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<Project> _repository;
 
-    public DeleteProjectCommandHandler(IApplicationDbContext context)
+    public DeleteProjectCommandHandler(IRepository<Project> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     protected override async Task Handle(DeleteProjectCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _context.Projects
-            .Where(l => l.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken) ?? throw new Exception($"The request ID {request.Id} was not found.");
-        _context.Projects.Remove(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
+        var entity = await _repository.GetByIdAsync(request.Id) ?? throw new Exception($"The request ID {request.Id} was not found.");
+        await _repository.RemoveAsync(entity);
     }
 }

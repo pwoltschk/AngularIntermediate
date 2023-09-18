@@ -1,16 +1,16 @@
 ﻿using Application.Projects.Requests;
-
+using Domain.Primitives;
 
 namespace Application.Projects.Commands;
 public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IRepository<Project> _repository;
     private const string UniqueTitleErrorMessage = "The project title must be unique.";
     private const string UniqueTitleErrorCode = "ERR_UNIQUE_TITLE";
 
-    public CreateProjectCommandValidator(IApplicationDbContext dbContext)
+    public CreateProjectCommandValidator(IRepository<Project> repository)
     {
-        _dbContext = dbContext;
+        _repository = repository;
 
         RuleFor(command => command.Project)
             .SetValidator(new CreateProjectRequestValidator());
@@ -21,8 +21,8 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
             .WithErrorCode(UniqueTitleErrorCode);
     }
 
-    private Task<bool> IsTitleUnique(string title, CancellationToken cancellationToken) => _dbContext.Projects
-            .AllAsync(project => project.Title != title, cancellationToken);
+    private async Task<bool> IsTitleUnique(string title, CancellationToken cancellationToken) => (await _repository.GetAllAsync())
+            .All(project => project.Title != title);
 
 }
 

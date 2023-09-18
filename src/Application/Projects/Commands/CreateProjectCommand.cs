@@ -1,4 +1,5 @@
 ﻿using Application.Projects.Requests;
+using Domain.Primitives;
 
 namespace Application.Projects.Commands;
 
@@ -7,11 +8,11 @@ public record CreateProjectCommand(CreateProjectRequest Project) : IRequest<int>
 public class CreateProjectCommandHandler
     : IRequestHandler<CreateProjectCommand, int>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<Project> _repository;
 
-    public CreateProjectCommandHandler(IApplicationDbContext context)
+    public CreateProjectCommandHandler(IRepository<Project> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<int> Handle(CreateProjectCommand request,
@@ -22,9 +23,7 @@ public class CreateProjectCommandHandler
             Title = request.Project.Title
         };
 
-        _context.Projects.Add(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.AddAsync(entity);
 
         return entity.Id;
     }

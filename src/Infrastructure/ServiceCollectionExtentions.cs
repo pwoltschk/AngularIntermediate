@@ -1,5 +1,7 @@
 ﻿using Application.Common;
 using Application.Common.Services;
+using Domain.Entities;
+using Domain.Primitives;
 using Infrastructure.Data;
 using Infrastructure.Data.Interceptors;
 using Infrastructure.Identity;
@@ -35,6 +37,7 @@ namespace Infrastructure
 
             services.AddScoped<IIdentityService, IdentityService>();
 
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             return services;
         }

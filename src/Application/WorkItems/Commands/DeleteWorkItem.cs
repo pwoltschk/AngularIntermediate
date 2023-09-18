@@ -1,24 +1,25 @@
-﻿namespace Application.WorkItems.Commands
+﻿using Domain.Primitives;
+
+namespace Application.WorkItems.Commands
 {
     public record DeleteWorkItemCommand(int Id) : IRequest;
 
     public class DeleteWorkItemCommandHandler
         : AsyncRequestHandler<DeleteWorkItemCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IRepository<WorkItem> _repository;
 
-        public DeleteWorkItemCommandHandler(IApplicationDbContext context)
+        public DeleteWorkItemCommandHandler(IRepository<WorkItem> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         protected override async Task Handle(DeleteWorkItemCommand request,
             CancellationToken cancellationToken)
         {
-            var entity = await _context.WorkItems.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken) ?? throw new Exception($"The request ID {request.Id} was not found.");
-            _context.WorkItems.Remove(entity);
+            var entity = await _repository.GetByIdAsync(request.Id);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.RemoveAsync(entity);
         }
     }
 }

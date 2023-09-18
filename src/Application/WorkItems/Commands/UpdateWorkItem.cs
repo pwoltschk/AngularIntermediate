@@ -1,4 +1,5 @@
 ﻿using Application.WorkItems.Requests;
+using Domain.Primitives;
 using Domain.ValueObjects;
 
 namespace Application.WorkItems.Commands;
@@ -7,17 +8,16 @@ public record UpdateWorkItemCommand(UpdateWorkItemRequest Item) : IRequest;
 
 public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<WorkItem> _repository;
 
-    public UpdateWorkItemCommandHandler(IApplicationDbContext context)
+    public UpdateWorkItemCommandHandler(IRepository<WorkItem> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     protected override async Task Handle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.WorkItems
-            .FirstOrDefaultAsync(i => i.Id == request.Item.Id, cancellationToken)
+        var entity = await _repository.GetByIdAsync(request.Item.Id)
             ?? throw new Exception($"The request ID {request.Item.Id} was not found.");
 
         entity.ProjectId = request.Item.ProjectId;
@@ -28,6 +28,6 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         entity.Description = request.Item.Description;
         entity.Stage = Stage.FromId(request.Item.Stage);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.UpdateAsync(entity);
     }
 }

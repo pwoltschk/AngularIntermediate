@@ -1,15 +1,16 @@
 ﻿using Application.WorkItems.Requests;
+using Domain.Primitives;
 
 namespace Application.WorkItems.Commands;
 public record CreateWorkItemCommand(CreateWorkItemRequest Item) : IRequest<int>;
 
 public class CreateWorkItemCommandHandler : IRequestHandler<CreateWorkItemCommand, int>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IRepository<WorkItem> _repository;
 
-    public CreateWorkItemCommandHandler(IApplicationDbContext context)
+    public CreateWorkItemCommandHandler(IRepository<WorkItem> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<int> Handle(CreateWorkItemCommand request, CancellationToken cancellationToken)
@@ -20,9 +21,7 @@ public class CreateWorkItemCommandHandler : IRequestHandler<CreateWorkItemComman
             Title = request.Item.Title
         };
 
-        _context.WorkItems.Add(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.AddAsync(entity);
 
         return entity.Id;
     }

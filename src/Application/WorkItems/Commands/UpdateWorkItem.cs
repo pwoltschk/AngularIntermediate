@@ -1,4 +1,5 @@
 ﻿using Application.WorkItems.Requests;
+using Domain.Events;
 using Domain.Primitives;
 using Domain.ValueObjects;
 
@@ -28,6 +29,17 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         entity.Description = request.Item.Description;
         entity.Stage = Stage.FromId(request.Item.Stage);
 
+
+        if (HasWorkItemBeenAssigned(entity, request))
+        {
+            entity.AddEvent(new WorkItemAssignedDomainEvent(entity.Id));
+        }
+
         await _repository.UpdateAsync(entity);
+    }
+
+    private bool HasWorkItemBeenAssigned(WorkItem entity, UpdateWorkItemCommand request)
+    {
+        return entity.AssignedTo != request.Item.AssignedTo && !string.IsNullOrEmpty(entity.AssignedTo);
     }
 }

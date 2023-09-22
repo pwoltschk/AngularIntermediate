@@ -1,4 +1,6 @@
 ﻿using Application.Common.Behaviours;
+using Application.WorkItems.Events;
+using Domain.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Reflection;
@@ -15,6 +17,7 @@ namespace Application
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddTransient<INotificationHandler<WorkItemAssignedDomainEvent>, WorkItemAssignedDomainEventHandler>();
 
 
             Log.Logger = new LoggerConfiguration()

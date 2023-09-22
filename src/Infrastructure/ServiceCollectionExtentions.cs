@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Primitives;
 using Infrastructure.Data;
 using Infrastructure.Data.Interceptors;
+using Infrastructure.Emails;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,8 +37,10 @@ namespace Infrastructure
                 .AddProfileService<CustomProfileService>();
 
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
 
             return services;
         }

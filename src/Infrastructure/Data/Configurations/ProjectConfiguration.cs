@@ -11,5 +11,6 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(t => t.Title)
            .HasMaxLength(150)
            .IsRequired();
+
     }
 }

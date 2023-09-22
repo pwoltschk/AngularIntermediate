@@ -38,9 +38,8 @@ namespace Infrastructure
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IEmailService, EmailService>();
-
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
+            services.AddScoped<IRepository<Project>, ProjectRepository>();
+            services.AddScoped<IRepository<WorkItem>, WorkItemRepository>();
 
             return services;
         }

@@ -3,7 +3,7 @@ using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
-    internal class WorkItemRepository : IRepository<WorkItem>
+internal class WorkItemRepository : IRepository<WorkItem>
 {
     private readonly ApplicationDbContext _dbContext;
 

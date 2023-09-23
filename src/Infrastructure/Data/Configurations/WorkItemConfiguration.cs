@@ -36,7 +36,7 @@ public class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
             stage.Property(s => s.Name)
                 .HasColumnName("StageName")
                 .HasMaxLength(50)
-                .IsRequired(); 
+                .IsRequired();
         });
     }
 }

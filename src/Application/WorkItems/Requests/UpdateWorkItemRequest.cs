@@ -10,9 +10,9 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public string Iteration { get; set; } = string.Empty; 
+        public string Iteration { get; set; } = string.Empty;
 
-        public string AssignedTo { get; set; } = string.Empty; 
+        public string AssignedTo { get; set; } = string.Empty;
 
         public int Priority { get; set; }
 

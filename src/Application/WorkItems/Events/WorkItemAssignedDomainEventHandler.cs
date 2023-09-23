@@ -24,7 +24,7 @@ namespace Application.WorkItems.Events
             if (workItem is null) return;
 
             // Replcace with real implementation
-            await _emailService.SendEmailAsync("You are assigned to this workitem","Example Subject", workItem.AssignedTo );
+            await _emailService.SendEmailAsync("You are assigned to this workitem", "Example Subject", workItem.AssignedTo);
         }
     }
 }

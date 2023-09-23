@@ -13,7 +13,7 @@ public class Email : ValueObject
 
     public Email()
     {
-        
+
     }
 
     public Email(string value)

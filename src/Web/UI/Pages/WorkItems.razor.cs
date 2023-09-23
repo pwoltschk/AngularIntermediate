@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using UI.Components;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace UI.Pages
 {

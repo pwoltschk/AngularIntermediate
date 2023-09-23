@@ -11,7 +11,7 @@ public partial class ProjectBoard
 
     [Inject]
     public IWorkItemClient WorkItemClient { get; set; } = null!;
-    [Inject] 
+    [Inject]
     public IUsersClient UsersClient { get; set; } = null!;
 
     [Inject]

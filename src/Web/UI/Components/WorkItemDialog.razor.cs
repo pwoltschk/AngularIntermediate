@@ -4,19 +4,19 @@ namespace UI.Components
 {
     public partial class WorkItemDialog
     {
-        [Parameter] 
+        [Parameter]
         public List<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
-        
-        [Parameter] 
+
+        [Parameter]
         public List<UserDto> Users { get; set; } = new List<UserDto>();
-        
-        [Parameter] 
+
+        [Parameter]
         public string Title { get; set; } = "";
-        
-        [Parameter] 
+
+        [Parameter]
         public WorkItemDto WorkItem { get; set; } = new();
 
-        [Parameter] 
+        [Parameter]
         public EventCallback<WorkItemDto> OnSave { get; set; }
 
         public bool IsVisible { get; private set; }

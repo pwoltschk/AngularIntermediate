@@ -13,7 +13,7 @@ public class Priority : ValueObject
 
     public Priority()
     {
-        
+
     }
     private Priority(int level, string name)
     {

@@ -1,29 +1,28 @@
-﻿namespace Application.Common.Behaviours
+﻿namespace Application.Common.Behaviours;
+
+public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
-    public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    private readonly ILogger _logger;
+
+    public UnhandledExceptionBehaviour(ILogger logger)
     {
-        private readonly ILogger _logger;
+        _logger = logger;
+    }
 
-        public UnhandledExceptionBehaviour(ILogger logger)
+    public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+        try
         {
-            _logger = logger;
+            return next();
         }
-
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        catch (Exception ex)
         {
-            try
-            {
-                return next();
-            }
-            catch (Exception ex)
-            {
-                var requestName = typeof(TRequest).Name;
+            var requestName = typeof(TRequest).Name;
 
-                _logger.Information(ex, "Exception Request: Unhandled Exception for Request {@requestName} {@request}", requestName, request);
+            _logger.Information(ex, "Exception Request: Unhandled Exception for Request {@requestName} {@request}", requestName, request);
 
-                throw;
-            }
+            throw;
         }
     }
 }

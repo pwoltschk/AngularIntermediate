@@ -1,9 +1,8 @@
-﻿namespace ApiServer.ViewModels
-{
-    public class ProjectsViewModel
-    {
-        public string Organization { get; set; } = string.Empty;
+﻿namespace ApiServer.ViewModels;
 
-        public List<ProjectDto> Projects { get; set; } = new();
-    }
+public class ProjectsViewModel
+{
+    public string Organization { get; set; } = string.Empty;
+
+    public List<ProjectDto> Projects { get; set; } = new();
 }

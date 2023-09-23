@@ -1,23 +1,23 @@
 ﻿using ApiServer.ViewModels;
 using Application.Common.Services;
+using Domain.Entities;
 
-namespace ApiServer.Mapper
+namespace ApiServer.Mapper;
+
+public class RoleMapper : IMapper<RoleDto, Role>
 {
-    public class RoleMapper : IMapper<RoleDto, Role>
+    public Role Map(RoleDto model)
     {
-        public Role Map(RoleDto model)
-        {
-            return new Role(model.Id, model.Name, model.Permissions);
-        }
+        return new Role(model.Id, model.Name, model.Permissions);
+    }
 
-        public RoleDto Map(Role model)
+    public RoleDto Map(Role model)
+    {
+        return new RoleDto
         {
-            return new RoleDto
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Permissions = model.Permissions.ToList()
-            };
-        }
+            Id = model.Id,
+            Name = model.Name,
+            Permissions = model.Permissions.ToList()
+        };
     }
 }

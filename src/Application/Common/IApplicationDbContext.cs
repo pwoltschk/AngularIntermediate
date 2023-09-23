@@ -1,11 +1,10 @@
-﻿namespace Application.Common
+﻿namespace Application.Common;
+
+public interface IApplicationDbContext
 {
-    public interface IApplicationDbContext
-    {
-        DbSet<Project> Projects { get; }
+    DbSet<Project> Projects { get; }
 
-        DbSet<WorkItem> WorkItems { get; }
+    DbSet<WorkItem> WorkItems { get; }
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

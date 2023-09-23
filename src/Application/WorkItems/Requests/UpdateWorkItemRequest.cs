@@ -1,21 +1,20 @@
-﻿namespace Application.WorkItems.Requests
+﻿namespace Application.WorkItems.Requests;
+
+public class UpdateWorkItemRequest
 {
-    public class UpdateWorkItemRequest
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public int? ProjectId { get; set; }
+    public int? ProjectId { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
-        public string Iteration { get; set; } = string.Empty;
+    public string Iteration { get; set; } = string.Empty;
 
-        public string AssignedTo { get; set; } = string.Empty;
+    public string AssignedTo { get; set; } = string.Empty;
 
-        public int Priority { get; set; }
+    public int Priority { get; set; }
 
-        public int Stage { get; set; }
-    }
+    public int Stage { get; set; }
 }

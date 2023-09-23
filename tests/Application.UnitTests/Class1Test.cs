@@ -1,15 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Application.UnitTests
+namespace Application.UnitTests;
+
+[TestClass]
+public class Class1Test
 {
-    [TestClass]
-    public class Class1Test
+
+    [TestMethod]
+    public void METHOD()
     {
 
-        [TestMethod]
-        public void METHOD()
-        {
-
-        }
     }
 }

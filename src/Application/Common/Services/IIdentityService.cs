@@ -1,28 +1,27 @@
-﻿namespace Application.Common.Services
+﻿namespace Application.Common.Services;
+
+public interface IIdentityService
 {
-    public interface IIdentityService
-    {
-        Task<string> GetUserNameAsync(string userId);
+    Task<string> GetUserNameAsync(string userId);
 
-        Task CreateUserAsync(
-            string userName,
-            string password);
+    Task CreateUserAsync(
+        string userName,
+        string password);
 
-        Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken);
+    Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken);
 
-        Task DeleteUserAsync(string userId);
+    Task DeleteUserAsync(string userId);
 
 
-        Task CreateRoleAsync(Role role);
+    Task CreateRoleAsync(Role role);
 
-        Task UpdateRoleAsync(Role role);
+    Task UpdateRoleAsync(Role role);
 
-        Task DeleteRoleAsync(string id);
+    Task DeleteRoleAsync(string id);
 
-        Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken);
+    Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken);
 
-        Task<User> GetUserAsync(string id);
+    Task<User> GetUserAsync(string id);
 
-        Task UpdateUserAsync(User user);
-    }
+    Task UpdateUserAsync(User user);
 }

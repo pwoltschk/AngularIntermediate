@@ -1,26 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Primitives
+namespace Domain.Primitives;
+
+public abstract class AggregateRoot : AuditableEntity
 {
-    public abstract class AggregateRoot : AuditableEntity
+    private readonly List<IDomainEvent> _domainEvents = new();
+    protected AggregateRoot(int id) : base(id)
     {
-        private readonly List<IDomainEvent> _domainEvents = new();
-        protected AggregateRoot(int id) : base(id)
-        {
-        }
-        protected AggregateRoot()
-        {
+    }
+    protected AggregateRoot()
+    {
 
-        }
+    }
 
-        [NotMapped]
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    [NotMapped]
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-        public void ClearEvents() => _domainEvents.Clear();
+    public void ClearEvents() => _domainEvents.Clear();
 
-        public void AddEvent(IDomainEvent domainEvent)
-        {
-            _domainEvents.Add(domainEvent);
-        }
+    public void AddEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
     }
 }

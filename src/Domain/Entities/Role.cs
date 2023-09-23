@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Services;
+﻿namespace Domain.Entities;
 public class Role
 {
     public string Id { get; private set; }

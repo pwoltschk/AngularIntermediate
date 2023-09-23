@@ -4,6 +4,7 @@ using Application.Common.Services;
 using Application.Roles.Queries;
 using Application.Users.Command;
 using Application.Users.Queries;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Identity;

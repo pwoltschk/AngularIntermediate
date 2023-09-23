@@ -1,23 +1,22 @@
-﻿namespace ApiServer.ViewModels
+﻿namespace ApiServer.ViewModels;
+
+public class WorkItemDto
 {
-    public class WorkItemDto
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public int? ProjectId { get; set; }
+    public int? ProjectId { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
-        public string Iteration { get; set; } = string.Empty;
+    public string Iteration { get; set; } = string.Empty;
 
-        public string AssignedTo { get; set; } = string.Empty;
+    public string AssignedTo { get; set; } = string.Empty;
 
-        public DateTime? StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
-        public int Priority { get; set; }
+    public int Priority { get; set; }
 
-        public int Stage { get; set; }
-    }
+    public int Stage { get; set; }
 }

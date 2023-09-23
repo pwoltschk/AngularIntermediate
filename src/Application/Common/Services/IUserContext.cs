@@ -1,7 +1,6 @@
-﻿namespace Application.Common.Services
+﻿namespace Application.Common.Services;
+
+public interface IUserContext
 {
-    public interface IUserContext
-    {
-        string UserId { get; }
-    }
+    string UserId { get; }
 }

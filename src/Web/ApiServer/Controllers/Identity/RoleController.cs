@@ -3,6 +3,7 @@ using ApiServer.ViewModels;
 using Application.Common.Services;
 using Application.Roles.Commands;
 using Application.Roles.Queries;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Identity;

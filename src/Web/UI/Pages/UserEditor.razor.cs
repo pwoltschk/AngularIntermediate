@@ -1,52 +1,51 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace UI.Pages
+namespace UI.Pages;
+
+public partial class UserEditor
 {
-    public partial class UserEditor
+    [Parameter]
+    public string UserId { get; set; } = null!;
+
+    [Inject]
+    public IUsersClient UsersClient { get; set; } = null!;
+
+    [Inject]
+    public IRolesClient RolesClient { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager Navigation { get; set; } = null!;
+
+    public UserDetailsViewModel? Model { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
-        [Parameter]
-        public string UserId { get; set; } = null!;
+        Model = await UsersClient.GetUserAsync(UserId);
+    }
 
-        [Inject]
-        public IUsersClient UsersClient { get; set; } = null!;
-
-        [Inject]
-        public IRolesClient RolesClient { get; set; } = null!;
-
-        [Inject]
-        public NavigationManager Navigation { get; set; } = null!;
-
-        public UserDetailsViewModel? Model { get; set; }
-
-        protected override async Task OnParametersSetAsync()
+    public void ToggleSelectedRole(string roleName)
+    {
+        if (Model!.Roles.Any(role => role.Name == roleName))
         {
-            Model = await UsersClient.GetUserAsync(UserId);
+            Model!.User.Roles.Remove(roleName);
+        }
+        else
+        {
+            Model.User.Roles.Add(roleName);
         }
 
-        public void ToggleSelectedRole(string roleName)
-        {
-            if (Model!.Roles.Any(role => role.Name == roleName))
-            {
-                Model!.User.Roles.Remove(roleName);
-            }
-            else
-            {
-                Model.User.Roles.Add(roleName);
-            }
+        StateHasChanged();
+    }
 
-            StateHasChanged();
-        }
+    public async Task UpdateUser()
+    {
+        await UsersClient.PutUserAsync(Model!.User.Id, Model.User);
 
-        public async Task UpdateUser()
-        {
-            await UsersClient.PutUserAsync(Model!.User.Id, Model.User);
+        Navigation.NavigateTo("/users");
+    }
 
-            Navigation.NavigateTo("/users");
-        }
-
-        public void CancelEdit()
-        {
-            Navigation.NavigateTo("/users");
-        }
+    public void CancelEdit()
+    {
+        Navigation.NavigateTo("/users");
     }
 }

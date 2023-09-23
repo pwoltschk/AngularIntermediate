@@ -1,22 +1,20 @@
 ﻿using Application.Common.Services;
 
-namespace Application.Roles.Commands
+namespace Application.Roles.Commands;
+
+public record CreateRoleCommand(Role Role) : IRequest;
+
+public class CreateRoleCommandHandler : AsyncRequestHandler<CreateRoleCommand>
 {
+    private readonly IIdentityService _identityService;
 
-    public record CreateRoleCommand(Role Role) : IRequest;
-
-    public class CreateRoleCommandHandler : AsyncRequestHandler<CreateRoleCommand>
+    public CreateRoleCommandHandler(IIdentityService identityService)
     {
-        private readonly IIdentityService _identityService;
+        _identityService = identityService;
+    }
 
-        public CreateRoleCommandHandler(IIdentityService identityService)
-        {
-            _identityService = identityService;
-        }
-
-        protected override async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
-        {
-            await _identityService.CreateRoleAsync(request.Role);
-        }
+    protected override async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    {
+        await _identityService.CreateRoleAsync(request.Role);
     }
 }

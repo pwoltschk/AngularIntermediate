@@ -4,33 +4,32 @@ using Shared.Identity;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace UI.Identity
+namespace UI.Identity;
+
+public class PermissionAccountClaimsPrincipalFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
 {
-    public class PermissionAccountClaimsPrincipalFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
+    public PermissionAccountClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor) : base(accessor) { }
+
+    public override async ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
     {
-        public PermissionAccountClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor) : base(accessor) { }
+        if (account is null)
+            return new ClaimsPrincipal();
 
-        public override async ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
+        var user = await base.CreateUserAsync(account, options);
+        var identity = user.Identity as ClaimsIdentity;
+
+        if (account.AdditionalProperties.ContainsKey(nameof(Permission)))
         {
-            if (account is null)
-                return new ClaimsPrincipal();
+            var permissionsJson = account.AdditionalProperties[nameof(Permission)] as JsonElement?;
 
-            var user = await base.CreateUserAsync(account, options);
-            var identity = user.Identity as ClaimsIdentity;
-
-            if (account.AdditionalProperties.ContainsKey(nameof(Permission)))
-            {
-                var permissionsJson = account.AdditionalProperties[nameof(Permission)] as JsonElement?;
-
-                permissionsJson?
-                    .EnumerateArray()
-                    .ToList()
-                    .ForEach(permission => identity?
+            permissionsJson?
+                .EnumerateArray()
+                .ToList()
+                .ForEach(permission => identity?
                     .AddClaim(new Claim(nameof(Permission), permission.GetString() ?? string.Empty)));
-            }
-
-            return user;
         }
 
+        return user;
     }
+
 }

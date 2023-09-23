@@ -11,37 +11,36 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace Infrastructure;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"))
-            );
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"))
+        );
 
-            services.AddScoped<AuditableEntityInterceptor>();
+        services.AddScoped<AuditableEntityInterceptor>();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddScoped<ApplicationDbContextInitialiser>();
-            services.AddScoped<IApplicationDbContext>(sp =>
-                sp.GetRequiredService<ApplicationDbContext>());
+        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddScoped<ApplicationDbContextInitialiser>();
+        services.AddScoped<IApplicationDbContext>(sp =>
+            sp.GetRequiredService<ApplicationDbContext>());
 
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<IdentityUser, ApplicationDbContext>()
-                .AddProfileService<CustomProfileService>();
+        services.AddIdentityServer()
+            .AddApiAuthorization<IdentityUser, ApplicationDbContext>()
+            .AddProfileService<CustomProfileService>();
 
-            services.AddScoped<IIdentityService, IdentityService>();
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IRepository<Project>, ProjectRepository>();
-            services.AddScoped<IRepository<WorkItem>, WorkItemRepository>();
+        services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IRepository<Project>, ProjectRepository>();
+        services.AddScoped<IRepository<WorkItem>, WorkItemRepository>();
 
-            return services;
-        }
+        return services;
     }
 }

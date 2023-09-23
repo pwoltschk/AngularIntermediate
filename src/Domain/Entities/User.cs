@@ -1,6 +1,6 @@
 ﻿using Domain.ValueObjects;
 
-namespace Application.Common.Services;
+namespace Domain.Entities;
 
 public class User
 {

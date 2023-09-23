@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Application.Common.Services;
+namespace Domain.Entities;
 
 public class Permission
 {

@@ -4,85 +4,84 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 // Original source https://github.com/jasontaylordev/ndc-london-2021-workshop 
 // adjusted for own needs
-namespace ApiServer.Filters
+namespace ApiServer.Filters;
+
+public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
-    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+    private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+
+    public ApiExceptionFilterAttribute()
     {
-        private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
-
-        public ApiExceptionFilterAttribute()
+        // Register known exception types and handlers.
+        _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            // Register known exception types and handlers.
-            _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
-            {
-                { typeof(ValidationException), HandleValidationException },
-                { typeof(NotFoundException), HandleNotFoundException }
-            };
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(NotFoundException), HandleNotFoundException }
+        };
+    }
+
+    public override void OnException(ExceptionContext context)
+    {
+        HandleException(context);
+
+        base.OnException(context);
+    }
+
+    private void HandleException(ExceptionContext context)
+    {
+        Type type = context.Exception.GetType();
+        if (_exceptionHandlers.ContainsKey(type))
+        {
+            _exceptionHandlers[type].Invoke(context);
+            return;
         }
 
-        public override void OnException(ExceptionContext context)
+        if (!context.ModelState.IsValid)
         {
-            HandleException(context);
-
-            base.OnException(context);
+            HandleInvalidModelStateException(context);
+            return;
         }
+    }
 
-        private void HandleException(ExceptionContext context)
+    private void HandleValidationException(ExceptionContext context)
+    {
+        var exception = context.Exception as ValidationException;
+
+        var details = new ValidationProblemDetails(exception.Failures)
         {
-            Type type = context.Exception.GetType();
-            if (_exceptionHandlers.ContainsKey(type))
-            {
-                _exceptionHandlers[type].Invoke(context);
-                return;
-            }
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+        };
 
-            if (!context.ModelState.IsValid)
-            {
-                HandleInvalidModelStateException(context);
-                return;
-            }
-        }
+        context.Result = new BadRequestObjectResult(details);
 
-        private void HandleValidationException(ExceptionContext context)
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleNotFoundException(ExceptionContext context)
+    {
+        var exception = context.Exception as NotFoundException;
+
+        var details = new ProblemDetails()
         {
-            var exception = context.Exception as ValidationException;
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Title = "The specified resource was not found.",
+            Detail = exception.Message
+        };
 
-            var details = new ValidationProblemDetails(exception.Failures)
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-            };
+        context.Result = new NotFoundObjectResult(details);
 
-            context.Result = new BadRequestObjectResult(details);
+        context.ExceptionHandled = true;
+    }
 
-            context.ExceptionHandled = true;
-        }
-
-        private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleInvalidModelStateException(ExceptionContext context)
+    {
+        var details = new ValidationProblemDetails(context.ModelState)
         {
-            var exception = context.Exception as NotFoundException;
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+        };
 
-            var details = new ProblemDetails()
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-                Title = "The specified resource was not found.",
-                Detail = exception.Message
-            };
+        context.Result = new BadRequestObjectResult(details);
 
-            context.Result = new NotFoundObjectResult(details);
-
-            context.ExceptionHandled = true;
-        }
-
-        private static void HandleInvalidModelStateException(ExceptionContext context)
-        {
-            var details = new ValidationProblemDetails(context.ModelState)
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-            };
-
-            context.Result = new BadRequestObjectResult(details);
-
-            context.ExceptionHandled = true;
-        }
+        context.ExceptionHandled = true;
     }
 }

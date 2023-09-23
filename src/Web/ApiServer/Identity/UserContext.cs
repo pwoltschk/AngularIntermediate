@@ -1,19 +1,19 @@
-﻿using System.Security.Claims;
+﻿using Application.Common.Services;
+using System.Security.Claims;
 
-namespace Application.Common.Services
+namespace ApiServer.Identity;
+
+public class UserContext : IUserContext
 {
-    public class UserContext : IUserContext
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public string UserId => _httpContextAccessor.HttpContext?
+        .User?
+        .FindFirstValue(ClaimTypes.NameIdentifier) ?? "n/a";
+
+    public UserContext(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public string UserId => _httpContextAccessor.HttpContext?
-                        .User?
-                        .FindFirstValue(ClaimTypes.NameIdentifier) ?? "n/a";
-
-        public UserContext(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor
-                ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
+        _httpContextAccessor = httpContextAccessor
+                               ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     }
 }

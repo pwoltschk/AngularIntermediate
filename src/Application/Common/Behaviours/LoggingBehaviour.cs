@@ -18,7 +18,7 @@ public class RequestLoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = _currentUser.UserId ?? string.Empty;
+        var userId = _currentUser.UserId;
 
         _logger.Information("Request: {@RequestName} | UserId: {UserId} | RequestData: {@Request}",
             requestName, userId, request);

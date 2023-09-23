@@ -1,5 +1,4 @@
 ﻿using ApiServer.ViewModels;
-using Application.Common.Services;
 using Domain.Entities;
 
 namespace ApiServer.Mapper;
@@ -17,7 +16,7 @@ public class RolesViewModelMapper : IMapper<RolesViewModel, IEnumerable<Role>>
     {
         return new RolesViewModel
         {
-            Roles = model.Select(x => _mapper.Map(x)).ToList(),
+            Roles = model.Select(x => _mapper.Map(x)).ToList()
         };
     }
 

@@ -4,6 +4,6 @@ public class AuthorizeAttribute : Microsoft.AspNetCore.Authorization.AuthorizeAt
 {
     public AuthorizeAttribute(params string[] permissions)
     {
-        Policy = permissions?.Any() == true ? string.Join("|", permissions) : string.Empty;
+        Policy = permissions.Any() ? string.Join("|", permissions) : string.Empty;
     }
 }

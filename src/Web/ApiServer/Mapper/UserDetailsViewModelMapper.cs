@@ -21,7 +21,7 @@ public class UserDetailsViewModelMapper : IMapper<UserDetailsViewModel, User>
         return new UserDetailsViewModel
         {
             User = _userMapper.Map(model),
-            Roles = model.Roles.Select(_roleMapper.Map).ToList(),
+            Roles = model.Roles.Select(_roleMapper.Map).ToList()
         };
     }
     public User Map(UserDetailsViewModel model)

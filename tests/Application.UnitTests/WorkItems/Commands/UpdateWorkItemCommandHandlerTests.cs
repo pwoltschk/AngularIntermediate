@@ -1,7 +1,6 @@
 ﻿using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
 using Domain.Entities;
-using Domain.Events;
 using Domain.Primitives;
 using Domain.ValueObjects;
 using FluentAssertions;

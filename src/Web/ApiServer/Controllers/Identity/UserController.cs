@@ -28,12 +28,12 @@ public class UsersController : CustomControllerBase
     }
 
     [HttpGet]
-    [Authorize(Shared.Identity.Permission.ReadUsers)]
+    [Authorize(Permission.ReadUsers)]
     public async Task<ActionResult<UsersViewModel>> GetUsers()
     {
         return new UsersViewModel
         {
-            Users = (await Mediator.Send(new GetUsersQuery())).Select(_userMapper.Map).ToList(),
+            Users = (await Mediator.Send(new GetUsersQuery())).Select(_userMapper.Map).ToList()
 
         };
     }

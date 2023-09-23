@@ -13,7 +13,7 @@ public partial class RoleManager
     private string _newRoleName = string.Empty;
 
     private RoleDto? _selectedRole;
-    private bool _showEditDialog = false;
+    private bool _showEditDialog;
     protected override async Task OnInitializedAsync()
     {
         await LoadRoles();

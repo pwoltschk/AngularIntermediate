@@ -23,7 +23,7 @@ internal class WorkItemAssignedDomainEventHandler : INotificationHandler<WorkIte
 
         if (workItem is null) return;
 
-        // Replcace with real implementation
+        // replace with real implementation
         await _emailService.SendEmailAsync("You are assigned to this workitem", "Example Subject", workItem.AssignedTo);
     }
 }

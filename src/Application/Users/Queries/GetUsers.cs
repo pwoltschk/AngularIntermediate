@@ -2,7 +2,7 @@
 
 namespace Application.Users.Queries;
 
-public record GetUsersQuery() : IRequest<IEnumerable<User>>;
+public record GetUsersQuery : IRequest<IEnumerable<User>>;
 
 public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<User>>
 {

@@ -1,9 +1,5 @@
 ﻿@page "/projectBoard"
-@using Plk.Blazor.DragDrop
 @using UI.Components
-@using UI.Identity
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)

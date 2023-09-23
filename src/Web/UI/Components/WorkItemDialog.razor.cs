@@ -5,10 +5,10 @@ namespace UI.Components;
 public partial class WorkItemDialog
 {
     [Parameter]
-    public List<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
+    public List<ProjectDto> Projects { get; set; } = new();
 
     [Parameter]
-    public List<UserDto> Users { get; set; } = new List<UserDto>();
+    public List<UserDto> Users { get; set; } = new();
 
     [Parameter]
     public string Title { get; set; } = "";

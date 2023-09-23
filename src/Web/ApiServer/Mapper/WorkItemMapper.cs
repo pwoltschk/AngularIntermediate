@@ -17,7 +17,7 @@ public class WorkItemMapper : IMapper<WorkItemDto, WorkItem>
             Iteration = model.Iteration,
             StartDate = model.StartDate,
             Priority = model.Priority.Level,
-            Stage = model.Stage.Id,
+            Stage = model.Stage.Id
         };
     }
 

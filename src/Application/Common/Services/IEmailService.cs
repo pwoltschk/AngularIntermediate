@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Services;
 public interface IEmailService
 {
-    Task SendEmailAsync(string email, string subject, string adress);
+    Task SendEmailAsync(string email, string subject, string address);
 }
 

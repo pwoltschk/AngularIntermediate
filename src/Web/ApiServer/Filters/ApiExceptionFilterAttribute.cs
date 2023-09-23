@@ -39,7 +39,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         if (!context.ModelState.IsValid)
         {
             HandleInvalidModelStateException(context);
-            return;
         }
     }
 

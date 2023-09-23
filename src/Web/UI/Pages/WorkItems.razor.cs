@@ -64,7 +64,7 @@ public partial class WorkItems
         var itemId = await WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
             ProjectId = workItem.ProjectId,
-            Title = workItem.Title,
+            Title = workItem.Title
         });
         workItem.Id = itemId;
         Model!.WorkItems.Add(workItem);

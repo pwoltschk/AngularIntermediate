@@ -48,10 +48,10 @@ public class ApplicationDbContextInitialiser
         var list = new Project
         {
             Title = "Develop Kanban board",
-            WorkItems = new List<WorkItem>()
+            WorkItems = new List<WorkItem>
                 {
                     new() { Title = "Implement Infrastructure Layer" },
-                    new() { Title = "Implement Frontend" },
+                    new() { Title = "Implement Frontend" }
                 }
         };
 

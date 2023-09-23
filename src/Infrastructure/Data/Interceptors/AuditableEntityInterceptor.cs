@@ -35,7 +35,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
         foreach (var entry in addedOrUpdatedEntries)
         {
-            var entity = entry.Entity as AuditableEntity;
+            var entity = entry.Entity;
 
             if (entry.State == EntityState.Added)
             {

@@ -21,6 +21,8 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         var entity = await _repository.GetByIdAsync(request.Item.Id)
             ?? throw new Exception($"The request ID {request.Item.Id} was not found.");
 
+        var hasAssigneeChanged = HasWorkItemBeenAssigned(entity, request);
+
         entity.ProjectId = request.Item.ProjectId;
         entity.Title = request.Item.Title;
         entity.AssignedTo = request.Item.AssignedTo;
@@ -29,8 +31,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         entity.Description = request.Item.Description;
         entity.Stage = Stage.FromId(request.Item.Stage);
 
-
-        if (HasWorkItemBeenAssigned(entity, request))
+        if (hasAssigneeChanged)
         {
             entity.AddEvent(new WorkItemAssignedDomainEvent(entity.Id));
         }

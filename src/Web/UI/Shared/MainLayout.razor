@@ -63,8 +63,9 @@
         }
     }
 
-    private async Task Logout()
+    private Task Logout()
     {
         Navigation.NavigateTo("Identity/Account/Logout", forceLoad: true);
+        return Task.CompletedTask;
     }
 }

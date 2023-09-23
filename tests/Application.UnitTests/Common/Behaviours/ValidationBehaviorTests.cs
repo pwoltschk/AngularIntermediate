@@ -29,7 +29,7 @@ public class ValidationBehaviorTests
         var result = await behavior.Handle(new TestRequest(), CancellationToken.None, nextMock.Object);
 
         // Assert
-        nextMock.Verify(n => n(), Times.Once); 
+        nextMock.Verify(n => n(), Times.Once);
         Assert.IsNotNull(result);
     }
 
@@ -40,7 +40,7 @@ public class ValidationBehaviorTests
         var validatorMock = new Mock<IValidator<TestRequest>>();
         validatorMock
             .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<TestRequest>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult()); 
+            .ReturnsAsync(new ValidationResult());
 
         var validators = new List<IValidator<TestRequest>> { validatorMock.Object };
         var nextMock = new Mock<RequestHandlerDelegate<TestResponse>>();
@@ -77,7 +77,7 @@ public class ValidationBehaviorTests
         await Assert.ThrowsExceptionAsync<ValidationException>(async () =>
             await behavior.Handle(new TestRequest(), CancellationToken.None, nextMock.Object));
 
-        nextMock.Verify(n => n(), Times.Never); 
+        nextMock.Verify(n => n(), Times.Never);
     }
 }
 

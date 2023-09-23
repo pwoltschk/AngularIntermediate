@@ -1,5 +1,4 @@
-﻿using Application.Common;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Duende.IdentityServer.EntityFramework.Entities;
 using Duende.IdentityServer.EntityFramework.Extensions;
 using Duende.IdentityServer.EntityFramework.Interfaces;

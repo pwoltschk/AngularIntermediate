@@ -20,23 +20,6 @@ public class IdentityService : IIdentityService
         _roleManager = roleManager;
     }
 
-    public async Task<string> GetUserNameAsync(string userId)
-    {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        return user?.UserName;
-    }
-
-    public async Task CreateUserAsync(string userName, string password)
-    {
-        var user = new IdentityUser
-        {
-            UserName = userName,
-            Email = userName
-        };
-
-        await _userManager.CreateAsync(user, password);
-    }
-
     public async Task DeleteUserAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);

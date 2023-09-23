@@ -1,5 +1,4 @@
-﻿using Application.Common;
-using Application.Common.Services;
+﻿using Application.Common.Services;
 using Domain.Entities;
 using Domain.Primitives;
 using Infrastructure.Data;

@@ -15,12 +15,13 @@ public class RequestLoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
         _currentUser = currentUser;
     }
 
-    public async Task Process(TRequest request, CancellationToken cancellationToken)
+    public Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
         var userId = _currentUser.UserId;
 
         _logger.Information("Request: {@RequestName} | UserId: {UserId} | RequestData: {@Request}",
             requestName, userId, request);
+        return Task.CompletedTask;
     }
 }

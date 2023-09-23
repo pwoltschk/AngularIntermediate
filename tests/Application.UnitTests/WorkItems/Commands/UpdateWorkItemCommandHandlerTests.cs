@@ -39,7 +39,7 @@ public class UpdateWorkItemCommandHandlerTests
 
         await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
 
-        repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<WorkItem>(),It.IsAny<CancellationToken>()), Times.Once);
+        repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()), Times.Once);
         workItem.Title.Should().Be("New Title");
         workItem.AssignedTo.Should().Be("NewUser");
         workItem.Priority.Should().Be(Priority.FromLevel(2));

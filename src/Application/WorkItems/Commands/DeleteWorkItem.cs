@@ -19,6 +19,9 @@ public class DeleteWorkItemCommandHandler
     {
         var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        await _repository.RemoveAsync(entity, cancellationToken);
+        if (entity != null)
+        {
+            await _repository.RemoveAsync(entity, cancellationToken);
+        }
     }
 }

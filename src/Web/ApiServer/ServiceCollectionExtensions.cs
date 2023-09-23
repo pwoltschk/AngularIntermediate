@@ -1,6 +1,5 @@
 ﻿using ApiServer.Mapper;
 using ApiServer.ViewModels;
-using Application.Common.Services;
 using Domain.Entities;
 
 namespace ApiServer;

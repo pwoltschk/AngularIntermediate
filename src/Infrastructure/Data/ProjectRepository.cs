@@ -28,7 +28,7 @@ internal class ProjectRepository : IRepository<Project>
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveAsync(Project entity, CancellationToken cancellationToken)  
+    public async Task RemoveAsync(Project entity, CancellationToken cancellationToken)
     {
         _dbContext.Set<Project>().Remove(entity);
         await _dbContext.SaveChangesAsync(cancellationToken);

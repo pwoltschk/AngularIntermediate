@@ -18,7 +18,7 @@ public class GetProjectsQueryHandler
         GetProjectsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.GetAllAsync();
+        return await _repository.GetAllAsync(cancellationToken);
 
     }
 }

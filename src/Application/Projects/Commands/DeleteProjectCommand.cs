@@ -17,7 +17,7 @@ public class DeleteProjectCommandHandler
     protected override async Task Handle(DeleteProjectCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Id) ?? throw new Exception($"The request ID {request.Id} was not found.");
-        await _repository.RemoveAsync(entity);
+        var entity = await _repository.GetByIdAsync(request.Id, cancellationToken) ?? throw new Exception($"The request ID {request.Id} was not found.");
+        await _repository.RemoveAsync(entity, cancellationToken);
     }
 }

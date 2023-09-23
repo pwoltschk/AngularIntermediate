@@ -33,13 +33,13 @@ public class UpdateWorkItemCommandHandlerTests
             Stage = 1
         };
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id)).ReturnsAsync(workItem);
+        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
 
         var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
 
         await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
 
-        repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<WorkItem>()), Times.Once);
+        repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<WorkItem>(),It.IsAny<CancellationToken>()), Times.Once);
         workItem.Title.Should().Be("New Title");
         workItem.AssignedTo.Should().Be("NewUser");
         workItem.Priority.Should().Be(Priority.FromLevel(2));
@@ -52,7 +52,7 @@ public class UpdateWorkItemCommandHandlerTests
         var repositoryMock = new Mock<IRepository<WorkItem>>();
         var updateRequest = new UpdateWorkItemRequest { Id = 0 };
 
-        repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id)).ReturnsAsync((WorkItem)null);
+        repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, CancellationToken.None)).ReturnsAsync((WorkItem)null);
 
         var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
 
@@ -72,7 +72,7 @@ public class UpdateWorkItemCommandHandlerTests
             AssignedTo = "NewUser"
         };
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id)).ReturnsAsync(workItem);
+        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
 
         var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
 
@@ -93,7 +93,7 @@ public class UpdateWorkItemCommandHandlerTests
             AssignedTo = "SameUser"
         };
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id)).ReturnsAsync(workItem);
+        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
 
         var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
 

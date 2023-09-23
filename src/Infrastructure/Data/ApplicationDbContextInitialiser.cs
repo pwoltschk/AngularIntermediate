@@ -40,7 +40,7 @@ public class ApplicationDbContextInitialiser
 
     public async Task SeedAsync()
     {
-        if (_context.Projects.Any())
+        if (await _context.Projects.AnyAsync())
         {
             return;
         }
@@ -64,7 +64,7 @@ public class ApplicationDbContextInitialiser
         var password = AdminUser + "pw+4";
         await CreateUser(adminUser, password, Administrator);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     private async Task CreateRole(string roleName, params string[] permissions)

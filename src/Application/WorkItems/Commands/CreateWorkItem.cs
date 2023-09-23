@@ -21,7 +21,7 @@ public class CreateWorkItemCommandHandler : IRequestHandler<CreateWorkItemComman
             Title = request.Item.Title
         };
 
-        await _repository.AddAsync(entity);
+        await _repository.AddAsync(entity, cancellationToken);
 
         return entity.Id;
     }

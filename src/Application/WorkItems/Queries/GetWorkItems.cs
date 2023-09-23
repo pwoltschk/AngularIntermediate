@@ -18,6 +18,6 @@ public class GetWorkItemsQueryHandler
         GetWorkItemsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.GetAllAsync();
+        return await _repository.GetAllAsync(cancellationToken);
     }
 }

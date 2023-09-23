@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>, IApplicationDbContext, IPersistedGrantDbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>, IPersistedGrantDbContext
 {
 
     private readonly AuditableEntityInterceptor _interceptor;

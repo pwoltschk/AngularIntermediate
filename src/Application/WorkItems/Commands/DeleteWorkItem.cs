@@ -17,8 +17,8 @@ public class DeleteWorkItemCommandHandler
     protected override async Task Handle(DeleteWorkItemCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Id);
+        var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        await _repository.RemoveAsync(entity);
+        await _repository.RemoveAsync(entity, cancellationToken);
     }
 }

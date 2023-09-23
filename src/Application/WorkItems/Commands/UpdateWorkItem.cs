@@ -18,7 +18,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
 
     protected override async Task Handle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Item.Id)
+        var entity = await _repository.GetByIdAsync(request.Item.Id, cancellationToken)
             ?? throw new Exception($"The request ID {request.Item.Id} was not found.");
 
         var hasAssigneeChanged = HasWorkItemBeenAssigned(entity, request);
@@ -36,7 +36,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
             entity.AddEvent(new WorkItemAssignedDomainEvent(entity.Id));
         }
 
-        await _repository.UpdateAsync(entity);
+        await _repository.UpdateAsync(entity, cancellationToken);
     }
 
     private bool HasWorkItemBeenAssigned(WorkItem entity, UpdateWorkItemCommand request)

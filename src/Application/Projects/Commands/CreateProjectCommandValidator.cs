@@ -21,7 +21,7 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
             .WithErrorCode(UniqueTitleErrorCode);
     }
 
-    private async Task<bool> IsTitleUnique(string title, CancellationToken cancellationToken) => (await _repository.GetAllAsync())
+    private async Task<bool> IsTitleUnique(string title, CancellationToken cancellationToken) => (await _repository.GetAllAsync(cancellationToken))
             .All(project => project.Title != title);
 
 }

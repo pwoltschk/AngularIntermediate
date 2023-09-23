@@ -19,7 +19,7 @@ internal class WorkItemAssignedDomainEventHandler : INotificationHandler<WorkIte
     public async Task Handle(WorkItemAssignedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
         var workItem = await _repository
-            .GetByIdAsync(domainEvent.id);
+            .GetByIdAsync(domainEvent.id, cancellationToken);
 
         if (workItem is null) return;
 

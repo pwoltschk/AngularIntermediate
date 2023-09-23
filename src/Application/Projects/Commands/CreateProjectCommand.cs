@@ -23,7 +23,7 @@ public class CreateProjectCommandHandler
             Title = request.Project.Title
         };
 
-        await _repository.AddAsync(entity);
+        await _repository.AddAsync(entity, cancellationToken);
 
         return entity.Id;
     }

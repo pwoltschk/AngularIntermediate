@@ -12,7 +12,7 @@ namespace Domain.UnitTests.ValueObjects
         {
             // Arrange
             var validPriorityName = "Medium";
-            var expectedPriorityLevel = 2;
+            var expectedPriorityLevel = 1;
 
             // Act
             var priority = Priority.FromName(validPriorityName);
@@ -36,7 +36,7 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenValidLevel_WhenCreatingPriority_ThenShouldReturnCorrectPriority()
         {
             // Arrange
-            var validPriorityLevel = 3;
+            var validPriorityLevel = 2;
             var expectedPriorityName = "High";
 
             // Act
@@ -61,8 +61,8 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenTwoPrioritiesWithSameLevel_WhenComparing_ThenShouldBeEqual()
         {
             // Arrange
-            var priority1 = Priority.FromLevel(1);
-            var priority2 = Priority.FromLevel(1);
+            var priority1 = Priority.FromLevel(0);
+            var priority2 = Priority.FromLevel(0);
 
             // Act & Assert
             Assert.AreEqual(priority1, priority2);
@@ -72,8 +72,8 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenTwoPrioritiesWithDifferentLevels_WhenComparing_ThenShouldNotBeEqual()
         {
             // Arrange
-            var priority1 = Priority.FromLevel(1);
-            var priority2 = Priority.FromLevel(2);
+            var priority1 = Priority.FromLevel(0);
+            var priority2 = Priority.FromLevel(1);
 
             // Act & Assert
             Assert.AreNotEqual(priority1, priority2);
@@ -83,7 +83,7 @@ namespace Domain.UnitTests.ValueObjects
         public void GivenAPriority_WhenConvertingToString_ThenShouldReturnCorrectName()
         {
             // Arrange
-            var priority = Priority.FromLevel(1);
+            var priority = Priority.FromLevel(0);
             var expectedString = "Low";
 
             // Act

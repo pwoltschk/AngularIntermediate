@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
 namespace Infrastructure.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class DetachProjectFromWorkItem : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

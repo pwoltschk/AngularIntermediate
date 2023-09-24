@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Data;
 
+[ExcludeFromCodeCoverage]
 public class ApplicationDbContextInitialiser
 {
     private const string Administrator = "Administrator";

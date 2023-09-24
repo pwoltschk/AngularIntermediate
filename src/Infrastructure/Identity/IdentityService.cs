@@ -4,7 +4,6 @@ using Domain.Entities;
 using Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Security.Claims;
 
 namespace Infrastructure.Identity;

@@ -10,7 +10,7 @@ public partial class UserManager
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
 
-    public UsersViewModel Model { get; set; }
+    private UsersViewModel Model { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {

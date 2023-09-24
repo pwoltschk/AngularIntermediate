@@ -9,7 +9,7 @@ public class Priority : ValueObject
     public static readonly Priority High = new(2, "High");
 
     public int Level { get; }
-    public string Name { get; }
+    public string Name { get; } = string.Empty;
 
     public Priority()
     {

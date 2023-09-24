@@ -28,8 +28,13 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    public void AuditEntities(DbContext? context)
+    private void AuditEntities(DbContext? context)
     {
+        if (context == null)
+        {
+            return;
+        }
+
         var addedOrUpdatedEntries = context.ChangeTracker.Entries<AuditableEntity>();
 
 

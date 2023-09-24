@@ -11,12 +11,10 @@ namespace ApiServer.Controllers;
 [Route("api/[controller]")]
 public abstract class CustomControllerBase : ControllerBase
 {
-    private readonly ISender _mediator;
-
-    public CustomControllerBase(ISender mediator)
+    protected CustomControllerBase(ISender mediator)
     {
-        _mediator = mediator;
+        Mediator = mediator;
     }
 
-    protected ISender Mediator => _mediator;
+    protected ISender Mediator { get; }
 }

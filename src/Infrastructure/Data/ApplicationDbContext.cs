@@ -29,9 +29,9 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
 
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<WorkItem> WorkItems => Set<WorkItem>();
-    public DbSet<PersistedGrant> PersistedGrants { get; set; }
-    public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
-    public DbSet<Key> Keys { get; set; }
+    public DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
+    public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; } = null!;
+    public DbSet<Key> Keys { get; set; } = null!;
 
     Task<int> IPersistedGrantDbContext.SaveChangesAsync() => base.SaveChangesAsync();
 

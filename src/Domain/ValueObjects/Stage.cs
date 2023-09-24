@@ -9,7 +9,7 @@ public class Stage : ValueObject
     public static readonly Stage Completed = new(2, "Completed");
 
     public int Id { get; }
-    public string Name { get; }
+    public string Name { get; } = string.Empty;
 
     public Stage() { }
 

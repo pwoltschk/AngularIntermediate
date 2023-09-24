@@ -78,7 +78,7 @@ else
                     @foreach (var permission in Permission.AllPermissions)
                     {
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="@permission" checked="@_selectedRole.Permissions.Contains(permission)" @onchange="e => TogglePermission(permission, (bool)e.Value)">
+                            <input class="form-check-input" type="checkbox" value="" id="@permission" checked="@_selectedRole.Permissions.Contains(permission)" @onchange="e => TogglePermission(permission, (bool)(e.Value ?? false))">
                             <label class="form-check-label" for="@permission">
                                 @permission
                             </label>

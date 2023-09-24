@@ -1,6 +1,6 @@
 ﻿namespace Domain.ValueObjects;
 
-using Domain.Primitives;
+using Primitives;
 using System.Text.RegularExpressions;
 
 public class Email : ValueObject
@@ -9,7 +9,7 @@ public class Email : ValueObject
         @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    public string Value { get; }
+    public string Value { get; } = string.Empty;
 
     public Email()
     {

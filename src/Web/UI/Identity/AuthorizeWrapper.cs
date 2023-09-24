@@ -8,12 +8,13 @@ public class AuthorizeWrapper : Microsoft.AspNetCore.Components.Authorization.Au
     [Parameter]
     public IEnumerable<string> Permissions
     {
-        get => _permissions;
+        get => _permissions ?? Array.Empty<string>();
         set
         {
             _permissions = value;
-            Policy = _permissions != null && _permissions.Any()
-                ? string.Join("|", _permissions.Select(p => p.ToString()))
+            IEnumerable<string> permissions = _permissions.ToList();
+            Policy = _permissions != null && permissions.Any()
+                ? string.Join("|", permissions.Select(p => p.ToString()))
                 : string.Empty;
         }
     }

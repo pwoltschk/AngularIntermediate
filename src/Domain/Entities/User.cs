@@ -6,7 +6,7 @@ public class User
 {
     public string Id { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
-    public Email Email { get; private set; }
+    public Email Email { get; private set; } = new();
     public List<Role> Roles { get; private set; } = new();
 
     public User() { }

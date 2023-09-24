@@ -39,7 +39,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         await _repository.UpdateAsync(entity, cancellationToken);
     }
 
-    private bool HasWorkItemBeenAssigned(WorkItem entity, UpdateWorkItemCommand request)
+    private static bool HasWorkItemBeenAssigned(WorkItem entity, UpdateWorkItemCommand request)
     {
         return entity.AssignedTo != request.Item.AssignedTo && !string.IsNullOrEmpty(entity.AssignedTo);
     }

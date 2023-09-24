@@ -44,30 +44,32 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleValidationException(ExceptionContext context)
     {
-        var exception = context.Exception as ValidationException;
-
-        var details = new ValidationProblemDetails(exception.Failures)
+        if (context.Exception is ValidationException exception)
         {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        };
+            var details = new ValidationProblemDetails(exception.Failures)
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+            };
 
-        context.Result = new BadRequestObjectResult(details);
+            context.Result = new BadRequestObjectResult(details);
+        }
 
         context.ExceptionHandled = true;
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleNotFoundException(ExceptionContext context)
     {
-        var exception = context.Exception as NotFoundException;
-
-        var details = new ProblemDetails()
+        if (context.Exception is NotFoundException exception)
         {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-            Title = "The specified resource was not found.",
-            Detail = exception.Message
-        };
+            var details = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+                Title = "The specified resource was not found.",
+                Detail = exception.Message
+            };
 
-        context.Result = new NotFoundObjectResult(details);
+            context.Result = new NotFoundObjectResult(details);
+        }
 
         context.ExceptionHandled = true;
     }

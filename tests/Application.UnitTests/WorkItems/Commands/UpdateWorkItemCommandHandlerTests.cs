@@ -1,114 +1,126 @@
 ﻿using Application.WorkItems.Commands;
 using Application.WorkItems.Requests;
 using Domain.Entities;
+using Domain.Events;
 using Domain.Primitives;
 using Domain.ValueObjects;
 using FluentAssertions;
+using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.WorkItems.Commands;
-
-[TestClass]
-public class UpdateWorkItemCommandHandlerTests
+namespace Application.UnitTests.WorkItems.Commands
 {
-    [TestMethod]
-    public async Task GivenValidRequest_WhenItemExists_ThenShouldUpdateWorkItem()
+    [TestClass]
+    public class UpdateWorkItemCommandHandlerTests
     {
-        var repositoryMock = new Mock<IRepository<WorkItem>>();
-        var workItem = new WorkItem { Id = 0, AssignedTo = "OldUser" };
+        private Mock<IRepository<WorkItem>> _repositoryMock;
+        private UpdateWorkItemCommandHandler _handler;
 
-        var updateRequest = new UpdateWorkItemRequest
+        [TestInitialize]
+        public void SetUp()
         {
-            Id = workItem.Id,
-            ProjectId = 0,
-            Title = "New Title",
-            AssignedTo = "NewUser",
-            Iteration = "Sprint 1",
-            Priority = 2,
-            Description = "New Description",
-            Stage = 1
-        };
+            _repositoryMock = new Mock<IRepository<WorkItem>>();
+            _handler = new UpdateWorkItemCommandHandler(_repositoryMock.Object);
+        }
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
-
-        var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
-
-        await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
-
-        repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()), Times.Once);
-        workItem.Title.Should().Be("New Title");
-        workItem.AssignedTo.Should().Be("NewUser");
-        workItem.Priority.Should().Be(Priority.FromLevel(2));
-        workItem.Stage.Should().Be(Stage.FromId(1));
-    }
-
-    [TestMethod]
-    public async Task GivenInvalidRequest_WhenItemDoesNotExist_ThenShouldThrowException()
-    {
-        var repositoryMock = new Mock<IRepository<WorkItem>>();
-        var updateRequest = new UpdateWorkItemRequest { Id = 0 };
-
-        repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, CancellationToken.None)).ReturnsAsync((WorkItem)null);
-
-        var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
-
-        Func<Task> act = async () => await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
-        await act.Should().ThrowAsync<Exception>();
-    }
-
-    [TestMethod]
-    public async Task GivenValidRequest_WhenWorkItemAssignedToDifferentUser_ThenShouldAddWorkItemAssignedEvent()
-    {
-        var repositoryMock = new Mock<IRepository<WorkItem>>();
-        var workItem = new WorkItem { Id = 0, AssignedTo = "OldUser" };
-
-        var updateRequest = new UpdateWorkItemRequest
+        [TestMethod]
+        public async Task GivenValidUpdateWorkItemRequest_WhenHandlingUpdateCommand_ThenShouldUpdateWorkItem()
         {
-            Id = workItem.Id,
-            AssignedTo = "NewUser"
-        };
+            // Arrange
+            var existingWorkItem = new WorkItem { Id = 1, AssignedTo = "OldAssignee" };
+            var updateRequest = new UpdateWorkItemRequest
+            {
+                Id = 1,
+                ProjectId = 2,
+                Title = "Updated Title",
+                AssignedTo = "NewAssignee",
+                Iteration = "Iteration1",
+                Priority = 2,
+                Description = "Updated Description",
+                Stage = 1
+            };
+            var command = new UpdateWorkItemCommand(updateRequest);
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
+            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingWorkItem);
 
-        var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
+            // Act
+            await ((IRequestHandler<UpdateWorkItemCommand>)_handler).Handle(command, CancellationToken.None);
 
-        await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
+            // Assert
+            existingWorkItem.ProjectId.Should().Be(updateRequest.ProjectId);
+            existingWorkItem.Title.Should().Be(updateRequest.Title);
+            existingWorkItem.AssignedTo.Should().Be(updateRequest.AssignedTo);
+            existingWorkItem.Priority.Level.Should().Be(updateRequest.Priority);
+            existingWorkItem.Description.Should().Be(updateRequest.Description);
+            existingWorkItem.Stage.Id.Should().Be(updateRequest.Stage);
+            _repositoryMock.Verify(r => r.UpdateAsync(existingWorkItem, It.IsAny<CancellationToken>()), Times.Once);
+        }
 
-        workItem.DomainEvents.Count.Should().Be(1);
-    }
-
-    [TestMethod]
-    public async Task GivenValidRequest_WhenWorkItemAssignedToSameUser_ThenShouldNotAddWorkItemAssignedEvent()
-    {
-        var repositoryMock = new Mock<IRepository<WorkItem>>();
-        var workItem = new WorkItem { Id = 0, AssignedTo = "SameUser" };
-
-        var updateRequest = new UpdateWorkItemRequest
+        [TestMethod]
+        public async Task GivenInvalidWorkItemId_WhenHandlingUpdateCommand_ThenShouldThrowException()
         {
-            Id = workItem.Id,
-            AssignedTo = "SameUser"
-        };
+            // Arrange
+            var updateRequest = new UpdateWorkItemRequest { Id = 99 };
+            var command = new UpdateWorkItemCommand(updateRequest);
 
-        repositoryMock.Setup(r => r.GetByIdAsync(workItem.Id, CancellationToken.None)).ReturnsAsync(workItem);
+            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync((WorkItem)null);
 
-        var handler = new TestableUpdateWorkItemCommandHandler(repositoryMock.Object);
+            // Act
+            Func<Task> act = async () => await ((IRequestHandler<UpdateWorkItemCommand>)_handler).Handle(command, CancellationToken.None);
 
-        await handler.TestHandle(new UpdateWorkItemCommand(updateRequest), CancellationToken.None);
+            // Assert
+            await act.Should().ThrowAsync<Exception>()
+                .WithMessage($"The request ID {updateRequest.Id} was not found.");
+        }
 
-        workItem.DomainEvents.Should().BeEmpty();
-    }
-}
-public class TestableUpdateWorkItemCommandHandler : UpdateWorkItemCommandHandler
-{
-    public TestableUpdateWorkItemCommandHandler(IRepository<WorkItem> repository)
-        : base(repository) { }
+        [TestMethod]
+        public async Task GivenWorkItemAssigneeChanged_WhenHandlingUpdateCommand_ThenShouldAddWorkItemAssignedDomainEvent()
+        {
+            // Arrange
+            var existingWorkItem = new WorkItem { Id = 1, AssignedTo = "OldAssignee" };
+            var updateRequest = new UpdateWorkItemRequest
+            {
+                Id = 1,
+                AssignedTo = "NewAssignee"
+            };
+            var command = new UpdateWorkItemCommand(updateRequest);
 
-    public async Task TestHandle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
-    {
-        await Handle(request, cancellationToken);
+            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingWorkItem);
+
+            // Act
+            await ((IRequestHandler<UpdateWorkItemCommand>)_handler).Handle(command, CancellationToken.None);
+
+            // Assert
+            existingWorkItem.DomainEvents.Should().ContainSingle(e => e is WorkItemAssignedDomainEvent);
+        }
+
+        [TestMethod]
+        public async Task GivenWorkItemAssigneeNotChanged_WhenHandlingUpdateCommand_ThenShouldNotAddWorkItemAssignedDomainEvent()
+        {
+            // Arrange
+            var existingWorkItem = new WorkItem { Id = 1, AssignedTo = "SameAssignee" };
+            var updateRequest = new UpdateWorkItemRequest
+            {
+                Id = 1,
+                AssignedTo = "SameAssignee"
+            };
+            var command = new UpdateWorkItemCommand(updateRequest);
+
+            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingWorkItem);
+
+            // Act
+            await ((IRequestHandler<UpdateWorkItemCommand>)_handler).Handle(command, CancellationToken.None);
+
+            // Assert
+            existingWorkItem.DomainEvents.Should().BeEmpty();
+        }
     }
 }

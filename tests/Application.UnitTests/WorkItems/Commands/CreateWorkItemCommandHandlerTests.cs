@@ -9,43 +9,42 @@ using Moq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.WorkItems.Commands
+namespace Application.UnitTests.WorkItems.Commands;
+
+[TestClass]
+public class CreateWorkItemCommandHandlerTests
 {
-    [TestClass]
-    public class CreateWorkItemCommandHandlerTests
+    private Mock<IRepository<WorkItem>> _repositoryMock;
+    private CreateWorkItemCommandHandler _handler;
+
+    [TestInitialize]
+    public void SetUp()
     {
-        private Mock<IRepository<WorkItem>> _repositoryMock;
-        private CreateWorkItemCommandHandler _handler;
+        _repositoryMock = new Mock<IRepository<WorkItem>>();
+        _handler = new CreateWorkItemCommandHandler(_repositoryMock.Object);
+    }
 
-        [TestInitialize]
-        public void SetUp()
+    [TestMethod]
+    public async Task GivenValidCreateWorkItemRequest_WhenHandling_ThenShouldAddWorkItemAndReturnId()
+    {
+        // Arrange
+        var createRequest = new CreateWorkItemRequest
         {
-            _repositoryMock = new Mock<IRepository<WorkItem>>();
-            _handler = new CreateWorkItemCommandHandler(_repositoryMock.Object);
-        }
+            ProjectId = 1,
+            Title = "New WorkItem"
+        };
+        var command = new CreateWorkItemCommand(createRequest);
+        var newWorkItem = new WorkItem { Id = 10, ProjectId = createRequest.ProjectId, Title = createRequest.Title };
 
-        [TestMethod]
-        public async Task GivenValidCreateWorkItemRequest_WhenHandling_ThenShouldAddWorkItemAndReturnId()
-        {
-            // Arrange
-            var createRequest = new CreateWorkItemRequest
-            {
-                ProjectId = 1,
-                Title = "New WorkItem"
-            };
-            var command = new CreateWorkItemCommand(createRequest);
-            var newWorkItem = new WorkItem { Id = 10, ProjectId = createRequest.ProjectId, Title = createRequest.Title };
+        _repositoryMock.Setup(r => r.AddAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()))
+            .Callback<WorkItem, CancellationToken>((w, ct) => w.Id = 10);
 
-            _repositoryMock.Setup(r => r.AddAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()))
-                .Callback<WorkItem, CancellationToken>((w, ct) => w.Id = 10);
+        // Act
+        var result = await ((IRequestHandler<CreateWorkItemCommand, int>)_handler)
+            .Handle(command, CancellationToken.None);
 
-            // Act
-            var result = await ((IRequestHandler<CreateWorkItemCommand, int>)_handler)
-                .Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Should().Be(10);
-            _repositoryMock.Verify(r => r.AddAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
+        // Assert
+        result.Should().Be(10);
+        _repositoryMock.Verify(r => r.AddAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

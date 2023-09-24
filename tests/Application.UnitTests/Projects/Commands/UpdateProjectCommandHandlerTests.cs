@@ -10,55 +10,54 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.Projects.Commands
+namespace Application.UnitTests.Projects.Commands;
+
+[TestClass]
+public class UpdateProjectCommandHandlerTests
 {
-    [TestClass]
-    public class UpdateProjectCommandHandlerTests
+    private Mock<IRepository<Project>> _repositoryMock;
+    private UpdateProjectCommandHandler _handler;
+
+    [TestInitialize]
+    public void SetUp()
     {
-        private Mock<IRepository<Project>> _repositoryMock;
-        private UpdateProjectCommandHandler _handler;
+        _repositoryMock = new Mock<IRepository<Project>>();
+        _handler = new UpdateProjectCommandHandler(_repositoryMock.Object);
+    }
 
-        [TestInitialize]
-        public void SetUp()
-        {
-            _repositoryMock = new Mock<IRepository<Project>>();
-            _handler = new UpdateProjectCommandHandler(_repositoryMock.Object);
-        }
+    [TestMethod]
+    public async Task GivenValidProjectId_WhenHandlingUpdateCommand_ThenShouldUpdateProject()
+    {
+        // Arrange
+        var existingProject = new Project { Id = 1, Title = "Old Title" };
+        var updateRequest = new UpdateProjectRequest { Id = 1, Title = "New Title" };
+        var command = new UpdateProjectCommand(updateRequest);
 
-        [TestMethod]
-        public async Task GivenValidProjectId_WhenHandlingUpdateCommand_ThenShouldUpdateProject()
-        {
-            // Arrange
-            var existingProject = new Project { Id = 1, Title = "Old Title" };
-            var updateRequest = new UpdateProjectRequest { Id = 1, Title = "New Title" };
-            var command = new UpdateProjectCommand(updateRequest);
+        _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(existingProject);
+        // Act
+        await ((IRequestHandler<UpdateProjectCommand>)_handler).Handle(command, CancellationToken.None);
 
-            // Act
-            await ((IRequestHandler<UpdateProjectCommand>)_handler).Handle(command, CancellationToken.None);
+        // Assert
+        existingProject.Title.Should().Be(updateRequest.Title);
+        _repositoryMock.Verify(r => r.UpdateAsync(existingProject, It.IsAny<CancellationToken>()), Times.Once);
+    }
 
-            // Assert
-            existingProject.Title.Should().Be(updateRequest.Title);
-            _repositoryMock.Verify(r => r.UpdateAsync(existingProject, It.IsAny<CancellationToken>()), Times.Once);
-        }
+    [TestMethod]
+    public async Task GivenInvalidProjectId_WhenHandlingUpdateCommand_ThenShouldThrowException()
+    {
+        // Arrange
+        var updateRequest = new UpdateProjectRequest { Id = 99 };
+        var command = new UpdateProjectCommand(updateRequest);
 
-        [TestMethod]
-        public async Task GivenInvalidProjectId_WhenHandlingUpdateCommand_ThenShouldThrowException()
-        {
-            // Arrange
-            var updateRequest = new UpdateProjectRequest { Id = 99 };
-            var command = new UpdateProjectCommand(updateRequest);
+        _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Project)null);
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(updateRequest.Id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Project)null);
+        // Act
+        Func<Task> act = async () => await ((IRequestHandler<UpdateProjectCommand>)_handler).Handle(command, CancellationToken.None);
 
-            // Act
-            Func<Task> act = async () => await ((IRequestHandler<UpdateProjectCommand>)_handler).Handle(command, CancellationToken.None);
-
-            // Assert
-            await act.Should().ThrowAsync<Exception>();
-        }
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
     }
 }

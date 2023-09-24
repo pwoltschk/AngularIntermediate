@@ -9,38 +9,37 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.Projects.Queries
+namespace Application.UnitTests.Projects.Queries;
+
+[TestClass]
+public class GetProjectsQueryHandlerTests
 {
-    [TestClass]
-    public class GetProjectsQueryHandlerTests
+    private Mock<IRepository<Project>> _repositoryMock;
+    private GetProjectsQueryHandler _handler;
+
+    [TestInitialize]
+    public void SetUp()
     {
-        private Mock<IRepository<Project>> _repositoryMock;
-        private GetProjectsQueryHandler _handler;
+        _repositoryMock = new Mock<IRepository<Project>>();
+        _handler = new GetProjectsQueryHandler(_repositoryMock.Object);
+    }
 
-        [TestInitialize]
-        public void SetUp()
-        {
-            _repositoryMock = new Mock<IRepository<Project>>();
-            _handler = new GetProjectsQueryHandler(_repositoryMock.Object);
-        }
+    [TestMethod]
+    public async Task GivenGetProjectsQuery_WhenHandling_ThenShouldReturnAllProjects()
+    {
+        // Arrange
+        var projects = new List<Project> { new Project { Id = 1, Title = "Project 1" }, new Project { Id = 2, Title = "Project 2" } };
+        _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(projects);
 
-        [TestMethod]
-        public async Task GivenGetProjectsQuery_WhenHandling_ThenShouldReturnAllProjects()
-        {
-            // Arrange
-            var projects = new List<Project> { new Project { Id = 1, Title = "Project 1" }, new Project { Id = 2, Title = "Project 2" } };
-            _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(projects);
+        var query = new GetProjectsQuery();
 
-            var query = new GetProjectsQuery();
+        // Act
+        var result = await ((IRequestHandler<GetProjectsQuery, IEnumerable<Project>>)_handler)
+            .Handle(query, CancellationToken.None);
 
-            // Act
-            var result = await ((IRequestHandler<GetProjectsQuery, IEnumerable<Project>>)_handler)
-                .Handle(query, CancellationToken.None);
-
-            // Assert
-            result.Should().BeEquivalentTo(projects);
-            _repositoryMock.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
-        }
+        // Assert
+        result.Should().BeEquivalentTo(projects);
+        _repositoryMock.Verify(r => r.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

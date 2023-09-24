@@ -9,42 +9,41 @@ using Moq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.Projects.Commands
+namespace Application.UnitTests.Projects.Commands;
+
+[TestClass]
+public class CreateProjectCommandHandlerTests
 {
-    [TestClass]
-    public class CreateProjectCommandHandlerTests
+    private Mock<IRepository<Project>> _repositoryMock;
+    private CreateProjectCommandHandler _handler;
+
+    [TestInitialize]
+    public void SetUp()
     {
-        private Mock<IRepository<Project>> _repositoryMock;
-        private CreateProjectCommandHandler _handler;
+        _repositoryMock = new Mock<IRepository<Project>>();
+        _handler = new CreateProjectCommandHandler(_repositoryMock.Object);
+    }
 
-        [TestInitialize]
-        public void SetUp()
+    [TestMethod]
+    public async Task GivenValidCreateProjectRequest_WhenHandling_ThenShouldAddProjectAndReturnId()
+    {
+        // Arrange
+        var createRequest = new CreateProjectRequest
         {
-            _repositoryMock = new Mock<IRepository<Project>>();
-            _handler = new CreateProjectCommandHandler(_repositoryMock.Object);
-        }
+            Title = "New Project"
+        };
+        var command = new CreateProjectCommand(createRequest);
+        var newProject = new Project { Id = 1, Title = createRequest.Title };
 
-        [TestMethod]
-        public async Task GivenValidCreateProjectRequest_WhenHandling_ThenShouldAddProjectAndReturnId()
-        {
-            // Arrange
-            var createRequest = new CreateProjectRequest
-            {
-                Title = "New Project"
-            };
-            var command = new CreateProjectCommand(createRequest);
-            var newProject = new Project { Id = 1, Title = createRequest.Title };
+        _repositoryMock.Setup(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()))
+            .Callback<Project, CancellationToken>((p, ct) => p.Id = 1);
 
-            _repositoryMock.Setup(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()))
-                .Callback<Project, CancellationToken>((p, ct) => p.Id = 1);
+        // Act
+        var result = await ((IRequestHandler<CreateProjectCommand, int>)_handler)
+            .Handle(command, CancellationToken.None);
 
-            // Act
-            var result = await ((IRequestHandler<CreateProjectCommand, int>)_handler)
-                .Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Should().Be(1);
-            _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
+        // Assert
+        result.Should().Be(1);
+        _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

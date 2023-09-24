@@ -11,38 +11,37 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UnitTests.Projects.Commands
+namespace Application.UnitTests.Projects.Commands;
+
+[TestClass]
+public class CreateProjectCommandValidatorTests
 {
-    [TestClass]
-    public class CreateProjectCommandValidatorTests
+    private Mock<IRepository<Project>> _repositoryMock;
+    private CreateProjectCommandValidator _validator;
+
+    [TestInitialize]
+    public void SetUp()
     {
-        private Mock<IRepository<Project>> _repositoryMock;
-        private CreateProjectCommandValidator _validator;
+        _repositoryMock = new Mock<IRepository<Project>>();
+        _validator = new CreateProjectCommandValidator(_repositoryMock.Object);
+    }
 
-        [TestInitialize]
-        public void SetUp()
-        {
-            _repositoryMock = new Mock<IRepository<Project>>();
-            _validator = new CreateProjectCommandValidator(_repositoryMock.Object);
-        }
+    [TestMethod]
+    public async Task GivenDuplicateTitle_WhenValidating_ThenShouldFailValidation()
+    {
+        // Arrange
+        var existingProjects = new List<Project> { new Project { Title = "Existing Title" } };
+        _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProjects);
 
-        [TestMethod]
-        public async Task GivenDuplicateTitle_WhenValidating_ThenShouldFailValidation()
-        {
-            // Arrange
-            var existingProjects = new List<Project> { new Project { Title = "Existing Title" } };
-            _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(existingProjects);
+        var command = new CreateProjectCommand(new CreateProjectRequest { Title = "Existing Title" });
 
-            var command = new CreateProjectCommand(new CreateProjectRequest { Title = "Existing Title" });
+        // Act
+        var result = await _validator.TestValidateAsync(command);
 
-            // Act
-            var result = await _validator.TestValidateAsync(command);
-
-            // Assert
-            result.ShouldHaveValidationErrorFor(c => c.Project.Title)
-                .WithErrorMessage("The project title must be unique.")
-                .WithErrorCode("ERR_UNIQUE_TITLE");
-        }
+        // Assert
+        result.ShouldHaveValidationErrorFor(c => c.Project.Title)
+            .WithErrorMessage("The project title must be unique.")
+            .WithErrorCode("ERR_UNIQUE_TITLE");
     }
 }

@@ -4,9 +4,9 @@ namespace Domain.ValueObjects;
 
 public class Stage : ValueObject
 {
-    public static readonly Stage Planned = new(0, "Planned");
-    public static readonly Stage InProgress = new(1, "In Progress");
-    public static readonly Stage Completed = new(2, "Completed");
+    public static Stage Planned => new(0, "Planned");
+    public static Stage InProgress => new(1, "In Progress");
+    public static Stage Completed => new(2, "Completed");
 
     public int Id { get; }
     public string Name { get; } = string.Empty;

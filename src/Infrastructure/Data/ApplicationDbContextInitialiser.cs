@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
@@ -10,10 +11,8 @@ public class ApplicationDbContextInitialiser
 {
     private const string Administrator = "Administrator";
     private const string Manager = "Manager";
-    private const string AdminUser = "ADMIN";
-
+    private const string AdminUser = "ADMIN@login.com";
     private readonly ApplicationDbContext _context;
-
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
@@ -46,43 +45,51 @@ public class ApplicationDbContextInitialiser
             return;
         }
 
-        var list = new Project
+        var unassignedItem = new WorkItem() { Title = "Analyse business workflow" };
+
+        var workItems = new List<WorkItem>
         {
-            Title = "Develop Kanban board",
-            WorkItems = new List<WorkItem>
-                {
-                    new() { Title = "Implement Infrastructure Layer" },
-                    new() { Title = "Implement Frontend" }
-                }
+            new() { Title = "Implement Infrastructure Layer", Stage = Stage.InProgress, Description = "[] Add DbContext, [] Add Migrations", StartDate = DateTime.Today},
+            new() { Title = "Implement Frontend", Description = "[] Add CSS, [] Implement State store", StartDate = DateTime.Today}
         };
 
-        _context.Projects.Add(list);
+        var projects = new List<Project>
+        {
+            new ()
+            {
+                Title = "Develop Kanban board",
+                WorkItems = workItems
+            },
+            new ()
+            {
+                Title = "Empty Project",
+            }
+        };
+        await _context.Projects.AddRangeAsync(projects);
+        await _context.WorkItems.AddAsync(unassignedItem);
 
         await CreateRole(Administrator, Permission.AllPermissions.ToArray());
         await CreateRole(Manager, Permission.WriteProjects, Permission.ReadProjects);
 
-        var adminUser = new IdentityUser { UserName = AdminUser, Email = AdminUser + "@login.com" };
-        var password = AdminUser + "pw+4";
-        await CreateUser(adminUser, password, Administrator);
+        var adminUser = new IdentityUser { UserName = AdminUser, Email = AdminUser };
+        var password = "AdminUser777!";
 
+        await _userManager.CreateAsync(adminUser, password);
+
+        await _userManager.UpdateAsync(adminUser);
+
+        await _userManager.AddToRoleAsync(adminUser, Administrator);
         await _context.SaveChangesAsync();
     }
 
     private async Task CreateRole(string roleName, params string[] permissions)
     {
         var role = new IdentityRole { Name = roleName, NormalizedName = roleName.ToUpper() };
-
         await _roleManager.CreateAsync(role);
 
         foreach (var permission in permissions)
         {
             await _roleManager.AddClaimAsync(role, Permission.ToClaim(permission));
         }
-    }
-
-    private async Task CreateUser(IdentityUser user, string password, string roleName)
-    {
-        await _userManager.CreateAsync(user, password);
-        await _userManager.AddToRoleAsync(user, roleName);
     }
 }

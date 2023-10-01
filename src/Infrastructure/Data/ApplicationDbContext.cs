@@ -45,11 +45,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
-
         builder.ApplyConfigurationsFromAssembly(
             Assembly.GetExecutingAssembly());
 
         builder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
+        base.OnModelCreating(builder);
     }
 }

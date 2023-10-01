@@ -4,9 +4,9 @@ namespace Domain.ValueObjects;
 
 public class Priority : ValueObject
 {
-    public static readonly Priority Low = new(0, "Low");
-    public static readonly Priority Medium = new(1, "Medium");
-    public static readonly Priority High = new(2, "High");
+    public static Priority Low => new(0, "Low");
+    public static Priority Medium => new(1, "Medium");
+    public static Priority High => new(2, "High");
 
     public int Level { get; }
     public string Name { get; } = string.Empty;

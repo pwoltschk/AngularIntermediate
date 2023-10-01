@@ -14,7 +14,7 @@ internal class WorkItemRepository : IRepository<WorkItem>
 
     public async Task<WorkItem?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Set<WorkItem>().FindAsync(id, cancellationToken);
+        return await _dbContext.Set<WorkItem>().FindAsync(new object[] { id }, cancellationToken);
     }
 
     public async Task<IEnumerable<WorkItem>> GetAllAsync(CancellationToken cancellationToken)

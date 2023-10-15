@@ -86,29 +86,35 @@ public partial class ProjectBoard
         _editWorkItemDialog.Show();
     }
 
-    public async Task AddWorkItem(WorkItemDto workItem)
+    public async Task AddWorkItem()
     {
         var itemId = await WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
-            ProjectId = workItem.ProjectId,
-            Title = workItem.Title
+            ProjectId = State.SelectedList!.Id,
+            Title = _newWorkItem.Title
         });
-        workItem.Id = itemId;
-        State.SelectedList!.WorkItems.Add(workItem);
+        _newWorkItem.Id = itemId;
+        _newWorkItem.ProjectId = State.SelectedList!.Id;
+        State.SelectedList!.WorkItems.Add(_newWorkItem);
     }
 
-    public async Task UpdateWorkItem(WorkItemDto workItem)
+    public async Task UpdateWorkItem()
+    {
+        await SendUpdateWorkItemRequest(_editWorkItem);
+    }
+
+    private async Task SendUpdateWorkItemRequest(WorkItemDto workItem)
     {
         await WorkItemClient.PutWorkItemAsync(workItem.Id, new UpdateWorkItemRequest
         {
             Id = workItem.Id,
             ProjectId = workItem.ProjectId,
             Title = workItem.Title,
-            Description = workItem.Description,
-            Iteration = workItem.Iteration,
+            Description = workItem.Description ?? string.Empty,
+            Iteration = workItem.Iteration ?? string.Empty,
             AssignedTo = workItem.AssignedTo ?? string.Empty,
             Priority = workItem.Priority,
-            Stage = workItem.Stage
+            Stage = workItem.Stage,
         });
     }
 
@@ -122,6 +128,6 @@ public partial class ProjectBoard
     private async Task UpdateWorkItemStage(WorkItemDto item, int stage)
     {
         item.Stage = stage;
-        await UpdateWorkItem(item);
+        await SendUpdateWorkItemRequest(item);
     }
 }

@@ -29,6 +29,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         entity.Iteration = request.Item.Iteration;
         entity.Priority = Priority.FromLevel(request.Item.Priority);
         entity.Description = request.Item.Description;
+        entity.StartDate = request.Item.StartDate;
         entity.Stage = Stage.FromId(request.Item.Stage);
 
         if (hasAssigneeChanged)

@@ -2278,6 +2278,9 @@ namespace UI
         [System.Text.Json.Serialization.JsonPropertyName("assignedTo")]
         public string AssignedTo { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("startDate")]
+        public System.DateTimeOffset? StartDate { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("priority")]
         public int Priority { get; set; }
 

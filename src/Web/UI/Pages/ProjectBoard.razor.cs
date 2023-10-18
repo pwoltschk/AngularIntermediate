@@ -114,6 +114,7 @@ public partial class ProjectBoard
             Iteration = workItem.Iteration ?? string.Empty,
             AssignedTo = workItem.AssignedTo ?? string.Empty,
             Priority = workItem.Priority,
+            StartDate = workItem.StartDate,
             Stage = workItem.Stage,
         });
     }

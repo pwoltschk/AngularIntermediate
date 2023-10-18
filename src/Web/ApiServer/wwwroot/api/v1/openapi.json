@@ -851,6 +851,11 @@
           "assignedTo": {
             "type": "string"
           },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "priority": {
             "type": "integer",
             "format": "int32"

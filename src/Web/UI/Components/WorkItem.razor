@@ -15,7 +15,7 @@
         <h5 class="card-title">@Item.Title</h5>
         <p class="card-text">@Item.Description</p>
         <p class="card-text"><small class="text-muted">Assigned to: @Item.AssignedTo</small></p>
-        <p class="card-text"><small class="text-muted">Start Date: @Item.StartDate.ToString()</small></p>
+        <p class="card-text"><small class="text-muted">Start Date: @(Item.StartDate.HasValue ? Item.StartDate.Value.ToString("dd.MMM.yyyy"):"")</small></p>
         <p class="card-text"><small class="text-muted">Priority: @GetPriorityName(Item.Priority)</small></p>
     </div>
 </div>

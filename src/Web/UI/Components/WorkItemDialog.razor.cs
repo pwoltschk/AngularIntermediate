@@ -14,7 +14,7 @@ public partial class WorkItemDialog
     public string Title { get; set; } = "";
 
     [Parameter]
-    public WorkItemDto WorkItem { get; set; } = new();
+    public WorkItemDto WorkItem { get; set; } = null!;
 
     [Parameter]
     public EventCallback<WorkItemDto> OnSave { get; set; }
@@ -22,10 +22,21 @@ public partial class WorkItemDialog
     public bool IsVisible { get; private set; }
     private string? SelectedUserId { get; set; }
 
+    protected override void OnParametersSet()
+    {
+        if (Users is not { Count: > 0 })
+        {
+            return;
+        }
+
+        var selectedUser = Users.FirstOrDefault(u => u.Name == WorkItem.AssignedTo);
+        SelectedUserId = selectedUser?.Id;
+    }
+
     public void Show()
     {
         IsVisible = true;
-        SelectedUserId = Users.FirstOrDefault(u => u.Name == WorkItem.AssignedTo)?.Id;
+        StateHasChanged();
     }
 
     public void Close() => IsVisible = false;

@@ -1,5 +1,4 @@
-﻿@page "/projectBoard"
-@using UI.Components
+﻿@using UI.Components
 @attribute [Authorize(Permission.ReadProjects)]
 
 @if (State.Initialised)
@@ -8,7 +7,6 @@
         <h2 class="float-start">@State.SelectedList!.Title</h2>
         <button class="btn btn-primary float-end" @onclick="ShowCreateWorkItemDialog">+</button>
     </div>
-
     <div class="kanban-board">
         @foreach (var stage in new[] { 0, 1, 2 })
         {
@@ -19,19 +17,15 @@
                           OnEdit="ShowEditWorkItemDialog" />
         }
     </div>
-
-    <WorkItemDialog @ref="_createWorkItemDialog"
-                    Title="New Work Item"
-                    WorkItem="_newWorkItem"
-                    Users="_users"
-                    Projects="_projects" 
-                    OnSave="AddWorkItem" />
-
-
+    <CreateWorkItemDialog @ref="_createWorkItemDialog"
+                          Title="New Work Item"
+                          WorkItem="_newWorkItem"
+                          Projects="_projects"
+                          OnSave="AddWorkItem" />
     <WorkItemDialog @ref="_editWorkItemDialog"
                     Title="Edit Work Item"
                     WorkItem="_editWorkItem"
                     Users="_users"
-                    Projects="_projects"   
+                    Projects="_projects"
                     OnSave="UpdateWorkItem" />
 }

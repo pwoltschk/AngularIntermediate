@@ -2,7 +2,7 @@
 
 namespace UI.Components;
 
-public partial class WorkItemDialog
+public class WorkItemDialogBase : ComponentBase
 {
     [Parameter]
     public List<ProjectDto> Projects { get; set; } = new();
@@ -20,7 +20,8 @@ public partial class WorkItemDialog
     public EventCallback<WorkItemDto> OnSave { get; set; }
 
     public bool IsVisible { get; private set; }
-    private string? SelectedUserId { get; set; }
+
+    protected string? SelectedUserId { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -28,7 +29,6 @@ public partial class WorkItemDialog
         {
             return;
         }
-
         var selectedUser = Users.FirstOrDefault(u => u.Name == WorkItem.AssignedTo);
         SelectedUserId = selectedUser?.Id;
     }
@@ -39,15 +39,19 @@ public partial class WorkItemDialog
         StateHasChanged();
     }
 
-    public void Close() => IsVisible = false;
+    public void Close()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
 
-    private void UpdateAssignedTo()
+    protected void UpdateAssignedTo()
     {
         var selectedUser = Users.FirstOrDefault(u => u.Id == SelectedUserId);
         WorkItem.AssignedTo = selectedUser?.Name;
     }
 
-    private async Task SaveWorkItem()
+    protected async Task SaveWorkItem()
     {
         UpdateAssignedTo();
         await OnSave.InvokeAsync(WorkItem);

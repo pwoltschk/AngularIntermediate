@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UI.Components;
+using UI.Identity;
 
 namespace UI.Pages;
 
@@ -7,8 +11,10 @@ public partial class WorkItems
 {
     [Inject]
     public IWorkItemClient WorkItemClient { get; set; } = null!;
+
     [Inject]
     public IUsersClient UsersClient { get; set; } = null!;
+
     [Inject]
     public IProjectClient ProjectsClient { get; set; } = null!;
 
@@ -16,10 +22,11 @@ public partial class WorkItems
 
     private List<UserDto> _users = new();
     private List<ProjectDto> _projects = new();
+
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
 
-    private WorkItemDialog _createWorkItemDialog = null!;
+    private CreateWorkItemDialog _createWorkItemDialog = null!;
     private WorkItemDialog _editWorkItemDialog = null!;
 
     protected override async Task OnInitializedAsync()
@@ -68,6 +75,7 @@ public partial class WorkItems
         });
         workItem.Id = itemId;
         Model!.WorkItems.Add(workItem);
+        StateHasChanged();
     }
 
     public async Task UpdateWorkItem(WorkItemDto workItem)
@@ -77,20 +85,21 @@ public partial class WorkItems
             Id = workItem.Id,
             ProjectId = workItem.ProjectId,
             Title = workItem.Title,
-            Description = workItem.Description,
-            Iteration = workItem.Iteration,
+            Description = workItem.Description ?? string.Empty,
+            Iteration = workItem.Iteration ?? string.Empty,
             AssignedTo = workItem.AssignedTo ?? string.Empty,
             Priority = workItem.Priority,
             Stage = workItem.Stage
         });
-
         await LoadWorkItems();
+        StateHasChanged();
     }
 
     public async Task DeleteWorkItem(WorkItemDto workItem)
     {
         await WorkItemClient.DeleteWorkItemAsync(workItem.Id);
         Model!.WorkItems.Remove(workItem);
+        StateHasChanged();
     }
 
     private string GetProjectName(int? projectId)

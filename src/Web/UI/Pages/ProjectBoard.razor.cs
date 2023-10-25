@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using UI.Components;
 
 namespace UI.Pages;
+
 public partial class ProjectBoard
 {
     [CascadingParameter]
@@ -13,13 +14,10 @@ public partial class ProjectBoard
     public IWorkItemClient WorkItemClient { get; set; } = null!;
     [Inject]
     public IUsersClient UsersClient { get; set; } = null!;
-
     [Inject]
     public IProjectClient ProjectsClient { get; set; } = null!;
-
     [Inject]
     public IAuthorizationService AuthorizationService { get; set; } = null!;
-
     [Inject]
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
@@ -27,8 +25,7 @@ public partial class ProjectBoard
     private List<UserDto> _users = new();
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
-
-    private WorkItemDialog _createWorkItemDialog = null!;
+    private CreateWorkItemDialog _createWorkItemDialog = null!;
     private WorkItemDialog _editWorkItemDialog = null!;
 
     protected override async Task OnInitializedAsync()
@@ -38,7 +35,6 @@ public partial class ProjectBoard
         {
             await LoadUsers();
         }
-
         await LoadProjects();
     }
 
@@ -46,13 +42,11 @@ public partial class ProjectBoard
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-
         if (user.Identity?.IsAuthenticated == true)
         {
             var result = await AuthorizationService.AuthorizeAsync(user, "ReadUsers");
             return result.Succeeded;
         }
-
         return false;
     }
 
@@ -77,6 +71,7 @@ public partial class ProjectBoard
     public void ShowCreateWorkItemDialog()
     {
         _newWorkItem = new WorkItemDto();
+        _newWorkItem.ProjectId = State.SelectedList!.Id;
         _createWorkItemDialog.Show();
     }
 
@@ -86,21 +81,23 @@ public partial class ProjectBoard
         _editWorkItemDialog.Show();
     }
 
-    public async Task AddWorkItem()
+    public async Task AddWorkItem(WorkItemDto workItem)
     {
         var itemId = await WorkItemClient.PostWorkItemAsync(new CreateWorkItemRequest
         {
-            ProjectId = State.SelectedList!.Id,
-            Title = _newWorkItem.Title
+            ProjectId = workItem.ProjectId,
+            Title = workItem.Title
         });
-        _newWorkItem.Id = itemId;
-        _newWorkItem.ProjectId = State.SelectedList!.Id;
-        State.SelectedList!.WorkItems.Add(_newWorkItem);
+        workItem.Id = itemId;
+        workItem.ProjectId = State.SelectedList!.Id;
+        State.SelectedList!.WorkItems.Add(workItem);
+        StateHasChanged();
     }
 
-    public async Task UpdateWorkItem()
+    public async Task UpdateWorkItem(WorkItemDto workItem)
     {
-        await SendUpdateWorkItemRequest(_editWorkItem);
+        await SendUpdateWorkItemRequest(workItem);
+        StateHasChanged();
     }
 
     private async Task SendUpdateWorkItemRequest(WorkItemDto workItem)
@@ -124,11 +121,13 @@ public partial class ProjectBoard
         await WorkItemClient.DeleteWorkItemAsync(id);
         var workItem = State.SelectedList!.WorkItems.First(w => w.Id == id);
         State.SelectedList!.WorkItems.Remove(workItem);
+        StateHasChanged();
     }
 
     private async Task UpdateWorkItemStage(WorkItemDto item, int stage)
     {
         item.Stage = stage;
         await SendUpdateWorkItemRequest(item);
+        StateHasChanged();
     }
 }

@@ -1,13 +1,11 @@
 ﻿@page "/workitems"
 @using UI.Components
-@using UI.Identity
-@using global::Shared.Identity
+
 @attribute [Authorize(Permission.ReadProjects)]
 
 <PageTitle>Work Items Management</PageTitle>
 
 <h1>Work Items Management</h1>
-
 <p>Manage work items for your project.</p>
 
 @if (Model == null)
@@ -65,16 +63,15 @@ else
     </table>
 }
 
+<CreateWorkItemDialog @ref="_createWorkItemDialog"
+                      Title="New Work Item"
+                      WorkItem="_newWorkItem"
+                      Projects="_projects"
+                      OnSave="AddWorkItem" />
+
 <WorkItemDialog @ref="_editWorkItemDialog"
                 Title="Edit Work Item"
                 WorkItem="_editWorkItem"
                 Users="_users"
                 Projects="_projects"
                 OnSave="UpdateWorkItem" />
-
-<WorkItemDialog @ref="_createWorkItemDialog"
-                Title="New Work Item"
-                WorkItem="_newWorkItem"
-                Users="_users"
-                Projects="_projects"
-                OnSave="AddWorkItem" />

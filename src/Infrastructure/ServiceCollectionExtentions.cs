@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
         );
 
         services.AddScoped<AuditableEntityInterceptor>();
+        services.AddScoped<DomainEventsDispatcherInterceptor>();
 
         services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole>()

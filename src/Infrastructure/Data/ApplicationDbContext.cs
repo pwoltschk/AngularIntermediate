@@ -15,16 +15,19 @@ namespace Infrastructure.Data;
 public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>, IPersistedGrantDbContext
 {
 
-    private readonly AuditableEntityInterceptor _interceptor;
+    private readonly AuditableEntityInterceptor _auditableEntityInterceptor;
+    private readonly DomainEventsDispatcherInterceptor _dispatcherInterceptor;
     private readonly IOptions<OperationalStoreOptions> _operationalStoreOptions;
 
     public ApplicationDbContext(
         DbContextOptions options,
-        AuditableEntityInterceptor interceptor,
+        AuditableEntityInterceptor auditableEntityInterceptor,
+        DomainEventsDispatcherInterceptor dispatcherInterceptor,
         IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options)
     {
-        _interceptor = interceptor;
+        _auditableEntityInterceptor = auditableEntityInterceptor;
         _operationalStoreOptions = operationalStoreOptions;
+        _dispatcherInterceptor = dispatcherInterceptor;
     }
 
     public DbSet<Project> Projects => Set<Project>();
@@ -38,7 +41,9 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .AddInterceptors(_interceptor);
+            .AddInterceptors(_auditableEntityInterceptor);
+        optionsBuilder
+            .AddInterceptors(_dispatcherInterceptor);
 
         base.OnConfiguring(optionsBuilder);
     }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using UI.Components;
+using UI.Components.WorkItems;
 
 namespace UI.Pages;
 

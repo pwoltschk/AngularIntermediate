@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace UI.Components;
+namespace UI.Components.WorkItems;
 public partial class KanbanColumn
 {
     [Parameter]

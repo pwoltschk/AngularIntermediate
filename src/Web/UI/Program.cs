@@ -18,7 +18,7 @@ AddApiClient<IWorkItemClient, WorkItemClient>(builder);
 AddApiClient<IRolesClient, RolesClient>(builder);
 AddApiClient<IUsersClient, UsersClient>(builder);
 
-builder.Services
+builder.Services    
     .AddApiAuthorization()
     .AddAccountClaimsPrincipalFactory<PermissionAccountClaimsPrincipalFactory>();
 

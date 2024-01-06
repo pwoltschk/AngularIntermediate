@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace UI.Components;
+namespace UI.Components.Projects;
 public partial class ProjectDialog
 {
 

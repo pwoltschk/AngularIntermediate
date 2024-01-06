@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using UI.Components;
+using UI.Components.WorkItems;
 
 namespace UI.Pages;
 

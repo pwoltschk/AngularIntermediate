@@ -7,8 +7,17 @@
             </div>
             <div class="modal-body">
                 <EditForm Model="Project" OnValidSubmit="HandleSubmit">
-                    <InputText id="title" @bind-Value="Project.Title" placeholder="Title" />
-                    <button type="submit">@SubmitButtonText</button>
+                    <FluentValidationValidator />
+
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <InputText id="title" @bind-Value="Project.Title" placeholder="Title" class="form-control" />
+                        <ValidationMessage For="@(() => Project.Title)" />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">@SubmitButtonText</button>
+                    </div>
                 </EditForm>
             </div>
         </div>

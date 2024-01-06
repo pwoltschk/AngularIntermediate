@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Forms
-
-<div class="modal" tabindex="-1" style="display:@(IsVisible ? "block" : "none")">
+﻿<div class="modal" tabindex="-1" style="display:@(IsVisible ? "block" : "none")">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,10 +7,14 @@
             </div>
             <div class="modal-body">
                 <EditForm Model="WorkItem" OnValidSubmit="SaveWorkItem">
+                    <FluentValidationValidator />
+                    
                     <div class="form-group">
                         <label for="title">Title</label>
                         <InputText id="title" @bind-Value="WorkItem.Title" placeholder="Title" class="form-control" />
+                        <ValidationMessage For="@(() => WorkItem.Title)" />
                     </div>
+
                     <div class="form-group">
                         <label for="project">Project</label>
                         <InputSelect id="project" @bind-Value="WorkItem.ProjectId" class="form-control">
@@ -22,7 +24,9 @@
                                 <option value="@project.Id">@project.Title</option>
                             }
                         </InputSelect>
+                        <ValidationMessage For="@(() => WorkItem.ProjectId)" />
                     </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Create Work Item</button>
                     </div>

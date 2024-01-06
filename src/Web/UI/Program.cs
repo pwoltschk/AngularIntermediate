@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using FluentValidation;
+using Blazored.FluentValidation;
 using Plk.Blazor.DragDrop;
 using Shared.Identity;
 using UI;
@@ -23,7 +25,13 @@ builder.Services
 
 builder.Services.AddSingleton<IAuthorizationHandler, CustomAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+builder.Services.AddTransient<IValidator<WorkItemDto>, WorkItemDtoValidator>();
+builder.Services.AddTransient<IValidator<ProjectDto>, ProjectDtoValidator>();
+
+
 builder.Services.AddBlazorDragDrop();
+
+
 
 await builder.Build().RunAsync();
 

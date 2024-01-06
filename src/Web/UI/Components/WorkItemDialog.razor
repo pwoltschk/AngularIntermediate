@@ -9,14 +9,20 @@
             </div>
             <div class="modal-body">
                 <EditForm Model="WorkItem" OnValidSubmit="SaveWorkItem">
+                    <FluentValidationValidator />
+
                     <div class="form-group">
                         <label for="title">Title</label>
                         <InputText id="title" @bind-Value="WorkItem.Title" placeholder="Title" class="form-control" />
+                        <ValidationMessage For="@(() => WorkItem.Title)" />
                     </div>
+
                     <div class="form-group">
                         <label for="description">Description</label>
                         <InputTextArea id="description" @bind-Value="WorkItem.Description" class="form-control" style="height: 100px;" />
+                        <ValidationMessage For="@(() => WorkItem.Description)" />
                     </div>
+
                     <div class="form-group">
                         <label for="assignedTo">Assigned To</label>
                         <InputSelect id="assignedTo" @bind-Value="SelectedUserId" class="form-control">
@@ -26,7 +32,9 @@
                                 <option value="@user.Id">@user.Name</option>
                             }
                         </InputSelect>
+                        <ValidationMessage For="@(() => SelectedUserId)" />
                     </div>
+
                     <div class="form-group">
                         <label for="priority">Priority</label>
                         <InputSelect id="priority" @bind-Value="WorkItem.Priority" class="form-control">
@@ -34,7 +42,9 @@
                             <option value="1">Medium</option>
                             <option value="2">High</option>
                         </InputSelect>
+                        <ValidationMessage For="@(() => WorkItem.Priority)" />
                     </div>
+
                     <div class="form-group">
                         <label for="project">Project</label>
                         <InputSelect id="project" @bind-Value="WorkItem.ProjectId" class="form-control">
@@ -44,7 +54,9 @@
                                 <option value="@project.Id">@project.Title</option>
                             }
                         </InputSelect>
+                        <ValidationMessage For="@(() => WorkItem.ProjectId)" />
                     </div>
+
                     <div class="form-group">
                         <label for="stage">Stage</label>
                         <InputSelect id="stage" @bind-Value="WorkItem.Stage" class="form-control">
@@ -52,11 +64,15 @@
                             <option value="1">In Progress</option>
                             <option value="2">Completed</option>
                         </InputSelect>
+                        <ValidationMessage For="@(() => WorkItem.Stage)" />
                     </div>
+
                     <div class="form-group">
                         <label for="startDate">Start Date</label>
                         <InputDate id="startDate" @bind-Value="WorkItem.StartDate" class="form-control" />
+                        <ValidationMessage For="@(() => WorkItem.StartDate)" />
                     </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>

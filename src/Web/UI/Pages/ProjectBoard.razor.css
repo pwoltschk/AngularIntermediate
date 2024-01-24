@@ -1,9 +1,8 @@
 ﻿.kanban-board {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
     border-radius: 8px;
-    overflow-x: auto;
     width: 100%;
 }

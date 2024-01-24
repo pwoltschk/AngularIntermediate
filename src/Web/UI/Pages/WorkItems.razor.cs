@@ -103,4 +103,12 @@ public partial class WorkItems
         var project = _projects.FirstOrDefault(p => p.Id == projectId);
         return project != null ? project.Title : "UNTRACKED";
     }
+
+    private string Truncate(string value, int maxChars)
+    {
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        return value.Length > maxChars ? value.Substring(0, maxChars) + "..." : value;
+    }
 }

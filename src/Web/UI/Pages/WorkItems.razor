@@ -31,21 +31,23 @@ else
             @foreach (var workItem in Model.WorkItems)
             {
                 <tr>
-                    <td>@workItem.Title</td>
-                    <td>@workItem.Description</td>
+                    <td title="@workItem.Title">@Truncate(workItem.Title, 16)</td>
+                    <td title="@workItem.Description">@Truncate(workItem.Description, 90)</td>
                     <td>@workItem.AssignedTo</td>
                     <td>@workItem.Priority</td>
                     <td>@GetStageName(workItem.Stage)</td>
                     <td>@GetProjectName(workItem.ProjectId)</td>
-                    <td>@workItem.StartDate</td>
+                    <td>@(workItem.StartDate.HasValue ? workItem.StartDate.Value.ToString("dd.MMM.yyyy") : "")</td>
                     <td>
                         <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
-                            <button class="btn btn-primary" @onclick="() => ShowEditWorkItemDialog(workItem)">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-danger" @onclick="() => DeleteWorkItem(workItem)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <div class="d-flex">
+                                <button class="btn btn-primary" @onclick="() => ShowEditWorkItemDialog(workItem)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger" @onclick="() => DeleteWorkItem(workItem)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
                         </AuthorizeWrapper>
                     </td>
                 </tr>

@@ -2,18 +2,26 @@
 
 <div class="card" style="border-left: 4px solid @GetBorderColor()">
     <div class="card-body">
-        <div class="float-end">
-            <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
-                <button class="btn btn-primary btn-sm" @onclick="@(() => OnEdit.InvokeAsync(Item))">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-danger btn-sm" @onclick="@(() => OnDelete.InvokeAsync(Item.Id))">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </AuthorizeWrapper>
+        <div class="d-flex justify-content-between align-items-start">
+            <h5 class="card-title">
+                @(string.IsNullOrEmpty(Item.Title) ? string.Empty : (Item.Title.Length > 16 ? Item.Title.Substring(0, 16) + "..." : Item.Title))
+            </h5>
+            <div>
+                <AuthorizeWrapper Permissions="new List<string> { Permission.WriteProjects }">
+                    <div class="d-flex">
+                        <button class="btn btn-primary btn-sm me-1" @onclick="@(() => OnEdit.InvokeAsync(Item))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" @onclick="@(() => OnDelete.InvokeAsync(Item.Id))">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </AuthorizeWrapper>
+            </div>
         </div>
-        <h5 class="card-title">@Item.Title</h5>
-        <p class="card-text">@Item.Description</p>
+        <p class="card-text">
+            @(string.IsNullOrEmpty(Item.Description) ? string.Empty : (Item.Description.Length > 90 ? Item.Description.Substring(0, 90) + "..." : Item.Description))
+        </p>
         <p class="card-text"><small class="text-muted">Assigned to: @Item.AssignedTo</small></p>
         <p class="card-text"><small class="text-muted">Start Date: @(Item.StartDate.HasValue ? Item.StartDate.Value.ToString("dd.MMM.yyyy"):"")</small></p>
         <p class="card-text"><small class="text-muted">Priority: @GetPriorityName(Item.Priority)</small></p>

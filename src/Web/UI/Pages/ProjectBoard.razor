@@ -3,29 +3,32 @@
 
 @if (State.Initialised)
 {
-    <div class="clearfix">
-        <h2 class="float-start">@State.SelectedList!.Title</h2>
-        <button class="btn btn-primary float-end" @onclick="ShowCreateWorkItemDialog">+</button>
+    <div>
+        <div class="clearfix">
+            <h2 class="float-start">@State.SelectedList!.Title</h2>
+            <button class="btn btn-primary float-end" @onclick="ShowCreateWorkItemDialog">+</button>
+        </div>
+        <div class="kanban-board">
+            @foreach (var stage in new[] { 0, 1, 2 })
+            {
+                <KanbanColumn Title="@GetStageName(stage)"
+                              Items="State.SelectedList.WorkItems.Where(w => w.Stage == stage).ToList()"
+                              OnItemDrop="@(item => UpdateWorkItemStage(item, stage))"
+                              OnDelete="DeleteWorkItem"
+                              OnEdit="ShowEditWorkItemDialog" />
+            }
+        </div>
+        <CreateWorkItemDialog @ref="_createWorkItemDialog"
+                              Title="New Work Item"
+                              WorkItem="_newWorkItem"
+                              Projects="_projects"
+                              OnSave="AddWorkItem" />
+        <WorkItemDialog @ref="_editWorkItemDialog"
+                        Title="Edit Work Item"
+                        WorkItem="_editWorkItem"
+                        Users="_users"
+                        Projects="_projects"
+                        OnSave="UpdateWorkItem" />
     </div>
-    <div class="kanban-board">
-        @foreach (var stage in new[] { 0, 1, 2 })
-        {
-            <KanbanColumn Title="@GetStageName(stage)"
-                          Items="State.SelectedList.WorkItems.Where(w => w.Stage == stage).ToList()"
-                          OnItemDrop="@(item => UpdateWorkItemStage(item, stage))"
-                          OnDelete="DeleteWorkItem"
-                          OnEdit="ShowEditWorkItemDialog" />
-        }
-    </div>
-    <CreateWorkItemDialog @ref="_createWorkItemDialog"
-                          Title="New Work Item"
-                          WorkItem="_newWorkItem"
-                          Projects="_projects"
-                          OnSave="AddWorkItem" />
-    <WorkItemDialog @ref="_editWorkItemDialog"
-                    Title="Edit Work Item"
-                    WorkItem="_editWorkItem"
-                    Users="_users"
-                    Projects="_projects"
-                    OnSave="UpdateWorkItem" />
+
 }

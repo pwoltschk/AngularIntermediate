@@ -23,7 +23,7 @@ public partial class UserEditor
         Model = await UsersClient.GetUserAsync(UserId);
     }
 
-    public void ToggleSelectedRole(string roleName)
+    private void ToggleSelectedRole(string roleName)
     {
         if (Model!.Roles.Any(role => role.Name == roleName))
         {
@@ -44,7 +44,7 @@ public partial class UserEditor
         Navigation.NavigateTo("/users");
     }
 
-    public void CancelEdit()
+    private void CancelEdit()
     {
         Navigation.NavigateTo("/users");
     }

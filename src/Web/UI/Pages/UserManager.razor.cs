@@ -17,7 +17,7 @@ public partial class UserManager
         await LoadUsers();
     }
 
-    public void EditUser(string id) => NavigationManager.NavigateTo("/users/" + id);
+    private void EditUser(string id) => NavigationManager.NavigateTo("/users/" + id);
 
     private async Task LoadUsers()
     {

@@ -25,7 +25,7 @@ public partial class ProjectState
         }
     }
 
-    public bool Initialised { get; set; }
+    public bool Initialised { get; private set; }
 
     protected override async Task OnInitializedAsync()
     {

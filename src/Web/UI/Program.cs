@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using FluentValidation;
-using Blazored.FluentValidation;
 using Plk.Blazor.DragDrop;
 using Shared.Identity;
 using UI;
 using UI.Identity;
+using UI.Validators;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

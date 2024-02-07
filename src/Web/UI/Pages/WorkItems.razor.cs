@@ -14,7 +14,7 @@ public partial class WorkItems
     [Inject]
     public IProjectClient ProjectsClient { get; set; } = null!;
 
-    public WorkItemsViewModel? Model { get; set; }
+    private WorkItemsViewModel? Model { get; set; }
 
     private List<UserDto> _users = new();
     private List<ProjectDto> _projects = new();
@@ -50,13 +50,13 @@ public partial class WorkItems
         _ => "Unknown"
     };
 
-    public void ShowCreateWorkItemDialog()
+    private void ShowCreateWorkItemDialog()
     {
         _newWorkItem = new WorkItemDto();
         _createWorkItemDialog.Show();
     }
 
-    public void ShowEditWorkItemDialog(WorkItemDto workItem)
+    private void ShowEditWorkItemDialog(WorkItemDto workItem)
     {
         _editWorkItem = workItem;
         _editWorkItemDialog.Show();
@@ -91,7 +91,7 @@ public partial class WorkItems
         StateHasChanged();
     }
 
-    public async Task DeleteWorkItem(WorkItemDto workItem)
+    private async Task DeleteWorkItem(WorkItemDto workItem)
     {
         await WorkItemClient.DeleteWorkItemAsync(workItem.Id);
         Model!.WorkItems.Remove(workItem);

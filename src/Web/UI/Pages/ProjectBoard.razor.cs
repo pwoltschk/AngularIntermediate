@@ -70,8 +70,7 @@ public partial class ProjectBoard
 
     public void ShowCreateWorkItemDialog()
     {
-        _newWorkItem = new WorkItemDto();
-        _newWorkItem.ProjectId = State.SelectedList!.Id;
+        _newWorkItem = new WorkItemDto { ProjectId = State.SelectedList!.Id };
         _createWorkItemDialog.Show();
     }
 

@@ -45,7 +45,7 @@
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            if (user?.Identity?.IsAuthenticated == true)
+            if (user.Identity?.IsAuthenticated == true)
             {
                 _userName = user.FindFirst(ClaimTypes.Name)?.Value
                     ?? user.FindFirst("name")?.Value

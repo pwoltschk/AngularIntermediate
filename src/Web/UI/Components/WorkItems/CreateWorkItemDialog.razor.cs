@@ -16,7 +16,7 @@ public partial class CreateWorkItemDialog
     [Parameter]
     public EventCallback<WorkItemDto> OnSave { get; set; }
 
-    public bool IsVisible { get; private set; }
+    private bool IsVisible { get; set; }
 
     public void Show()
     {
@@ -24,7 +24,7 @@ public partial class CreateWorkItemDialog
         StateHasChanged();
     }
 
-    public void Close()
+    private void Close()
     {
         IsVisible = false;
     }

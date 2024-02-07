@@ -18,16 +18,18 @@ public class PermissionAccountClaimsPrincipalFactory : AccountClaimsPrincipalFac
         var user = await base.CreateUserAsync(account, options);
         var identity = user.Identity as ClaimsIdentity;
 
-        if (account.AdditionalProperties.ContainsKey(nameof(Permission)))
+        if (!account.AdditionalProperties.TryGetValue(nameof(Permission), out object? permissions))
         {
-            var permissionsJson = account.AdditionalProperties[nameof(Permission)] as JsonElement?;
-
-            permissionsJson?
-                .EnumerateArray()
-                .ToList()
-                .ForEach(permission => identity?
-                    .AddClaim(new Claim(nameof(Permission), permission.GetString() ?? string.Empty)));
+            return user;
         }
+
+        var permissionsJson = permissions as JsonElement?;
+
+        permissionsJson?
+            .EnumerateArray()
+            .ToList()
+            .ForEach(permission => identity?
+                .AddClaim(new Claim(nameof(Permission), permission.GetString() ?? string.Empty)));
 
         return user;
     }

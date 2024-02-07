@@ -19,7 +19,7 @@ public class WorkItemDialogBase : ComponentBase
     [Parameter]
     public EventCallback<WorkItemDto> OnSave { get; set; }
 
-    public bool IsVisible { get; private set; }
+    protected bool IsVisible { get; private set; }
 
     protected string? SelectedUserId { get; set; }
 
@@ -39,13 +39,13 @@ public class WorkItemDialogBase : ComponentBase
         StateHasChanged();
     }
 
-    public void Close()
+    protected void Close()
     {
         IsVisible = false;
         StateHasChanged();
     }
 
-    protected void UpdateAssignedTo()
+    private void UpdateAssignedTo()
     {
         var selectedUser = Users.FirstOrDefault(u => u.Id == SelectedUserId);
         WorkItem.AssignedTo = selectedUser?.Name;

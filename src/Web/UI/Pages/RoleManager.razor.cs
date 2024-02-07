@@ -8,7 +8,7 @@ public partial class RoleManager
     [Inject]
     public IRolesClient RolesClient { get; set; } = null!;
 
-    public RolesViewModel? Model { get; set; }
+    private RolesViewModel? Model { get; set; }
 
     private string _newRoleName = string.Empty;
 

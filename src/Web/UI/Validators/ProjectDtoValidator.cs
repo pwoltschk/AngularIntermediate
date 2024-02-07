@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
-using UI;
+
+namespace UI.Validators;
 
 public class ProjectDtoValidator : AbstractValidator<ProjectDto>
 {

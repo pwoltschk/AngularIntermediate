@@ -7,39 +7,45 @@
 
 <p>Manage users for your project.</p>
 
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Roles</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var user in Model.Users)
-    {
+@if (Model == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
         <tr>
-            <td>@user.Name</td>
-            <td>@user.Email</td>
-            <td>
-                @foreach (var role in user.Roles)
-                {
-                    <span class="badge btn-primary m-1">@role</span>
-                }
-            </td>
-            <td>
-                <AuthorizeWrapper Permissions="new List<string> { Permission.WriteUsers }">
-                    <button class="btn btn-primary" @onclick="() => EditUser(user.Id)">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger" @onclick="() => DeleteUser(user)">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </AuthorizeWrapper>
-            </td>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="badge btn-primary m-1">@role</span>
+                    }
+                </td>
+                <td>
+                    <AuthorizeWrapper Permissions="new List<string> { Permission.WriteUsers }">
+                        <button class="btn btn-primary" @onclick="() => EditUser(user.Id)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger" @onclick="() => DeleteUser(user)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </AuthorizeWrapper>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

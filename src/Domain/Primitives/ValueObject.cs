@@ -3,16 +3,6 @@
 // Source: https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects
 public abstract class ValueObject
 {
-    protected static bool EqualOperator(ValueObject? left, ValueObject? right)
-    {
-        return !(left is null ^ right is null) && !(!ReferenceEquals(left, right) && !left!.Equals(right!));
-    }
-
-    protected static bool NotEqualOperator(ValueObject left, ValueObject right)
-    {
-        return !EqualOperator(left, right);
-    }
-
     protected abstract IEnumerable<object> GetEqualityComponents();
 
     public override bool Equals(object? obj)
@@ -42,5 +32,15 @@ public abstract class ValueObject
     public static bool operator !=(ValueObject one, ValueObject two)
     {
         return NotEqualOperator(one, two);
+    }
+
+    private static bool EqualOperator(ValueObject? left, ValueObject? right)
+    {
+        return !(left is null ^ right is null) && !(!ReferenceEquals(left, right) && !left!.Equals(right!));
+    }
+
+    private static bool NotEqualOperator(ValueObject left, ValueObject right)
+    {
+        return !EqualOperator(left, right);
     }
 }

@@ -60,7 +60,7 @@ public partial class ProjectBoard
         _projects = (await ProjectsClient.GetProjectsAsync()).Projects.ToList();
     }
 
-    private string GetStageName(int stage) => stage switch
+    private static string GetStageName(int stage) => stage switch
     {
         0 => "Planned",
         1 => "In Progress",
@@ -68,7 +68,7 @@ public partial class ProjectBoard
         _ => "Unknown"
     };
 
-    public void ShowCreateWorkItemDialog()
+    private void ShowCreateWorkItemDialog()
     {
         _newWorkItem = new WorkItemDto { ProjectId = State.SelectedList!.Id };
         _createWorkItemDialog.Show();

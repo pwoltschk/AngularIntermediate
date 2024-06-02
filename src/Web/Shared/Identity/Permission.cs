@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace Shared.Identity;
+﻿namespace Shared.Identity;
 
 public class Permission
 {
@@ -20,10 +18,6 @@ public class Permission
             ReadProjects,
             WriteProjects
         }.AsReadOnly();
-
-    public static Claim ToClaim(string permission)
-    {
-        return new Claim(nameof(Permission), permission);
-    }
+    
 }
 

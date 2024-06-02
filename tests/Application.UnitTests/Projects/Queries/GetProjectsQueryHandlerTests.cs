@@ -28,7 +28,7 @@ public class GetProjectsQueryHandlerTests
     public async Task GivenGetProjectsQuery_WhenHandling_ThenShouldReturnAllProjects()
     {
         // Arrange
-        var projects = new List<Project> { new Project { Id = 1, Title = "Project 1" }, new Project { Id = 2, Title = "Project 2" } };
+        var projects = new List<Project> { new() { Id = 1, Title = "Project 1" }, new() { Id = 2, Title = "Project 2" } };
         _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(projects);
 

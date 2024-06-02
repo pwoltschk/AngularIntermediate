@@ -26,8 +26,8 @@ public class UserMapperTests
         // Arrange
         var roles = new List<Role>
         {
-            new Role("1", "Admin", new List<string>()),
-            new Role("2", "User", new List<string>())
+            new("1", "Admin", new List<string>()),
+            new("2", "User", new List<string>())
         };
 
         var user = new User("1", "John Doe", new Email("john@example.com"));

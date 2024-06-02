@@ -27,7 +27,7 @@ public class GetWorkItemsQueryHandlerTests
     public async Task GivenGetWorkItemsQuery_WhenHandling_ThenShouldReturnWorkItems()
     {
         // Arrange
-        var workItems = new List<WorkItem> { new WorkItem(), new WorkItem() };
+        var workItems = new List<WorkItem> { new(), new() };
         _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(workItems);
 

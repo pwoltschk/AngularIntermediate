@@ -2,7 +2,7 @@
 
 public class UpdateProjectRequest
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 
-    public string Title { get; set; } = string.Empty;
+    public string Title { get; init; } = string.Empty;
 }

@@ -2,5 +2,5 @@
 
 public class WorkItemsViewModel
 {
-    public List<WorkItemDto> WorkItems { get; set; } = new();
+    public List<WorkItemDto> WorkItems { get; init; } = new();
 }

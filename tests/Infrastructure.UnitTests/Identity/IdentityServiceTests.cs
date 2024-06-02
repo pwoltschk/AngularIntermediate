@@ -53,7 +53,7 @@ public class IdentityServiceTests
         var identityUser = new IdentityUser { Id = userId, UserName = "user1", Email = "user1@example.com" };
         var roles = new List<string> { "Admin" };
         var identityRole = new IdentityRole { Id = "2", Name = "Admin" };
-        var claims = new List<Claim> { new Claim(nameof(Permission), "Read") };
+        var claims = new List<Claim> { new(nameof(Permission), "Read") };
 
         _userManagerMock.Setup(u => u.FindByIdAsync(userId))
             .ReturnsAsync(identityUser);
@@ -82,7 +82,7 @@ public class IdentityServiceTests
         await _identityService.CreateRoleAsync(role);
 
         // Assert
-        _roleManagerMock.Verify(r => r.CreateAsync(It.Is<IdentityRole>(r => r.Name == "Admin")), Times.Once);
+        _roleManagerMock.Verify(manager => manager.CreateAsync(It.Is<IdentityRole>(r => r.Name == "Admin")), Times.Once);
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class IdentityServiceTests
         // Arrange
         var role = new Role("1", "Admin", new List<string> { "Read", "Write" });
         var identityRole = new IdentityRole { Id = "1", Name = "Admin" };
-        var claims = new List<Claim> { new Claim(nameof(Permission), "Read") };
+        var claims = new List<Claim> { new(nameof(Permission), "Read") };
 
         _roleManagerMock.Setup(r => r.FindByIdAsync(role.Id))
             .ReturnsAsync(identityRole);
@@ -152,17 +152,18 @@ public class IdentityServiceTests
     public async Task GetRolesAsync_ShouldReturnRolesWithPermissions()
     {
         // Arrange
-        var roles = new List<IdentityRole> { new IdentityRole { Id = "1", Name = "Admin" } }.AsQueryable();
+        var roles = new List<IdentityRole> { new() { Id = "1", Name = "Admin" } }.AsQueryable();
         var mockRoleQueryable = new Mock<IQueryable<IdentityRole>>();
         mockRoleQueryable.As<IAsyncEnumerable<IdentityRole>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>())).Returns(new TestAsyncEnumerator<IdentityRole>(roles.GetEnumerator()));
         mockRoleQueryable.As<IQueryable<IdentityRole>>().Setup(m => m.Provider).Returns(new TestAsyncQueryProvider<IdentityRole>(roles.Provider));
         mockRoleQueryable.As<IQueryable<IdentityRole>>().Setup(m => m.Expression).Returns(roles.Expression);
         mockRoleQueryable.As<IQueryable<IdentityRole>>().Setup(m => m.ElementType).Returns(roles.ElementType);
-        mockRoleQueryable.As<IQueryable<IdentityRole>>().Setup(m => m.GetEnumerator()).Returns(roles.GetEnumerator());
+        using IEnumerator<IdentityRole> enumerator = roles.GetEnumerator();
+        mockRoleQueryable.As<IQueryable<IdentityRole>>().Setup(m => m.GetEnumerator()).Returns(enumerator);
 
         _roleManagerMock.Setup(r => r.Roles).Returns(mockRoleQueryable.Object);
 
-        var claims = new List<Claim> { new Claim(nameof(Permission), "Read") };
+        var claims = new List<Claim> { new(nameof(Permission), "Read") };
         _roleManagerMock.Setup(r => r.GetClaimsAsync(It.IsAny<IdentityRole>())).ReturnsAsync(claims);
 
         // Act
@@ -245,10 +246,6 @@ public class IdentityServiceTests
 
     private class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
     {
-        public TestAsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable)
-        {
-        }
-
         public TestAsyncEnumerable(Expression expression) : base(expression)
         {
         }

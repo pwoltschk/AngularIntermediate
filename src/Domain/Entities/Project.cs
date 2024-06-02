@@ -6,5 +6,5 @@ public class Project : AggregateRoot
 {
     public string Title { get; set; } = string.Empty;
 
-    public ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();
+    public ICollection<WorkItem> WorkItems { get; init; } = new List<WorkItem>();
 }

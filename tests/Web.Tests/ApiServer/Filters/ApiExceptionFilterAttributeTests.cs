@@ -30,7 +30,7 @@ public class ApiExceptionFilterAttributeTests
         // Arrange
         var exception = new ValidationException(new List<ValidationFailure>()
         {
-            new ValidationFailure("Field1", "Error1")
+            new("Field1", "Error1")
         });
 
         var httpContext = new DefaultHttpContext();

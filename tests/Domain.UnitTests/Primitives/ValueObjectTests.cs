@@ -1,4 +1,5 @@
-﻿using Domain.Primitives;
+﻿#nullable enable
+using Domain.Primitives;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -126,7 +127,7 @@ public class ValueObjectTests
     {
         // Arrange
         var valueObject1 = new TestValueObject(5);
-        TestValueObject? valueObject2 = null;
+        TestValueObject valueObject2 = null!;
 
         // Act
         var result = valueObject1 == valueObject2;
@@ -140,7 +141,7 @@ public class ValueObjectTests
     {
         // Arrange
         var valueObject1 = new TestValueObject(5);
-        TestValueObject? valueObject2 = null;
+        TestValueObject valueObject2 = null!;
 
         // Act
         var result = valueObject1 != valueObject2;
@@ -166,7 +167,7 @@ public class ValueObjectTests
 
 public class TestValueObject : ValueObject
 {
-    public int Value { get; }
+    private int Value { get; }
 
     public TestValueObject(int value)
     {

@@ -6,7 +6,7 @@ namespace Domain.Entities;
 public class WorkItem : AggregateRoot
 {
     public int? ProjectId { get; set; }
-    public Project? Project { get; set; } = null!;
+    public Project? Project { get; } = null!;
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Iteration { get; set; } = string.Empty;

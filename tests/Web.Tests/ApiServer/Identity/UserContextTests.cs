@@ -25,7 +25,9 @@ public class UserContextTests
     public void Constructor_ShouldThrowArgumentNullException_WhenHttpContextAccessorIsNull()
     {
         // Act
+#pragma warning disable CA1806
         Action act = () => new UserContext(null);
+#pragma warning restore CA1806
 
         // Assert
         act.Should().Throw<ArgumentNullException>()
@@ -37,7 +39,7 @@ public class UserContextTests
     {
         // Arrange
         var userId = "12345";
-        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId)
         }));

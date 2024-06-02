@@ -31,7 +31,7 @@ public class CustomProfileServiceTests
         var user = new IdentityUser { Id = "123", UserName = "testuser" };
         var context = new ProfileDataRequestContext
         {
-            Subject = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new Claim("sub", "123") }))
+            Subject = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("sub", "123") }))
         };
 
         _userManagerMock.Setup(u => u.GetUserAsync(context.Subject))
@@ -43,7 +43,7 @@ public class CustomProfileServiceTests
         _roleManagerMock.Setup(r => r.FindByNameAsync("Admin"))
             .ReturnsAsync(role);
         _roleManagerMock.Setup(r => r.GetClaimsAsync(role))
-            .ReturnsAsync(new List<Claim> { new Claim("role", "Admin") });
+            .ReturnsAsync(new List<Claim> { new("role", "Admin") });
 
         // Act
         await _profileService.GetProfileDataAsync(context);
@@ -55,13 +55,13 @@ public class CustomProfileServiceTests
     }
 
 
-    private Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
+    private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
     {
         var store = new Mock<IUserStore<TUser>>();
         return new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
     }
 
-    private Mock<RoleManager<TRole>> MockRoleManager<TRole>() where TRole : class
+    private static Mock<RoleManager<TRole>> MockRoleManager<TRole>() where TRole : class
     {
         var store = new Mock<IRoleStore<TRole>>();
         return new Mock<RoleManager<TRole>>(store.Object, null, null, null, null);

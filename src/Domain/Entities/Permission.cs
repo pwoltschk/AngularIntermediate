@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class Permission
+public static class Permission
 {
     public const string ReadRoles = nameof(ReadRoles);
     public const string WriteRoles = nameof(WriteRoles);

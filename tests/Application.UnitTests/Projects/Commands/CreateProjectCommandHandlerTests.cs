@@ -33,10 +33,9 @@ public class CreateProjectCommandHandlerTests
             Title = "New Project"
         };
         var command = new CreateProjectCommand(createRequest);
-        var newProject = new Project { Id = 1, Title = createRequest.Title };
 
         _repositoryMock.Setup(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()))
-            .Callback<Project, CancellationToken>((p, ct) => p.Id = 1);
+            .Callback<Project, CancellationToken>((p, _) => p.Id = 1);
 
         // Act
         var result = await ((IRequestHandler<CreateProjectCommand, int>)_handler)

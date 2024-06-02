@@ -34,10 +34,9 @@ public class CreateWorkItemCommandHandlerTests
             Title = "New WorkItem"
         };
         var command = new CreateWorkItemCommand(createRequest);
-        var newWorkItem = new WorkItem { Id = 10, ProjectId = createRequest.ProjectId, Title = createRequest.Title };
 
         _repositoryMock.Setup(r => r.AddAsync(It.IsAny<WorkItem>(), It.IsAny<CancellationToken>()))
-            .Callback<WorkItem, CancellationToken>((w, ct) => w.Id = 10);
+            .Callback<WorkItem, CancellationToken>((w, _) => w.Id = 10);
 
         // Act
         var result = await ((IRequestHandler<CreateWorkItemCommand, int>)_handler)

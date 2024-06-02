@@ -25,8 +25,8 @@ public class WorkItemViewModelMapperTests
         // Arrange
         var workItems = new List<WorkItem>
         {
-            new WorkItem { Id = 1, Title = "Work Item 1" },
-            new WorkItem { Id = 2, Title = "Work Item 2" }
+            new() { Id = 1, Title = "Work Item 1" },
+            new() { Id = 2, Title = "Work Item 2" }
         };
 
         // Act

@@ -28,7 +28,7 @@ public class CreateProjectCommandValidatorTests
     public async Task GivenDuplicateTitle_WhenValidating_ThenShouldFailValidation()
     {
         // Arrange
-        var existingProjects = new List<Project> { new Project { Title = "Existing Title" } };
+        var existingProjects = new List<Project> { new() { Title = "Existing Title" } };
         _repositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(existingProjects);
 

@@ -1,5 +1,5 @@
-﻿using Application.WorkItems.Events;
-using Application.Common.Services;
+﻿using Application.Common.Services;
+using Application.WorkItems.Events;
 using Domain.Entities;
 using Domain.Events;
 using Domain.Primitives;

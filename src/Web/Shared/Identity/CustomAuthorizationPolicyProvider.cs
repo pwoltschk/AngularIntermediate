@@ -6,16 +6,22 @@ namespace Shared.Identity
 {
     public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {
-        private readonly ConcurrentDictionary<string, AuthorizationPolicy> _policyCache = new ConcurrentDictionary<string, AuthorizationPolicy>();
+        private readonly ConcurrentDictionary<string, AuthorizationPolicy> _policyCache = new();
 
         public CustomAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
             : base(options)
         {
         }
 
-        public override Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
+        public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
-            return _policyCache.TryGetValue(policyName, out var policy) ? Task.FromResult(policy) : CreateAndCachePolicyAsync(policyName);
+            if (_policyCache.TryGetValue(policyName, out AuthorizationPolicy? policy))
+            {
+                return policy;
+            }
+
+            policy = await CreateAndCachePolicyAsync(policyName);
+            return policy;
         }
 
         private async Task<AuthorizationPolicy?> CreateAndCachePolicyAsync(string policyName)

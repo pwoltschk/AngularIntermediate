@@ -42,7 +42,7 @@ public partial class WorkItems
         _projects = (await ProjectsClient.GetProjectsAsync()).Projects.ToList();
     }
 
-    private string GetStageName(int stage) => stage switch
+    private static string GetStageName(int stage) => stage switch
     {
         0 => "Planned",
         1 => "In Progress",
@@ -104,11 +104,8 @@ public partial class WorkItems
         return project != null ? project.Title : "UNTRACKED";
     }
 
-    private string Truncate(string value, int maxChars)
+    private static string Truncate(string value, int maxChars)
     {
-        if (string.IsNullOrEmpty(value))
-            return string.Empty;
-
-        return value.Length > maxChars ? value.Substring(0, maxChars) + "..." : value;
+        return string.IsNullOrEmpty(value) ? string.Empty : value.Length > maxChars ? value[..maxChars] + "..." : value;
     }
 }

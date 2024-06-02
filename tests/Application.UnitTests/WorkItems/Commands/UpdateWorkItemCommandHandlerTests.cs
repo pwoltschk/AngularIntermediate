@@ -3,7 +3,6 @@ using Application.WorkItems.Requests;
 using Domain.Entities;
 using Domain.Events;
 using Domain.Primitives;
-using Domain.ValueObjects;
 using FluentAssertions;
 using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

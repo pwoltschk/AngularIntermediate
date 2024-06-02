@@ -4,10 +4,10 @@ using FluentAssertions;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using System;
 using System.Collections.Generic;
 

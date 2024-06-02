@@ -173,20 +173,19 @@ public class IdentityServiceTests
             .Which.Permissions.Should().Contain("Read");
     }
 
-    private Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
+    private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
     {
         var store = new Mock<IUserStore<TUser>>();
         return new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
     }
 
-    private Mock<RoleManager<TRole>> MockRoleManager<TRole>() where TRole : class
+    private static Mock<RoleManager<TRole>> MockRoleManager<TRole>() where TRole : class
     {
         var store = new Mock<IRoleStore<TRole>>();
         return new Mock<RoleManager<TRole>>(store.Object, null, null, null, null);
     }
 
-    // Helper classes for async queryable
-    internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
+    private class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _inner;
 
@@ -197,18 +196,19 @@ public class IdentityServiceTests
 
         public T Current => _inner.Current;
 
-        public async ValueTask DisposeAsync()
+        public ValueTask DisposeAsync()
         {
             _inner.Dispose();
+            return ValueTask.CompletedTask;
         }
 
-        public async ValueTask<bool> MoveNextAsync()
+        public ValueTask<bool> MoveNextAsync()
         {
-            return _inner.MoveNext();
+            return ValueTask.FromResult(_inner.MoveNext());
         }
     }
 
-    internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
+    private class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -227,7 +227,7 @@ public class IdentityServiceTests
             return new TestAsyncEnumerable<TElement>(expression);
         }
 
-        public object? Execute(Expression expression)
+        public object Execute(Expression expression)
         {
             return _inner.Execute(expression);
         }
@@ -237,18 +237,13 @@ public class IdentityServiceTests
             return _inner.Execute<TResult>(expression);
         }
 
-        public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression)
-        {
-            return new TestAsyncEnumerable<TResult>(expression);
-        }
-
         public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
         {
             return Execute<TResult>(expression);
         }
     }
 
-    internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    private class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
     {
         public TestAsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable)
         {
@@ -258,14 +253,14 @@ public class IdentityServiceTests
         {
         }
 
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+        private IAsyncEnumerator<T> GetAsyncEnumerator()
         {
             return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
         }
 
         IAsyncEnumerator<T> IAsyncEnumerable<T>.GetAsyncEnumerator(CancellationToken cancellationToken)
         {
-            return GetAsyncEnumerator(cancellationToken);
+            return GetAsyncEnumerator();
         }
 
         IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);

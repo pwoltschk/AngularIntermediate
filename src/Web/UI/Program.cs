@@ -1,8 +1,8 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using FluentValidation;
 using Plk.Blazor.DragDrop;
 using Shared.Identity;
 using UI;
@@ -18,7 +18,7 @@ AddApiClient<IWorkItemClient, WorkItemClient>(builder);
 AddApiClient<IRolesClient, RolesClient>(builder);
 AddApiClient<IUsersClient, UsersClient>(builder);
 
-builder.Services    
+builder.Services
     .AddApiAuthorization()
     .AddAccountClaimsPrincipalFactory<PermissionAccountClaimsPrincipalFactory>();
 

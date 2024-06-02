@@ -2,12 +2,10 @@
 using Application.Projects.Requests;
 using Domain.Entities;
 using Domain.Primitives;
-using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

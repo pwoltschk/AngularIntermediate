@@ -60,7 +60,7 @@ public partial class Project
         {
             Title = project.Title
         });
-        var newProject = new ProjectDto { Id = projectId, Title = project.Title , WorkItems = new List<WorkItemDto>()};
+        var newProject = new ProjectDto { Id = projectId, Title = project.Title, WorkItems = new List<WorkItemDto>() };
         State.Model!.Projects.Add(newProject);
     }
 

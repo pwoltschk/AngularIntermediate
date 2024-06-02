@@ -3,7 +3,7 @@
 namespace Application.Users.Command;
 public record DeleteUserCommand(string Id) : IRequest;
 
-public class DeleteUserCommandHandler : AsyncRequestHandler<DeleteUserCommand>
+public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
 {
     private readonly IIdentityService _identityService;
 
@@ -12,7 +12,7 @@ public class DeleteUserCommandHandler : AsyncRequestHandler<DeleteUserCommand>
         _identityService = identityService;
     }
 
-    protected override async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         await _identityService.DeleteUserAsync(request.Id);
     }

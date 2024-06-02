@@ -10,7 +10,7 @@ public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipeline
         _logger = logger;
     }
 
-    public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         try
         {

@@ -6,7 +6,7 @@ namespace Application.Projects.Commands;
 public record UpdateProjectCommand(UpdateProjectRequest Project) : IRequest;
 
 public class UpdateProjectCommandHandler
-    : AsyncRequestHandler<UpdateProjectCommand>
+    : IRequestHandler<UpdateProjectCommand>
 {
     private readonly IRepository<Project> _repository;
 
@@ -15,7 +15,7 @@ public class UpdateProjectCommandHandler
         _repository = repository;
     }
 
-    protected override async Task Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
         var entity = await _repository.GetByIdAsync(request.Project.Id, cancellationToken) ?? throw new Exception($"The request ID {request.Project.Id} was not found.");
         entity.Title = request.Project.Title;

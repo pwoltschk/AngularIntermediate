@@ -3,7 +3,7 @@
 namespace Application.Users.Command;
 public record UpdateUserCommand(User User) : IRequest;
 
-public class UpdateUserCommandHandler : AsyncRequestHandler<UpdateUserCommand>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
 {
     private readonly IIdentityService _identityService;
 
@@ -12,7 +12,7 @@ public class UpdateUserCommandHandler : AsyncRequestHandler<UpdateUserCommand>
         _identityService = identityService;
     }
 
-    protected override async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         await _identityService.UpdateUserAsync(request.User);
     }

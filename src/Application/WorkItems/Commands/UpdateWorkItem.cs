@@ -7,7 +7,7 @@ namespace Application.WorkItems.Commands;
 
 public record UpdateWorkItemCommand(UpdateWorkItemRequest Item) : IRequest;
 
-public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCommand>
+public class UpdateWorkItemCommandHandler : IRequestHandler<UpdateWorkItemCommand>
 {
     private readonly IRepository<WorkItem> _repository;
 
@@ -16,7 +16,7 @@ public class UpdateWorkItemCommandHandler : AsyncRequestHandler<UpdateWorkItemCo
         _repository = repository;
     }
 
-    protected override async Task Handle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
     {
         var entity = await _repository.GetByIdAsync(request.Item.Id, cancellationToken)
             ?? throw new Exception($"The request ID {request.Item.Id} was not found.");

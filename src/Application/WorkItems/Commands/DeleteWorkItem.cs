@@ -5,7 +5,7 @@ namespace Application.WorkItems.Commands;
 public record DeleteWorkItemCommand(int Id) : IRequest;
 
 public class DeleteWorkItemCommandHandler
-    : AsyncRequestHandler<DeleteWorkItemCommand>
+    : IRequestHandler<DeleteWorkItemCommand>
 {
     private readonly IRepository<WorkItem> _repository;
 
@@ -14,7 +14,7 @@ public class DeleteWorkItemCommandHandler
         _repository = repository;
     }
 
-    protected override async Task Handle(DeleteWorkItemCommand request,
+    public async Task Handle(DeleteWorkItemCommand request,
         CancellationToken cancellationToken)
     {
         var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);

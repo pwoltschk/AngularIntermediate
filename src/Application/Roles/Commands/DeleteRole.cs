@@ -3,7 +3,7 @@
 namespace Application.Roles.Commands;
 public record DeleteRoleCommand(string Id) : IRequest;
 
-public class DeleteRoleCommandHandler : AsyncRequestHandler<DeleteRoleCommand>
+public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand>
 {
     private readonly IIdentityService _identityService;
 
@@ -12,7 +12,7 @@ public class DeleteRoleCommandHandler : AsyncRequestHandler<DeleteRoleCommand>
         _identityService = identityService;
     }
 
-    protected override async Task Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         await _identityService.DeleteRoleAsync(request.Id);
     }

@@ -3,7 +3,7 @@
 namespace Application.Roles.Commands;
 public record UpdateRoleCommand(Role Role) : IRequest;
 
-public class UpdateRoleCommandHandler : AsyncRequestHandler<UpdateRoleCommand>
+public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand>
 {
     private readonly IIdentityService _identityService;
 
@@ -12,7 +12,7 @@ public class UpdateRoleCommandHandler : AsyncRequestHandler<UpdateRoleCommand>
         _identityService = identityService;
     }
 
-    protected override async Task Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
         await _identityService.UpdateRoleAsync(request.Role);
     }

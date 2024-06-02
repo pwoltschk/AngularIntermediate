@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Shared.Identity;
@@ -64,7 +65,7 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-app.UseSwaggerUi3(configure => configure.DocumentPath = "/api/v1/openapi.json");
+app.UseSwaggerUi(configure => configure.Path = "/api/v1/openapi.json");
 
 
 

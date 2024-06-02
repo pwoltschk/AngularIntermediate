@@ -4,7 +4,7 @@ namespace Application.Roles.Commands;
 
 public record CreateRoleCommand(Role Role) : IRequest;
 
-public class CreateRoleCommandHandler : AsyncRequestHandler<CreateRoleCommand>
+public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand>
 {
     private readonly IIdentityService _identityService;
 
@@ -13,7 +13,7 @@ public class CreateRoleCommandHandler : AsyncRequestHandler<CreateRoleCommand>
         _identityService = identityService;
     }
 
-    protected override async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         await _identityService.CreateRoleAsync(request.Role);
     }

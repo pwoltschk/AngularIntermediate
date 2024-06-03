@@ -28,7 +28,7 @@ public class UserDetailsViewModelMapperTests
         // Arrange
         var roles = new List<Role>
         {
-            new("1", "Admin", new List<string>()), new("2", "User", new List<string>())
+            new("1", "Admin", []), new("2", "User",  [])
         };
 
         var user = new User("1", "John Doe", new Email("john@example.com"));

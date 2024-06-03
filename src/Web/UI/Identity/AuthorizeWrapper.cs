@@ -5,7 +5,7 @@ namespace UI.Identity
     public class AuthorizeWrapper : Microsoft.AspNetCore.Components.Authorization.AuthorizeView
     {
         [Parameter]
-        public IEnumerable<string> Permissions { get; set; } = Array.Empty<string>();
+        public IEnumerable<string> Permissions { get; set; } = [];
 
         protected override void OnParametersSet()
         {

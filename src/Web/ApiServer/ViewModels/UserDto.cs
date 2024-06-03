@@ -7,6 +7,6 @@ public class UserDto
 
     public string Email { get; init; } = string.Empty;
 
-    public IEnumerable<string> Roles { get; init; } = Enumerable.Empty<string>();
+    public IEnumerable<string> Roles { get; init; } = [];
 
 }

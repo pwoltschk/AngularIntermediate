@@ -14,7 +14,7 @@ internal class ProjectRepository : IRepository<Project>
 
     public async Task<Project?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Set<Project>().FindAsync(new object[] { id }, cancellationToken);
+        return await _dbContext.Set<Project>().FindAsync([id], cancellationToken);
     }
 
     public async Task<IEnumerable<Project>> GetAllAsync(CancellationToken cancellationToken)

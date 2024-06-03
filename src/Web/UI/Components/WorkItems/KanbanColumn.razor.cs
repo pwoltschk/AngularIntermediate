@@ -7,7 +7,7 @@ public partial class KanbanColumn
     public string Title { get; set; } = "";
 
     [Parameter]
-    public List<WorkItemDto> Items { get; set; } = new();
+    public List<WorkItemDto> Items { get; set; } = [];
 
     [Parameter]
     public EventCallback<WorkItemDto> OnItemDrop { get; set; }

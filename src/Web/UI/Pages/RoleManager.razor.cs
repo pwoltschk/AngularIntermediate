@@ -70,7 +70,7 @@ public partial class RoleManager
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = _newRoleName,
-                Permissions = new List<string>()
+                Permissions = []
             };
 
             await RolesClient.PostRoleAsync(newRole);

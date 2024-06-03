@@ -68,7 +68,7 @@ public class ApplicationDbContextInitialiser
         await _context.Projects.AddRangeAsync(projects);
         await _context.WorkItems.AddAsync(unassignedItem);
 
-        await CreateRole(Administrator, Permission.AllPermissions.ToArray());
+        await CreateRole(Administrator, [.. Permission.AllPermissions]);
         await CreateRole(Manager, Permission.WriteProjects, Permission.ReadProjects);
 
         var adminUser = new IdentityUser { UserName = AdminUser, Email = AdminUser };

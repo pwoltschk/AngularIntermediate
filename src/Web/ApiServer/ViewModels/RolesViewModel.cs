@@ -2,6 +2,6 @@
 
 public class RolesViewModel
 {
-    public List<RoleDto> Roles { get; set; } = new();
+    public List<RoleDto> Roles { get; set; } = [];
 }
 

@@ -21,8 +21,8 @@ public partial class ProjectBoard
     [Inject]
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
-    private List<ProjectDto> _projects = new();
-    private List<UserDto> _users = new();
+    private List<ProjectDto> _projects = [];
+    private List<UserDto> _users = [];
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
     private CreateWorkItemDialog _createWorkItemDialog = null!;
@@ -52,12 +52,12 @@ public partial class ProjectBoard
 
     private async Task LoadUsers()
     {
-        _users = (await UsersClient.GetUsersAsync()).Users.ToList();
+        _users = [.. (await UsersClient.GetUsersAsync()).Users];
     }
 
     private async Task LoadProjects()
     {
-        _projects = (await ProjectsClient.GetProjectsAsync()).Projects.ToList();
+        _projects = [.. (await ProjectsClient.GetProjectsAsync()).Projects];
     }
 
     private static string GetStageName(int stage) => stage switch

@@ -21,7 +21,7 @@ public class UserMapper : IMapper<UserDto, User>
     {
         var email = new Email(model.Email);
         var user = new User(model.Id, model.Name, email);
-        user.Roles.AddRange(model.Roles.Select(r => new Role(string.Empty, r, new List<string>())));
+        user.Roles.AddRange(model.Roles.Select(r => new Role(string.Empty, r, [])));
         return user;
     }
 }

@@ -31,19 +31,19 @@ public class CustomProfileServiceTests
         var user = new IdentityUser { Id = "123", UserName = "testuser" };
         var context = new ProfileDataRequestContext
         {
-            Subject = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("sub", "123") }))
+            Subject = new ClaimsPrincipal(new ClaimsIdentity([new Claim("sub", "123")]))
         };
 
         _userManagerMock.Setup(u => u.GetUserAsync(context.Subject))
             .ReturnsAsync(user);
         _userManagerMock.Setup(u => u.GetRolesAsync(user))
-            .ReturnsAsync(new List<string> { "Admin" });
+            .ReturnsAsync(["Admin"]);
 
         var role = new IdentityRole("Admin");
         _roleManagerMock.Setup(r => r.FindByNameAsync("Admin"))
             .ReturnsAsync(role);
         _roleManagerMock.Setup(r => r.GetClaimsAsync(role))
-            .ReturnsAsync(new List<Claim> { new("role", "Admin") });
+            .ReturnsAsync([new Claim("role", "Admin")]);
 
         // Act
         await _profileService.GetProfileDataAsync(context);

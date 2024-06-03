@@ -20,6 +20,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
     }
 
+    public ApiExceptionFilterAttribute(IDictionary<Type, Action<ExceptionContext>> exceptionHandlers)
+    {
+        _exceptionHandlers = exceptionHandlers;
+    }
+
     public override void OnException(ExceptionContext context)
     {
         HandleException(context);

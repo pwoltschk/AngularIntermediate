@@ -11,7 +11,7 @@ public partial class CreateWorkItemDialog
     public WorkItemDto WorkItem { get; set; } = new();
 
     [Parameter]
-    public List<ProjectDto> Projects { get; set; } = new();
+    public List<ProjectDto> Projects { get; set; } = [];
 
     [Parameter]
     public EventCallback<WorkItemDto> OnSave { get; set; }

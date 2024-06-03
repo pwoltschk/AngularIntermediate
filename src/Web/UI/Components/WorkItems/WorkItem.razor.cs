@@ -21,7 +21,7 @@ public partial class WorkItem
         _ => "gray"
     };
 
-    private string GetPriorityName(int priority) => priority switch
+    private static string GetPriorityName(int priority) => priority switch
     {
         0 => "Low",
         1 => "Medium",

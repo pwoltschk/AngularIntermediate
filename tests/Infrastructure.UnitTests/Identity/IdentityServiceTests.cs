@@ -76,7 +76,7 @@ public class IdentityServiceTests
     public async Task CreateRoleAsync_ShouldCreateRole()
     {
         // Arrange
-        var role = new Role("1", "Admin", new List<string> { "Read" });
+        var role = new Role("1", "Admin",  ["Read"]);
 
         // Act
         await _identityService.CreateRoleAsync(role);
@@ -89,7 +89,7 @@ public class IdentityServiceTests
     public async Task UpdateRoleAsync_ShouldUpdateRoleWithNewPermissions()
     {
         // Arrange
-        var role = new Role("1", "Admin", new List<string> { "Read", "Write" });
+        var role = new Role("1", "Admin",  ["Read", "Write"]);
         var identityRole = new IdentityRole { Id = "1", Name = "Admin" };
         var claims = new List<Claim> { new(nameof(Permission), "Read") };
 

@@ -16,8 +16,8 @@ public partial class WorkItems
 
     private WorkItemsViewModel? Model { get; set; }
 
-    private List<UserDto> _users = new();
-    private List<ProjectDto> _projects = new();
+    private List<UserDto> _users = [];
+    private List<ProjectDto> _projects = [];
 
     private WorkItemDto _newWorkItem = new();
     private WorkItemDto _editWorkItem = new();
@@ -38,8 +38,8 @@ public partial class WorkItems
 
     private async Task LoadUsersAndProjects()
     {
-        _users = (await UsersClient.GetUsersAsync()).Users.ToList();
-        _projects = (await ProjectsClient.GetProjectsAsync()).Projects.ToList();
+        _users = [.. (await UsersClient.GetUsersAsync()).Users];
+        _projects = [.. (await ProjectsClient.GetProjectsAsync()).Projects];
     }
 
     private static string GetStageName(int stage) => stage switch

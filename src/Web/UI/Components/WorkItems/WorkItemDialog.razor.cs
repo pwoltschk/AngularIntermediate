@@ -5,10 +5,10 @@ namespace UI.Components.WorkItems;
 public class WorkItemDialogBase : ComponentBase
 {
     [Parameter]
-    public List<ProjectDto> Projects { get; set; } = new();
+    public List<ProjectDto> Projects { get; set; } = [];
 
     [Parameter]
-    public List<UserDto> Users { get; set; } = new();
+    public List<UserDto> Users { get; set; } = [];
 
     [Parameter]
     public string Title { get; set; } = "";

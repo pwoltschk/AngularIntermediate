@@ -24,11 +24,11 @@ public class UserMapperTests
     public void MapUserToUserDto_ShouldMapCorrectly()
     {
         // Arrange
-        var roles = new List<Role>
-        {
-            new("1", "Admin", new List<string>()),
-            new("2", "User", new List<string>())
-        };
+        List<Role> roles =
+        [
+            new("1", "Admin", (List<string>) []),
+            new("2", "User", (List<string>) [])
+        ];
 
         var user = new User("1", "John Doe", new Email("john@example.com"));
 
@@ -52,7 +52,7 @@ public class UserMapperTests
             Id = "1",
             Name = "John Doe",
             Email = "john@example.com",
-            Roles = new List<string> { "Admin", "User" }
+            Roles = ["Admin", "User"]
         };
 
         // Act
@@ -74,7 +74,7 @@ public class UserMapperTests
             Id = "1",
             Name = "John Doe",
             Email = "john@example.com",
-            Roles = new List<string>() // Empty roles
+            Roles =  [] // Empty roles
         };
 
         // Act

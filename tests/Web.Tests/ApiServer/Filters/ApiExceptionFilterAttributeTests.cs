@@ -28,10 +28,7 @@ public class ApiExceptionFilterAttributeTests
     public void GivenValidationException_WhenOnExceptionInvoked_ShouldReturnBadRequestObjectResult()
     {
         // Arrange
-        var exception = new ValidationException(new List<ValidationFailure>()
-        {
-            new("Field1", "Error1")
-        });
+        var exception = new ValidationException([new("Field1", "Error1")]);
 
         var httpContext = new DefaultHttpContext();
         var routeData = new RouteData();
@@ -42,7 +39,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor,
         };
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
         {
             Exception = exception
         };
@@ -77,7 +74,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor
         };
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
         {
             Exception = exception
         };
@@ -112,7 +109,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor
         };
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
         {
             Exception = exception
         };

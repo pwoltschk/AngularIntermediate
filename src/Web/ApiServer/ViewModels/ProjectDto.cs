@@ -6,5 +6,5 @@ public class ProjectDto
 
     public string Title { get; set; } = string.Empty;
 
-    public List<WorkItemDto> WorkItems { get; set; } = new();
+    public List<WorkItemDto> WorkItems { get; set; } = [];
 }

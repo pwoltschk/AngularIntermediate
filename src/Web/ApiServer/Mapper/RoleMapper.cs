@@ -16,7 +16,7 @@ public class RoleMapper : IMapper<RoleDto, Role>
         {
             Id = model.Id,
             Name = model.Name,
-            Permissions = model.Permissions.ToList()
+            Permissions = [.. model.Permissions]
         };
     }
 }

@@ -39,10 +39,9 @@ public class UserContextTests
     {
         // Arrange
         var userId = "12345";
-        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
-        {
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity([
             new Claim(ClaimTypes.NameIdentifier, userId)
-        }));
+        ]));
 
         var httpContext = new DefaultHttpContext { User = claimsPrincipal };
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContext);

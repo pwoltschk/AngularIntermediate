@@ -4,7 +4,7 @@ namespace UI.Components.Projects;
 public partial class ProjectList
 {
     [Parameter]
-    public List<ProjectDto> Projects { get; set; } = new();
+    public List<ProjectDto> Projects { get; set; } = [];
 
     [Parameter]
     public ProjectDto? SelectedProject { get; set; }

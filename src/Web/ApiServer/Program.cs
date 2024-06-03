@@ -33,7 +33,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddOpenApiDocument(configure =>
 {
     configure.Title = "ProjectManager API";
-    configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+    configure.AddSecurity("JWT", [], new OpenApiSecurityScheme
     {
         Type = OpenApiSecuritySchemeType.ApiKey,
         Name = "Authorization",

@@ -1,4 +1,7 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Application.Common.Exceptions;
+using Domain.Entities;
+using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -20,11 +23,12 @@ public class CustomProfileService : IProfileService
     {
         var user = await _userManager.GetUserAsync(context.Subject);
 
-        var claims = new List<Claim>
+        if (user is not { Id: not null, UserName: not null })
         {
-            new("sub", user.Id),
-            new("name", user.UserName)
-        };
+            throw new NotFoundException(nameof(User), string.Empty);
+        }
+
+        var claims = new List<Claim> { new("sub", user.Id), new("name", user.UserName) };
 
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var roleName in roles)

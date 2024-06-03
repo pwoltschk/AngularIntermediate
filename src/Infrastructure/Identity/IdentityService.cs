@@ -22,7 +22,10 @@ public class IdentityService : IIdentityService
     public async Task DeleteUserAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        await _userManager.DeleteAsync(user);
+        if (user != null)
+        {
+            await _userManager.DeleteAsync(user);
+        }
     }
 
     public async Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken)
@@ -38,7 +41,10 @@ public class IdentityService : IIdentityService
                 .Select(c => c.Value)
                 .ToList();
 
-            roleList.Add(new Role(role.Id, role.Name, permissions));
+            if (role.Name != null)
+            {
+                roleList.Add(new Role(role.Id, role.Name, permissions));
+            }
         }
 
         return roleList;
@@ -60,20 +66,35 @@ public class IdentityService : IIdentityService
 
     public async Task<User> GetUserAsync(string id)
     {
-        var identityUser = await _userManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(User), id);
+        var identityUser = await _userManager.FindByIdAsync(id);
+
+        if (identityUser is not { UserName: not null, Email: not null })
+        {
+            throw new NotFoundException(nameof(User), id);
+        }
+
         var user = new User(identityUser.Id, identityUser.UserName, new Email(identityUser.Email));
         var roles = await _userManager.GetRolesAsync(identityUser);
 
         foreach (var role in roles)
         {
             var identityRole = await _roleManager.FindByNameAsync(role);
+
+
+            if (identityRole?.Name == null)
+            {
+                continue;
+            }
+
             var claims = await _roleManager.GetClaimsAsync(identityRole);
             var permissions = claims
                 .Where(c => c.Type == nameof(Permission))
                 .Select(c => c.Value)
                 .ToList();
 
+
             user.Roles.Add(new Role(identityRole.Id, identityRole.Name, permissions));
+
         }
 
         return user;

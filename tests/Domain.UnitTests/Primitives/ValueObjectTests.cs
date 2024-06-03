@@ -165,14 +165,9 @@ public class ValueObjectTests
     }
 }
 
-public class TestValueObject : ValueObject
+public class TestValueObject(int value) : ValueObject
 {
-    private int Value { get; }
-
-    public TestValueObject(int value)
-    {
-        Value = value;
-    }
+    private int Value { get; } = value;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

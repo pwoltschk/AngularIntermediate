@@ -12,27 +12,19 @@ using Permission = Shared.Identity.Permission;
 namespace ApiServer.Controllers.Identity;
 
 [Route("api/Admin/[controller]")]
-public class UsersController : CustomControllerBase
+public class UsersController(
+    ISender mediator,
+    IMapper<UserDto, User> userMapper,
+    IMapper<UserDetailsViewModel, User> detailsMapper)
+    : CustomControllerBase(mediator)
 {
-    private readonly IMapper<UserDetailsViewModel, User> _detailsMapper;
-    private readonly IMapper<UserDto, User> _userMapper;
-
-    public UsersController(
-        ISender mediator,
-        IMapper<UserDto, User> userMapper,
-        IMapper<UserDetailsViewModel, User> detailsMapper) : base(mediator)
-    {
-        _userMapper = userMapper;
-        _detailsMapper = detailsMapper;
-    }
-
     [HttpGet]
     [Authorize(Permission.ReadUsers)]
     public async Task<ActionResult<UsersViewModel>> GetUsers()
     {
         return new UsersViewModel
         {
-            Users = (await Mediator.Send(new GetUsersQuery())).Select(_userMapper.Map).ToList()
+            Users = (await Mediator.Send(new GetUsersQuery())).Select(userMapper.Map).ToList()
 
         };
     }
@@ -41,7 +33,7 @@ public class UsersController : CustomControllerBase
     [Authorize(Permission.ReadUsers)]
     public async Task<ActionResult<UserDetailsViewModel>> GetUser(string id)
     {
-        var detailsVm = _detailsMapper.Map(await Mediator.Send(new GetUserQuery(id)));
+        var detailsVm = detailsMapper.Map(await Mediator.Send(new GetUserQuery(id)));
         detailsVm.AllRoles = (await Mediator.Send(new GetRolesQuery())).Select(s => s.Name).ToList();
         return detailsVm;
     }
@@ -52,7 +44,7 @@ public class UsersController : CustomControllerBase
     [Authorize(Permission.WriteUsers)]
     public async Task<IActionResult> PutUser(UserDto user)
     {
-        await Mediator.Send(new UpdateUserCommand(_userMapper.Map(user)));
+        await Mediator.Send(new UpdateUserCommand(userMapper.Map(user)));
 
         return Ok();
     }

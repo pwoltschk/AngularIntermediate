@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Infrastructure.Data.Interceptors;
 
-public class AuditableEntityInterceptor : SaveChangesInterceptor
+public class AuditableEntityInterceptor(IUserContext userInfo) : SaveChangesInterceptor
 {
-    private readonly IUserContext _userInfo;
-
-    public AuditableEntityInterceptor(IUserContext userInfo)
-    {
-        _userInfo = userInfo;
-    }
-
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         AuditEntities(eventData.Context);
@@ -44,11 +37,11 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
             if (entry.State == EntityState.Added)
             {
-                entity.CreatedBy = _userInfo.UserId;
+                entity.CreatedBy = userInfo.UserId;
                 entity.CreatedOn = DateTime.UtcNow;
             }
 
-            entity.UpdatedBy = _userInfo.UserId;
+            entity.UpdatedBy = userInfo.UserId;
             entity.UpdatedOn = DateTime.UtcNow;
         }
     }

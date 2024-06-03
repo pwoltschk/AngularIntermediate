@@ -4,24 +4,16 @@ namespace Application.WorkItems.Commands;
 
 public record DeleteWorkItemCommand(int Id) : IRequest;
 
-public class DeleteWorkItemCommandHandler
-    : IRequestHandler<DeleteWorkItemCommand>
+public class DeleteWorkItemCommandHandler(IRepository<WorkItem> repository) : IRequestHandler<DeleteWorkItemCommand>
 {
-    private readonly IRepository<WorkItem> _repository;
-
-    public DeleteWorkItemCommandHandler(IRepository<WorkItem> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(DeleteWorkItemCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity != null)
         {
-            await _repository.RemoveAsync(entity, cancellationToken);
+            await repository.RemoveAsync(entity, cancellationToken);
         }
     }
 }

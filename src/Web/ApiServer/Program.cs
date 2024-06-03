@@ -6,7 +6,6 @@ using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Shared.Identity;

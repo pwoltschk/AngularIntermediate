@@ -4,20 +4,13 @@ namespace Application.WorkItems.Queries;
 
 public record GetWorkItemsQuery : IRequest<IEnumerable<WorkItem>>;
 
-public class GetWorkItemsQueryHandler
+public class GetWorkItemsQueryHandler(IRepository<WorkItem> repository)
     : IRequestHandler<GetWorkItemsQuery, IEnumerable<WorkItem>>
 {
-    private readonly IRepository<WorkItem> _repository;
-
-    public GetWorkItemsQueryHandler(IRepository<WorkItem> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task<IEnumerable<WorkItem>> Handle(
         GetWorkItemsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.GetAllAsync(cancellationToken);
+        return await repository.GetAllAsync(cancellationToken);
     }
 }

@@ -4,17 +4,10 @@ namespace Application.Roles.Commands;
 
 public record CreateRoleCommand(Role Role) : IRequest;
 
-public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand>
+public class CreateRoleCommandHandler(IIdentityService identityService) : IRequestHandler<CreateRoleCommand>
 {
-    private readonly IIdentityService _identityService;
-
-    public CreateRoleCommandHandler(IIdentityService identityService)
-    {
-        _identityService = identityService;
-    }
-
     public async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
-        await _identityService.CreateRoleAsync(request.Role);
+        await identityService.CreateRoleAsync(request.Role);
     }
 }

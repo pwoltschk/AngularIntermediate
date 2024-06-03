@@ -2,18 +2,12 @@
 using Domain.Entities;
 
 namespace ApiServer.Mapper;
-public class WorkItemViewModelMapper : IMapper<WorkItemsViewModel, IEnumerable<WorkItem>>
+public class WorkItemViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
+    : IMapper<WorkItemsViewModel, IEnumerable<WorkItem>>
 {
-    private readonly IMapper<WorkItemDto, WorkItem> _mapper;
-
-    public WorkItemViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
-    {
-        _mapper = mapper;
-    }
-
     public WorkItemsViewModel Map(IEnumerable<WorkItem> model)
     {
-        return new WorkItemsViewModel { WorkItems = model.Select(_mapper.Map).ToList() };
+        return new WorkItemsViewModel { WorkItems = model.Select(mapper.Map).ToList() };
     }
 
     public IEnumerable<WorkItem> Map(WorkItemsViewModel model)

@@ -2,25 +2,17 @@
 using Domain.Entities;
 
 namespace ApiServer.Mapper;
-public class UserDetailsViewModelMapper : IMapper<UserDetailsViewModel, User>
+public class UserDetailsViewModelMapper(
+    IMapper<RoleDto, Role> roleMapper,
+    IMapper<UserDto, User> userMapper)
+    : IMapper<UserDetailsViewModel, User>
 {
-    private readonly IMapper<RoleDto, Role> _roleMapper;
-    private readonly IMapper<UserDto, User> _userMapper;
-
-    public UserDetailsViewModelMapper(
-        IMapper<RoleDto, Role> roleMapper,
-        IMapper<UserDto, User> userMapper)
-    {
-        _roleMapper = roleMapper;
-        _userMapper = userMapper;
-    }
-
     public UserDetailsViewModel Map(User model)
     {
         return new UserDetailsViewModel
         {
-            User = _userMapper.Map(model),
-            Roles = model.Roles.Select(_roleMapper.Map).ToList()
+            User = userMapper.Map(model),
+            Roles = model.Roles.Select(roleMapper.Map).ToList()
         };
     }
     public User Map(UserDetailsViewModel model)

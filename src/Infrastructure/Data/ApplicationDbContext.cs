@@ -12,24 +12,13 @@ using System.Reflection;
 
 namespace Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>, IPersistedGrantDbContext
+public class ApplicationDbContext(
+    DbContextOptions options,
+    AuditableEntityInterceptor auditableEntityInterceptor,
+    DomainEventsDispatcherInterceptor dispatcherInterceptor,
+    IOptions<OperationalStoreOptions> operationalStoreOptions)
+    : IdentityDbContext<IdentityUser, IdentityRole, string>(options), IPersistedGrantDbContext
 {
-
-    private readonly AuditableEntityInterceptor _auditableEntityInterceptor;
-    private readonly DomainEventsDispatcherInterceptor _dispatcherInterceptor;
-    private readonly IOptions<OperationalStoreOptions> _operationalStoreOptions;
-
-    public ApplicationDbContext(
-        DbContextOptions options,
-        AuditableEntityInterceptor auditableEntityInterceptor,
-        DomainEventsDispatcherInterceptor dispatcherInterceptor,
-        IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options)
-    {
-        _auditableEntityInterceptor = auditableEntityInterceptor;
-        _operationalStoreOptions = operationalStoreOptions;
-        _dispatcherInterceptor = dispatcherInterceptor;
-    }
-
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<WorkItem> WorkItems => Set<WorkItem>();
     public DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
@@ -41,9 +30,9 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .AddInterceptors(_auditableEntityInterceptor);
+            .AddInterceptors(auditableEntityInterceptor);
         optionsBuilder
-            .AddInterceptors(_dispatcherInterceptor);
+            .AddInterceptors(dispatcherInterceptor);
 
         base.OnConfiguring(optionsBuilder);
     }
@@ -53,7 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole
         builder.ApplyConfigurationsFromAssembly(
             Assembly.GetExecutingAssembly());
 
-        builder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
+        builder.ConfigurePersistedGrantContext(operationalStoreOptions.Value);
         base.OnModelCreating(builder);
     }
 }

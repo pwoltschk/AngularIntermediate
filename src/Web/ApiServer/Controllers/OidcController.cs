@@ -3,15 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiServer.Controllers;
 
-public class OidcController : Controller
+public class OidcController(IClientRequestParametersProvider clientRequestParametersProvider)
+    : Controller
 {
-
-    public OidcController(IClientRequestParametersProvider clientRequestParametersProvider)
-    {
-        ClientRequestParametersProvider = clientRequestParametersProvider;
-    }
-
-    private IClientRequestParametersProvider ClientRequestParametersProvider { get; }
+    private IClientRequestParametersProvider ClientRequestParametersProvider { get; } = clientRequestParametersProvider;
 
     [HttpGet("_configuration/{clientId}")]
     public IActionResult GetClientRequestParameters([FromRoute] string clientId)

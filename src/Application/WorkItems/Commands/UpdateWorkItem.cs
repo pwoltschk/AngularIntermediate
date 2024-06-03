@@ -7,18 +7,11 @@ namespace Application.WorkItems.Commands;
 
 public record UpdateWorkItemCommand(UpdateWorkItemRequest Item) : IRequest;
 
-public class UpdateWorkItemCommandHandler : IRequestHandler<UpdateWorkItemCommand>
+public class UpdateWorkItemCommandHandler(IRepository<WorkItem> repository) : IRequestHandler<UpdateWorkItemCommand>
 {
-    private readonly IRepository<WorkItem> _repository;
-
-    public UpdateWorkItemCommandHandler(IRepository<WorkItem> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(UpdateWorkItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Item.Id, cancellationToken)
+        var entity = await repository.GetByIdAsync(request.Item.Id, cancellationToken)
             ?? throw new Exception($"The request ID {request.Item.Id} was not found.");
 
         if (HasWorkItemBeenAssigned(entity, request))
@@ -35,7 +28,7 @@ public class UpdateWorkItemCommandHandler : IRequestHandler<UpdateWorkItemComman
         entity.StartDate = request.Item.StartDate;
         entity.Stage = Stage.FromId(request.Item.Stage);
 
-        await _repository.UpdateAsync(entity, cancellationToken);
+        await repository.UpdateAsync(entity, cancellationToken);
     }
 
     private static bool HasWorkItemBeenAssigned(WorkItem entity, UpdateWorkItemCommand request)

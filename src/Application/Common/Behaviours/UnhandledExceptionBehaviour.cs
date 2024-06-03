@@ -1,15 +1,9 @@
 ﻿namespace Application.Common.Behaviours;
 
-public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public sealed class UnhandledExceptionBehaviour<TRequest, TResponse>(ILogger logger)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger _logger;
-
-    public UnhandledExceptionBehaviour(ILogger logger)
-    {
-        _logger = logger;
-    }
-
     public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         try
@@ -20,7 +14,7 @@ public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipeline
         {
             var requestName = typeof(TRequest).Name;
 
-            _logger.Information(ex, "Exception Request: Unhandled Exception for Request {@requestName} {@request}", requestName, request);
+            logger.Information(ex, "Exception Request: Unhandled Exception for Request {@requestName} {@request}", requestName, request);
 
             throw;
         }

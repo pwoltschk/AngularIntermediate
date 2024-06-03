@@ -11,26 +11,17 @@ using Permission = Shared.Identity.Permission;
 namespace ApiServer.Controllers.Identity;
 
 [Route("api/Identity/[controller]")]
-public class RolesController : CustomControllerBase
+public class RolesController(
+    ISender mediator,
+    IMapper<RolesViewModel, IEnumerable<Role>> mapper,
+    IMapper<RoleDto, Role> roleMapper)
+    : CustomControllerBase(mediator)
 {
-    private readonly IMapper<RolesViewModel, IEnumerable<Role>> _vmMapper;
-    private readonly IMapper<RoleDto, Role> _roleMapper;
-
-    public RolesController(
-        ISender mediator,
-        IMapper<RolesViewModel, IEnumerable<Role>> mapper,
-        IMapper<RoleDto, Role> roleMapper)
-        : base(mediator)
-    {
-        _vmMapper = mapper;
-        _roleMapper = roleMapper;
-    }
-
     [HttpGet]
     [Authorize(Permission.ReadRoles)]
     public async Task<ActionResult<RolesViewModel>> GetRoles()
     {
-        return _vmMapper.Map(await Mediator.Send(new GetRolesQuery()));
+        return mapper.Map(await Mediator.Send(new GetRolesQuery()));
     }
 
     [HttpPost]
@@ -40,7 +31,7 @@ public class RolesController : CustomControllerBase
     [ProducesDefaultResponseType]
     public async Task<IActionResult> PostRole(RoleDto role)
     {
-        await Mediator.Send(new CreateRoleCommand(_roleMapper.Map(role)));
+        await Mediator.Send(new CreateRoleCommand(roleMapper.Map(role)));
 
         return Ok();
     }
@@ -51,7 +42,7 @@ public class RolesController : CustomControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutRole(RoleDto role)
     {
-        await Mediator.Send(new UpdateRoleCommand(_roleMapper.Map(role)));
+        await Mediator.Send(new UpdateRoleCommand(roleMapper.Map(role)));
 
         return Ok();
     }

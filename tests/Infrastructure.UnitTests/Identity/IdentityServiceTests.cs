@@ -76,7 +76,7 @@ public class IdentityServiceTests
     public async Task CreateRoleAsync_ShouldCreateRole()
     {
         // Arrange
-        var role = new Role("1", "Admin",  ["Read"]);
+        var role = new Role("1", "Admin", ["Read"]);
 
         // Act
         await _identityService.CreateRoleAsync(role);
@@ -89,7 +89,7 @@ public class IdentityServiceTests
     public async Task UpdateRoleAsync_ShouldUpdateRoleWithNewPermissions()
     {
         // Arrange
-        var role = new Role("1", "Admin",  ["Read", "Write"]);
+        var role = new Role("1", "Admin", ["Read", "Write"]);
         var identityRole = new IdentityRole { Id = "1", Name = "Admin" };
         var claims = new List<Claim> { new(nameof(Permission), "Read") };
 
@@ -186,26 +186,19 @@ public class IdentityServiceTests
         return new Mock<RoleManager<TRole>>(store.Object, null, null, null, null);
     }
 
-    private class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
+    private class TestAsyncEnumerator<T>(IEnumerator<T> inner) : IAsyncEnumerator<T>
     {
-        private readonly IEnumerator<T> _inner;
-
-        public TestAsyncEnumerator(IEnumerator<T> inner)
-        {
-            _inner = inner;
-        }
-
-        public T Current => _inner.Current;
+        public T Current => inner.Current;
 
         public ValueTask DisposeAsync()
         {
-            _inner.Dispose();
+            inner.Dispose();
             return ValueTask.CompletedTask;
         }
 
         public ValueTask<bool> MoveNextAsync()
         {
-            return ValueTask.FromResult(_inner.MoveNext());
+            return ValueTask.FromResult(inner.MoveNext());
         }
     }
 
@@ -244,12 +237,9 @@ public class IdentityServiceTests
         }
     }
 
-    private class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    private class TestAsyncEnumerable<T>(Expression expression)
+        : EnumerableQuery<T>(expression), IAsyncEnumerable<T>, IQueryable<T>
     {
-        public TestAsyncEnumerable(Expression expression) : base(expression)
-        {
-        }
-
         private IAsyncEnumerator<T> GetAsyncEnumerator()
         {
             return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());

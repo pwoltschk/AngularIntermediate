@@ -4,14 +4,10 @@ using System.Collections.Concurrent;
 
 namespace Shared.Identity
 {
-    public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+    public class CustomAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
+        : DefaultAuthorizationPolicyProvider(options)
     {
         private readonly ConcurrentDictionary<string, AuthorizationPolicy> _policyCache = new();
-
-        public CustomAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
-            : base(options)
-        {
-        }
 
         public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {

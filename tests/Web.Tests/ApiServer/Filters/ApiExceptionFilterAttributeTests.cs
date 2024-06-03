@@ -1,7 +1,6 @@
 ﻿using ApiServer.Filters;
 using Application.Common.Exceptions;
 using FluentAssertions;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -39,7 +38,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor,
         };
-        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>)[])
         {
             Exception = exception
         };
@@ -74,7 +73,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor
         };
-        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>)[])
         {
             Exception = exception
         };
@@ -109,7 +108,7 @@ public class ApiExceptionFilterAttributeTests
             RouteData = routeData,
             ActionDescriptor = actionDescriptor
         };
-        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>) [])
+        var context = new ExceptionContext(actionContext, (List<IFilterMetadata>)[])
         {
             Exception = exception
         };

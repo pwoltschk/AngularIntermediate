@@ -8,34 +8,26 @@ using System.Security.Claims;
 
 namespace Infrastructure.Identity;
 
-public class IdentityService : IIdentityService
+public class IdentityService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    : IIdentityService
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public IdentityService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
-    {
-        _userManager = userManager;
-        _roleManager = roleManager;
-    }
-
     public async Task DeleteUserAsync(string userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
         if (user != null)
         {
-            await _userManager.DeleteAsync(user);
+            await userManager.DeleteAsync(user);
         }
     }
 
     public async Task<IList<Role>> GetRolesAsync(CancellationToken cancellationToken)
     {
-        var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
+        var roles = await roleManager.Roles.ToListAsync(cancellationToken);
         var roleList = new List<Role>();
 
         foreach (var role in roles)
         {
-            var claims = await _roleManager.GetClaimsAsync(role);
+            var claims = await roleManager.GetClaimsAsync(role);
             var permissions = claims
                 .Where(c => c.Type == nameof(Permission))
                 .Select(c => c.Value)
@@ -52,7 +44,7 @@ public class IdentityService : IIdentityService
 
     public async Task<IList<User>> GetUsersAsync(CancellationToken cancellationToken)
     {
-        var identityUsers = await _userManager.Users.OrderBy(u => u.UserName).ToListAsync(cancellationToken);
+        var identityUsers = await userManager.Users.OrderBy(u => u.UserName).ToListAsync(cancellationToken);
 
         var users = new List<User>();
         foreach (var identityUser in identityUsers)
@@ -66,7 +58,7 @@ public class IdentityService : IIdentityService
 
     public async Task<User> GetUserAsync(string id)
     {
-        var identityUser = await _userManager.FindByIdAsync(id);
+        var identityUser = await userManager.FindByIdAsync(id);
 
         if (identityUser is not { UserName: not null, Email: not null })
         {
@@ -74,11 +66,11 @@ public class IdentityService : IIdentityService
         }
 
         var user = new User(identityUser.Id, identityUser.UserName, new Email(identityUser.Email));
-        var roles = await _userManager.GetRolesAsync(identityUser);
+        var roles = await userManager.GetRolesAsync(identityUser);
 
         foreach (var role in roles)
         {
-            var identityRole = await _roleManager.FindByNameAsync(role);
+            var identityRole = await roleManager.FindByNameAsync(role);
 
 
             if (identityRole?.Name == null)
@@ -86,7 +78,7 @@ public class IdentityService : IIdentityService
                 continue;
             }
 
-            var claims = await _roleManager.GetClaimsAsync(identityRole);
+            var claims = await roleManager.GetClaimsAsync(identityRole);
             var permissions = claims
                 .Where(c => c.Type == nameof(Permission))
                 .Select(c => c.Value)
@@ -102,48 +94,48 @@ public class IdentityService : IIdentityService
 
     public async Task CreateRoleAsync(Role role)
     {
-        await _roleManager.CreateAsync(new IdentityRole { Name = role.Name });
+        await roleManager.CreateAsync(new IdentityRole { Name = role.Name });
     }
 
     public async Task UpdateRoleAsync(Role role)
     {
-        var currentRole = await _roleManager.FindByIdAsync(role.Id) ?? throw new NotFoundException(nameof(Role), role.Id);
+        var currentRole = await roleManager.FindByIdAsync(role.Id) ?? throw new NotFoundException(nameof(Role), role.Id);
 
-        foreach (var claim in await _roleManager.GetClaimsAsync(currentRole))
+        foreach (var claim in await roleManager.GetClaimsAsync(currentRole))
         {
-            await _roleManager.RemoveClaimAsync(currentRole, claim);
+            await roleManager.RemoveClaimAsync(currentRole, claim);
         }
 
         foreach (var permission in role.Permissions)
         {
-            await _roleManager.AddClaimAsync(currentRole, new Claim(nameof(Permission), permission));
+            await roleManager.AddClaimAsync(currentRole, new Claim(nameof(Permission), permission));
         }
 
         currentRole.Name = role.Name;
 
-        await _roleManager.UpdateAsync(currentRole);
+        await roleManager.UpdateAsync(currentRole);
     }
 
     public async Task DeleteRoleAsync(string id)
     {
-        var role = await _roleManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(Role), id);
-        await _roleManager.DeleteAsync(role);
+        var role = await roleManager.FindByIdAsync(id) ?? throw new NotFoundException(nameof(Role), id);
+        await roleManager.DeleteAsync(role);
     }
 
     public async Task UpdateUserAsync(User user)
     {
-        var currentUser = await _userManager.FindByIdAsync(user.Id) ?? throw new NotFoundException(nameof(User), user.Name);
+        var currentUser = await userManager.FindByIdAsync(user.Id) ?? throw new NotFoundException(nameof(User), user.Name);
 
         currentUser.UserName = user.Name;
         currentUser.Email = user.Email.Value;
 
-        await _userManager.RemoveFromRolesAsync(currentUser, await _userManager.GetRolesAsync(currentUser));
+        await userManager.RemoveFromRolesAsync(currentUser, await userManager.GetRolesAsync(currentUser));
 
         foreach (var role in user.Roles)
         {
-            await _userManager.AddToRoleAsync(currentUser, role.Name);
+            await userManager.AddToRoleAsync(currentUser, role.Name);
         }
 
-        await _userManager.UpdateAsync(currentUser);
+        await userManager.UpdateAsync(currentUser);
     }
 }

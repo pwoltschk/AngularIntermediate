@@ -74,7 +74,7 @@ public class UserMapperTests
             Id = "1",
             Name = "John Doe",
             Email = "john@example.com",
-            Roles =  [] // Empty roles
+            Roles = [] // Empty roles
         };
 
         // Act

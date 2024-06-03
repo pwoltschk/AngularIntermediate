@@ -11,22 +11,16 @@ using Permission = Shared.Identity.Permission;
 
 namespace ApiServer.Controllers;
 
-public class WorkItemController : CustomControllerBase
+public class WorkItemController(
+    IMediator mediator,
+    IMapper<WorkItemsViewModel, IEnumerable<WorkItem>> mapper)
+    : CustomControllerBase(mediator)
 {
-    private readonly IMapper<WorkItemsViewModel, IEnumerable<WorkItem>> _mapper;
-
-    public WorkItemController(IMediator mediator,
-        IMapper<WorkItemsViewModel, IEnumerable<WorkItem>> mapper) : base(mediator)
-    {
-        _mapper = mapper;
-    }
-
-
     [HttpGet]
     [Authorize(Permission.ReadProjects)]
     public async Task<ActionResult<WorkItemsViewModel>> GetWorkItems()
     {
-        return _mapper.Map(await Mediator.Send(new GetWorkItemsQuery()));
+        return mapper.Map(await Mediator.Send(new GetWorkItemsQuery()));
     }
 
     [HttpPost]

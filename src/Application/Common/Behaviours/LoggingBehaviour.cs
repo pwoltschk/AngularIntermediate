@@ -3,24 +3,16 @@ using MediatR.Pipeline;
 
 namespace Application.Common.Behaviours;
 
-public class RequestLoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
+public class RequestLoggingBehaviour<TRequest>(ILogger logger, IUserContext currentUser)
+    : IRequestPreProcessor<TRequest>
     where TRequest : notnull
 {
-    private readonly ILogger _logger;
-    private readonly IUserContext _currentUser;
-
-    public RequestLoggingBehaviour(ILogger logger, IUserContext currentUser)
-    {
-        _logger = logger;
-        _currentUser = currentUser;
-    }
-
     public Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = _currentUser.UserId;
+        var userId = currentUser.UserId;
 
-        _logger.Information("Request: {@RequestName} | UserId: {UserId} | RequestData: {@Request}",
+        logger.Information("Request: {@RequestName} | UserId: {UserId} | RequestData: {@Request}",
             requestName, userId, request);
         return Task.CompletedTask;
     }

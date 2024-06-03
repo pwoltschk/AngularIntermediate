@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Infrastructure.Data.Interceptors
 {
-    public class DomainEventsDispatcherInterceptor : SaveChangesInterceptor
+    public class DomainEventsDispatcherInterceptor(IMediator mediator) : SaveChangesInterceptor
     {
-        private readonly IMediator _mediator;
-
-        public DomainEventsDispatcherInterceptor(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
         {
             DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
@@ -47,7 +40,7 @@ namespace Infrastructure.Data.Interceptors
 
             foreach (var domainEvent in domainEvents)
             {
-                await _mediator.Publish(domainEvent, cancellationToken);
+                await mediator.Publish(domainEvent, cancellationToken);
             }
         }
 

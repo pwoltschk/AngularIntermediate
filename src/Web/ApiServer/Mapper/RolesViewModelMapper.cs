@@ -3,20 +3,13 @@ using Domain.Entities;
 
 namespace ApiServer.Mapper;
 
-public class RolesViewModelMapper : IMapper<RolesViewModel, IEnumerable<Role>>
+public class RolesViewModelMapper(IMapper<RoleDto, Role> mapper) : IMapper<RolesViewModel, IEnumerable<Role>>
 {
-    private readonly IMapper<RoleDto, Role> _mapper;
-
-    public RolesViewModelMapper(IMapper<RoleDto, Role> mapper)
-    {
-        _mapper = mapper;
-    }
-
     public RolesViewModel Map(IEnumerable<Role> model)
     {
         return new RolesViewModel
         {
-            Roles = model.Select(x => _mapper.Map(x)).ToList()
+            Roles = model.Select(x => mapper.Map(x)).ToList()
         };
     }
 

@@ -7,40 +7,30 @@ using System.Diagnostics.CodeAnalysis;
 namespace Infrastructure.Data;
 
 [ExcludeFromCodeCoverage]
-public class ApplicationDbContextInitialiser
+public class ApplicationDbContextInitialiser(
+    ApplicationDbContext context,
+    UserManager<IdentityUser> userManager,
+    RoleManager<IdentityRole> roleManager)
 {
     private const string Administrator = "Administrator";
     private const string Manager = "Manager";
     private const string AdminUser = "ADMIN@login.com";
-    private readonly ApplicationDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public ApplicationDbContextInitialiser(
-        ApplicationDbContext context,
-        UserManager<IdentityUser> userManager,
-        RoleManager<IdentityRole> roleManager)
-    {
-        _context = context;
-        _userManager = userManager;
-        _roleManager = roleManager;
-    }
 
     public async Task InitialiseAsync()
     {
-        if (_context.Database.IsSqlServer())
+        if (context.Database.IsSqlServer())
         {
-            await _context.Database.MigrateAsync();
+            await context.Database.MigrateAsync();
         }
         else
         {
-            await _context.Database.EnsureCreatedAsync();
+            await context.Database.EnsureCreatedAsync();
         }
     }
 
     public async Task SeedAsync()
     {
-        if (await _context.Projects.AnyAsync())
+        if (await context.Projects.AnyAsync())
         {
             return;
         }
@@ -65,8 +55,8 @@ public class ApplicationDbContextInitialiser
                 Title = "Empty Project",
             }
         };
-        await _context.Projects.AddRangeAsync(projects);
-        await _context.WorkItems.AddAsync(unassignedItem);
+        await context.Projects.AddRangeAsync(projects);
+        await context.WorkItems.AddAsync(unassignedItem);
 
         await CreateRole(Administrator, [.. Permission.AllPermissions]);
         await CreateRole(Manager, Permission.WriteProjects, Permission.ReadProjects);
@@ -74,22 +64,22 @@ public class ApplicationDbContextInitialiser
         var adminUser = new IdentityUser { UserName = AdminUser, Email = AdminUser };
         var password = "AdminUser777!";
 
-        await _userManager.CreateAsync(adminUser, password);
+        await userManager.CreateAsync(adminUser, password);
 
-        await _userManager.UpdateAsync(adminUser);
+        await userManager.UpdateAsync(adminUser);
 
-        await _userManager.AddToRoleAsync(adminUser, Administrator);
-        await _context.SaveChangesAsync();
+        await userManager.AddToRoleAsync(adminUser, Administrator);
+        await context.SaveChangesAsync();
     }
 
     private async Task CreateRole(string roleName, params string[] permissions)
     {
         var role = new IdentityRole { Name = roleName, NormalizedName = roleName.ToUpper() };
-        await _roleManager.CreateAsync(role);
+        await roleManager.CreateAsync(role);
 
         foreach (var permission in permissions)
         {
-            await _roleManager.AddClaimAsync(role, Permission.ToClaim(permission));
+            await roleManager.AddClaimAsync(role, Permission.ToClaim(permission));
         }
     }
 }

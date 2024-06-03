@@ -3,7 +3,6 @@ using FluentAssertions;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

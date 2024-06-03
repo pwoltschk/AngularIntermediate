@@ -11,18 +11,11 @@ using Permission = Shared.Identity.Permission;
 
 namespace ApiServer.Controllers;
 
-public class ProjectController : CustomControllerBase
+public class ProjectController(
+    IMediator mediator,
+    IMapper<ProjectsViewModel, IEnumerable<Project>> mapper)
+    : CustomControllerBase(mediator)
 {
-    private readonly IMapper<ProjectsViewModel, IEnumerable<Project>> _mapper;
-
-    public ProjectController(
-        IMediator mediator,
-        IMapper<ProjectsViewModel, IEnumerable<Project>> mapper) : base(mediator)
-    {
-        _mapper = mapper;
-    }
-
-
     [HttpPost]
     [Authorize(Permission.WriteProjects)]
     public async Task<ActionResult<int>> PostProject(
@@ -61,6 +54,6 @@ public class ProjectController : CustomControllerBase
     [Authorize(Permission.ReadProjects)]
     public async Task<ActionResult<ProjectsViewModel>> GetProjects()
     {
-        return _mapper.Map(await Mediator.Send(new GetProjectsQuery()));
+        return mapper.Map(await Mediator.Send(new GetProjectsQuery()));
     }
 }

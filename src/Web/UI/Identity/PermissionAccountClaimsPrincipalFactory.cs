@@ -6,10 +6,9 @@ using System.Text.Json;
 
 namespace UI.Identity;
 
-public class PermissionAccountClaimsPrincipalFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
+public class PermissionAccountClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor)
+    : AccountClaimsPrincipalFactory<RemoteUserAccount>(accessor)
 {
-    public PermissionAccountClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor) : base(accessor) { }
-
     public override async ValueTask<ClaimsPrincipal> CreateUserAsync(RemoteUserAccount account, RemoteAuthenticationUserOptions options)
     {
         if (account is null)

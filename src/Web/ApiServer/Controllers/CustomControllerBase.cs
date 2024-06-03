@@ -9,12 +9,7 @@ namespace ApiServer.Controllers;
 [Authorize]
 [ApiExceptionFilter]
 [Route("api/[controller]")]
-public abstract class CustomControllerBase : ControllerBase
+public abstract class CustomControllerBase(ISender mediator) : ControllerBase
 {
-    protected CustomControllerBase(ISender mediator)
-    {
-        Mediator = mediator;
-    }
-
-    protected ISender Mediator { get; }
+    protected ISender Mediator { get; } = mediator;
 }

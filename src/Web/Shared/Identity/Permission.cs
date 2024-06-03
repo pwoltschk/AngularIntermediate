@@ -18,6 +18,6 @@ public class Permission
             ReadProjects,
             WriteProjects
         }.AsReadOnly();
-    
+
 }
 

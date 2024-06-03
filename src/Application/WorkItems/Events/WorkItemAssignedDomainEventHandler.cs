@@ -4,26 +4,19 @@ using Domain.Primitives;
 
 namespace Application.WorkItems.Events;
 
-internal class WorkItemAssignedDomainEventHandler : INotificationHandler<WorkItemAssignedDomainEvent>
+internal class WorkItemAssignedDomainEventHandler(
+    IEmailService emailService,
+    IRepository<WorkItem> repository)
+    : INotificationHandler<WorkItemAssignedDomainEvent>
 {
-    private readonly IEmailService _emailService;
-    private readonly IRepository<WorkItem> _repository;
-
-    public WorkItemAssignedDomainEventHandler(
-        IEmailService emailService,
-        IRepository<WorkItem> repository)
-    {
-        _emailService = emailService;
-        _repository = repository;
-    }
     public async Task Handle(WorkItemAssignedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        var workItem = await _repository
+        var workItem = await repository
             .GetByIdAsync(domainEvent.Id, cancellationToken);
 
         if (workItem is null) return;
 
         // replace with real implementation
-        await _emailService.SendEmailAsync("You are assigned to this workitem", "Example Subject", workItem.AssignedTo);
+        await emailService.SendEmailAsync("You are assigned to this workitem", "Example Subject", workItem.AssignedTo);
     }
 }

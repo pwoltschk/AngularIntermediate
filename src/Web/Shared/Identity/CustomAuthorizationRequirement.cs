@@ -2,12 +2,7 @@
 
 namespace Shared.Identity;
 
-public class CustomAuthorizationRequirement : IAuthorizationRequirement
+public class CustomAuthorizationRequirement(string permission) : IAuthorizationRequirement
 {
-    public CustomAuthorizationRequirement(string permission)
-    {
-        Permission = permission;
-    }
-
-    public string Permission { get; }
+    public string Permission { get; } = permission;
 }

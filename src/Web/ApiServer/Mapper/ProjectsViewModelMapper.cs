@@ -3,16 +3,9 @@ using Domain.Entities;
 
 namespace ApiServer.Mapper;
 
-public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Project>>
+public class ProjectsViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
+    : IMapper<ProjectsViewModel, IEnumerable<Project>>
 {
-    private readonly IMapper<WorkItemDto, WorkItem> _mapper;
-
-    public ProjectsViewModelMapper(IMapper<WorkItemDto, WorkItem> mapper)
-    {
-        _mapper = mapper;
-    }
-
-
     public ProjectsViewModel Map(IEnumerable<Project> model)
     {
         return new ProjectsViewModel
@@ -27,7 +20,7 @@ public class ProjectsViewModelMapper : IMapper<ProjectsViewModel, IEnumerable<Pr
         {
             Id = model.Id,
             Title = model.Title,
-            WorkItems = model.WorkItems.Select(_mapper.Map).ToList()
+            WorkItems = model.WorkItems.Select(mapper.Map).ToList()
         };
     }
 

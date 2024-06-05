@@ -25,9 +25,7 @@ public class UserContextTests
     public void Constructor_ShouldThrowArgumentNullException_WhenHttpContextAccessorIsNull()
     {
         // Act
-#pragma warning disable CA1806
-        Action act = () => new UserContext(null);
-#pragma warning restore CA1806
+        Action act = () => _ = new UserContext(null!);
 
         // Assert
         act.Should().Throw<ArgumentNullException>()

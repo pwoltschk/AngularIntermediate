@@ -28,7 +28,7 @@ namespace Infrastructure.Data.Interceptors
 
             var entitiesWithEvents = context.ChangeTracker
                 .Entries<AggregateRoot>()
-                .Where(e => e.Entity.DomainEvents.Any())
+                .Where(e => e.Entity.DomainEvents.Count != 0)
                 .Select(e => e.Entity)
                 .ToList();
 

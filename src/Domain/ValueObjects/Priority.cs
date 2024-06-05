@@ -9,12 +9,8 @@ public class Priority : ValueObject
     public static Priority High => new(2, "High");
 
     public int Level { get; }
-    public string Name { get; } = string.Empty;
+    public string Name { get; }
 
-    public Priority()
-    {
-
-    }
     private Priority(int level, string name)
     {
         Level = level;

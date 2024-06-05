@@ -44,7 +44,7 @@ public class WorkItemViewModelMapperTests
     public void MapWorkItemsToWorkItemsViewModel_ShouldHandleEmptyList()
     {
         // Arrange
-        var workItems = new List<WorkItem>();
+        IEnumerable<WorkItem> workItems = [];
 
         // Act
         var result = _mapper.Map(workItems);

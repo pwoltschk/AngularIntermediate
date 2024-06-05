@@ -177,13 +177,13 @@ public class IdentityServiceTests
     private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
     {
         var store = new Mock<IUserStore<TUser>>();
-        return new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+        return new Mock<UserManager<TUser>>(store.Object, null!, null!, null!, null!, null!, null!, null!, null!);
     }
 
     private static Mock<RoleManager<TRole>> MockRoleManager<TRole>() where TRole : class
     {
         var store = new Mock<IRoleStore<TRole>>();
-        return new Mock<RoleManager<TRole>>(store.Object, null, null, null, null);
+        return new Mock<RoleManager<TRole>>(store.Object, null!, null!, null!, null!);
     }
 
     private class TestAsyncEnumerator<T>(IEnumerator<T> inner) : IAsyncEnumerator<T>

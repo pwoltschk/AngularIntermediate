@@ -9,7 +9,7 @@ public class RolesViewModelMapper(IMapper<RoleDto, Role> mapper) : IMapper<Roles
     {
         return new RolesViewModel
         {
-            Roles = model.Select(x => mapper.Map(x)).ToList()
+            Roles = model.Select(mapper.Map).ToList()
         };
     }
 

@@ -14,7 +14,7 @@ public class UpdateWorkItemRequest
 
     public string AssignedTo { get; init; } = string.Empty;
 
-    public DateTime? StartDate { get; }
+    public DateTime? StartDate { get; init; }
 
     public int Priority { get; init; }
 

@@ -39,8 +39,10 @@ public class ApplicationDbContextInitialiser(
 
         var workItems = new List<WorkItem>
         {
-            new() { Title = "Implement Infrastructure Layer", Stage = Stage.InProgress, Description = "[] Add DbContext, [] Add Migrations", StartDate = DateTime.Today},
+            new() { Title = "Implement Infrastructure Layer", Stage = Stage.InProgress,Priority = Priority.High, Description = "[] Add DbContext, [] Add Migrations", StartDate = DateTime.Today},
+            new() { Title = "Implement Application Layer", Stage = Stage.Completed,Priority = Priority.Medium,Description = "[] Add DbContext, [] Add Migrations", StartDate = DateTime.Today},
             new() { Title = "Implement Frontend", Description = "[] Add CSS, [] Implement State store", StartDate = DateTime.Today}
+
         };
 
         var projects = new List<Project>

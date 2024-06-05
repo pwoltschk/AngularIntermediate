@@ -81,6 +81,6 @@ public class ValidationBehaviorTests
     }
 }
 
-public class TestRequest : IRequest<TestResponse> { }
+public class TestRequest : IRequest<TestResponse>;
 
-public class TestResponse { }
+public class TestResponse;

@@ -1,4 +1,4 @@
-﻿# **.NET 8 Clean Architecture Example with Onion Architecture in ASP.NET Core**
+﻿# **.NET 8 Clean Architecture Example .NET 8 **
  
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Contributors](https://img.shields.io/github/contributors/pwoltschk/PragmaticCleanArchitecture)

@@ -1,4 +1,9 @@
 ﻿# **.NET 8 Clean Architecture Example with Onion Architecture in ASP.NET Core**
+ 
+![License](https://img.shields.io/badge/license-MIT-green)
+![Contributors](https://img.shields.io/github/contributors/pwoltschk/PragmaticCleanArchitecture)
+![GitHub Issues](https://img.shields.io/github/issues/pwoltschk/PragmaticCleanArchitecture)
+![Top Language](https://img.shields.io/github/languages/top/pwoltschk/PragmaticCleanArchitecture)
 
 This repository demonstrates a complete **.NET 8 Clean Architecture example** implemented using the **Onion Architecture** pattern in **ASP.NET Core**. It is one of the few comprehensive repositories in the .NET ecosystem that consistently follows this architecture. The Onion Architecture in ASP.NET Core promotes a clear **separation of concerns**, enhancing **maintainability**, **testability**, and scalability.
 
@@ -6,12 +11,19 @@ By using this repository, developers can create **robust, maintainable, and scal
 
 This repository is ready to use, but several aspects are still under construction and it contains some technical debts.
 
+## **Demo**
+### **Example Functionality**
+![PragmaticCleanArchitecture Application Demo](assets/Pragmatic_Clean_Architecutre_Main.gif)
+
+### **Role and User Management**
+![PragmaticCleanArchitecture Authentication Demo](assets/Pragmatic_Clean_Architecutre_Auth.gif)
+
 ## **Features**
 
 - **.NET 8 Clean Architecture Example**:  
   This repository showcases the best practices for **Clean Architecture** using **ASP.NET Core**. It helps developers create projects that are scalable, maintainable, and easy to test by organizing code into layers that separate business logic from infrastructure concerns.
 
-- **Best Practice ASP.NET 8 oauth IdentityServer Example**:  
+- **ASP.NET 8 oauth IdentityServer Example**:  
   A lean and efficient example of **IdentityServer** integration in **.NET 8** for secure and scalable authentication and authorization. This example demonstrates how to integrate **OAuth 2.0** and **JWT authentication** in an ASP.NET Core application using **best practices**.
 
 - **.NET 8 Entity Framework Repository Pattern Example**:  
@@ -39,7 +51,6 @@ This repository is ready to use, but several aspects are still under constructio
    ```bash
    dotnet restore
    ```
-
 ## **Usage**
 
 1. Start the application:

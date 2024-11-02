@@ -1,4 +1,4 @@
-﻿# **.NET 8 Clean Architecture Example .NET 8**
+﻿# **A Pragmatic Clean Architecture Example in .NET 8**
  
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Contributors](https://img.shields.io/github/contributors/pwoltschk/PragmaticCleanArchitecture)

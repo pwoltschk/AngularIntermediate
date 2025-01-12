@@ -61,10 +61,10 @@ This repository is ready to use, but several aspects are still under constructio
 2. Open your browser and navigate to `https://localhost:5001`.
 
 
-## **Docker Usage
+## **Docker Usage**
 
 1. Installation of Docker in Linux
-'''
+```bash
   # Update your existing packages
   sudo apt update && sudo apt upgrade -y
 
@@ -81,36 +81,36 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 
   # Verify installation
   docker --version
-'''
+```
 
 2. Building Docker image
-'''
+```bash
   # Navigate to the directory containing the Dockerfile
   cd your-repository
 
   # Build the Docker image
   docker build -t your-image-name .
-'''
+```
 
 3. Running the docker container
-'''
+```bash
    # Run the Docker container
   docker run -d -p 5051:5051 --name your-container-name your-image-name
 
   # Verify the container is running
   docker ps
-'''
+```
 
 4. Open your browser and navigate to `https://localhost:5001`.
 
 5. Stop the container
-'''
+```bash
   # Stop the running container
   docker stop your-container-name
 
   # Remove the container (optional)
   docker rm your-container-name
-'''
+```
 
 
 ## **Detailed Explanation**

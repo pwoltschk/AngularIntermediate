@@ -60,6 +60,59 @@ This repository is ready to use, but several aspects are still under constructio
 
 2. Open your browser and navigate to `https://localhost:5001`.
 
+
+## **Docker Usage
+
+1. Installation of Docker in Linux
+'''
+  # Update your existing packages
+  sudo apt update && sudo apt upgrade -y
+
+  # Install Docker dependencies
+  sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+  # Add Docker's GPG key and repository
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+  # Install Docker
+  sudo apt update
+  sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+  # Verify installation
+  docker --version
+'''
+
+2. Building Docker image
+'''
+  # Navigate to the directory containing the Dockerfile
+  cd your-repository
+
+  # Build the Docker image
+  docker build -t your-image-name .
+'''
+
+3. Running the docker container
+'''
+   # Run the Docker container
+  docker run -d -p 5051:5051 --name your-container-name your-image-name
+
+  # Verify the container is running
+  docker ps
+'''
+
+4. Open your browser and navigate to `https://localhost:5001`.
+
+5. Stop the container
+'''
+  # Stop the running container
+  docker stop your-container-name
+
+  # Remove the container (optional)
+  docker rm your-container-name
+'''
+
+
 ## **Detailed Explanation**
 
 ### **.NET 8 Clean Architecture Example**
